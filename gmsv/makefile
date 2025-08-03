@@ -14,6 +14,7 @@ export SHELL=/bin/sh
 INCFLAGS=-I. -I./include
 
 CFLAGS=-O3 -w $(INCFLAGS)
+CFLAGS+=-Wall -Wno-deprecated-declarations
 #Pentium 4 (Intel)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
@@ -21,7 +22,11 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #Athlon64：
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
+ifeq ($(OS),Windows_NT)
 PROG=./gmsvjt.exe
+else
+PROG=./gmsvjt
+endif
 
 #TOP=../..
 TOP=..
@@ -36,7 +41,7 @@ CLIRPCHTML=~/doc/saacproto.html
 CLIRPCSRC=saacproto_cli.c saacproto_util.c
 CLIRPCINCLUDE=include/saacproto_cli.h include/saacproto_util.h
 CLIRPCNOUSE=saacproto_serv.c include/saacproto_serv.h
-CLIRPCOPTION=-h include -o . -euc 
+CLIRPCOPTION=-h include -o . -euc
 
 SERVRPCHTML=~/doc/lssproto.html
 SERVRPCSRC=lssproto_serv.c lssproto_util.c
@@ -86,7 +91,7 @@ endif
 
 all: $(PROG)
 
-$(PROG):  $(RPCSRC) $(ANIMDATAFILE) $(LIBS) $(OBJ) 
+$(PROG):  $(RPCSRC) $(ANIMDATAFILE) $(LIBS) $(OBJ)
 	$(CC) $(CFLAGS) -o $(PROG) $(OBJ) $(LIBS) $(LDFLAGS)
 
 dos2unix:
@@ -94,20 +99,20 @@ dos2unix:
 		$(MAKE) -C $$dir dos2unix;\
 	done
 	dos2unix ./include/*.h $(SRC) makefile
-	
+
 chmod:
 	@for dir in $(SUBDIR) ; do \
 		$(MAKE) -C $$dir chmod;\
 	done
 	chmod 777 ./include/*.h $(SRC) makefile
-	
+
 depend: $(RPCSRC) $(ANIMDATAFILE)
 	@for dir in $(SUBDIR) ; do \
 		$(MAKE) -C $$dir depend;\
 	done
 	$(MV) makefile makefile.bak
 	$(SED) -ne '1,/^# DO NOT DELETE THIS LINE/p' makefile.bak>makefile
-	$(CC) $(INCFLAGS) -M $(SRC) >> makefile 
+	$(CC) $(INCFLAGS) -M $(SRC) >> makefile
 
 clean:
 	@for dir in $(SUBDIR) ; do \
@@ -204,7 +209,7 @@ net.o: net.c ./include/version.h ./include/correct_bug.h \
   ./include/npc_autopk.h
 buf.o: buf.c ./include/version.h ./include/correct_bug.h \
   ./include/common.h  \
-  ./include/handletime.h  
+  ./include/handletime.h
 msignal.o: msignal.c ./include/version.h ./include/correct_bug.h \
   ./include/net.h \
   ./include/char_base.h ./include/version.h ./include/skill.h \
@@ -290,12 +295,12 @@ autil.o: autil.c ./include/version.h ./include/correct_bug.h \
   ./include/version.h ./include/common.h \
   ./include/skill.h ./include/util.h  \
   ./include/title.h ./include/addressbook.h ./include/net.h \
-  ./include/char.h ./include/lssproto_util.h  
+  ./include/char.h ./include/lssproto_util.h
 saacproto_cli.o: saacproto_cli.c ./include/version.h \
   ./include/correct_bug.h ./include/saacproto_cli.h ./include/version.h \
   ./include/saacproto_util.h  \
   ./include/common.h  \
-  ./include/net.h ./include/common.h  
+  ./include/net.h ./include/common.h
 saacproto_util.o: saacproto_util.c ./include/version.h \
   ./include/correct_bug.h \
   ./include/saacproto_util.h
@@ -308,4 +313,4 @@ lssproto_serv.o: lssproto_serv.c ./include/version.h \
   ./include/char.h ./include/net.h
 lssproto_util.o: lssproto_util.c ./include/version.h \
   ./include/correct_bug.h  \
-  ./include/lssproto_util.h ./include/common.h 
+  ./include/lssproto_util.h ./include/common.h
