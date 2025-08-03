@@ -15,7 +15,7 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
 #CFLAGS="-march=athlon-xp -O3 -pipe -fomit-frame-pointer" $(INCFLAGS)
-#Athlon64£º
+#Athlon64ï¿½ï¿½
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
 PROG=libnpc.a
@@ -138,8 +138,7 @@ npcutil.o: npcutil.c ../include/version.h ../include/correct_bug.h \
   ../include/object.h ../include/item.h ../include/map_deal.h \
   ../include/npcutil.h ../include/npc_door.h ../include/readmap.h \
   ../include/npccreate.h ../include/enemy.h ../include/family.h \
-  ../include/saacproto_cli.h ../include/saacproto_util.h \
-  /usr/include/getopt.h
+  ../include/saacproto_cli.h ../include/saacproto_util.h
 npc_warp.o: npc_warp.c ../include/version.h ../include/correct_bug.h \
   ../include/object.h ../include/common.h \
   ../include/char_base.h ../include/version.h \
@@ -510,7 +509,7 @@ npc_checkman.o: npc_checkman.c ../include/version.h \
   ../include/char.h ../include/object.h ../include/char_base.h \
   ../include/npcutil.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h \
-  /usr/include/getopt.h
+ 
 npc_janken.o: npc_janken.c ../include/version.h ../include/correct_bug.h \
   ../include/common.h \
   ../include/char_base.h ../include/version.h \

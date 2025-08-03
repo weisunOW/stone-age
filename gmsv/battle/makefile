@@ -134,8 +134,7 @@ battle_magic.o: battle_magic.c ../include/version.h \
   ../include/battle_event.h ../include/magic_base.h \
   ../include/battle_magic.h ../include/item_event.h ../include/anim_tbl.h \
   ../include/common.h ../include/lssproto_serv.h \
-  ../include/lssproto_util.h \
-  /usr/include/getopt.h
+  ../include/lssproto_util.h
 pet_skill.o: pet_skill.c ../include/version.h ../include/correct_bug.h \
   ../include/common.h \
   ../include/buf.h ../include/common.h \
@@ -160,5 +159,5 @@ battle_item.o: battle_item.c ../include/version.h \
   ../include/battle_event.h ../include/battle_item.h \
   ../include/battle_magic.h ../include/item_event.h ../include/log.h \
   ../include/anim_tbl.h ../include/npcutil.h ../include/magic_base.h \
-  ../include/lssproto_serv.h ../include/lssproto_util.h \
-  /usr/include/getopt.h
+  ../include/lssproto_serv.h ../include/lssproto_util.h
+ 

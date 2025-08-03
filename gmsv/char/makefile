@@ -10,7 +10,7 @@ export SHELL=/bin/sh
 
 INCFLAGS=-I. -I.. -I../include
 
-CFLAGS=-O3 -w $(INCFLAGS) 
+CFLAGS=-O3 -w $(INCFLAGS)
 #Pentium 4 (Intel)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
@@ -49,11 +49,11 @@ dos2unix:
 
 chmod:
 	chmod 777 $(SRC) makefile
-	
+
 depend:
 	$(MV) makefile makefile.bak
 	$(SED) -ne '1,/^# DO NOT DELETE THIS LINE/p' makefile.bak>makefile
-	$(CC) $(INCFLAGS) -M $(SRC) >> makefile 
+	$(CC) $(INCFLAGS) -M $(SRC) >> makefile
 
 clean:
 	$(RM) $(PROG)
@@ -129,8 +129,7 @@ char_data.o: char_data.c ../include/version.h ../include/correct_bug.h \
   ../include/item.h ../include/log.h ../include/pet.h ../include/enemy.h \
   ../include/char_base.h ../include/configfile.h \
   ../include/defaultPlayer.h ../include/family.h \
-  ../include/saacproto_cli.h ../include/saacproto_util.h \
-  /usr/include/getopt.h
+  ../include/saacproto_cli.h ../include/saacproto_util.h
 skill.o: skill.c ../include/version.h ../include/correct_bug.h \
   ../include/skill.h \
   ../include/common.h \

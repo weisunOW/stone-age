@@ -15,7 +15,7 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
 #CFLAGS="-march=athlon-xp -O3 -pipe -fomit-frame-pointer" $(INCFLAGS)
-#Athlon64£º
+#Athlon64ï¿½ï¿½
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
 PROG=libmap.a
@@ -82,7 +82,7 @@ readmap.o: readmap.c ../include/version.h ../include/correct_bug.h \
   /usr/include/cygwin/wait.h /usr/include/string.h \
   /usr/include/sys/string.h /usr/include/dirent.h \
   /usr/include/sys/dirent.h /usr/include/errno.h /usr/include/sys/errno.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/netinet/in.h /usr/include/cygwin/in.h \
   /usr/include/cygwin/socket.h /usr/include/asm/socket.h \
   /usr/include/cygwin/if.h /usr/include/sys/socket.h \
@@ -134,7 +134,7 @@ map_deal.o: map_deal.c ../include/version.h ../include/correct_bug.h \
   ../include/char.h ../include/map_util.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/string.h \
   /usr/include/sys/string.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ../include/net.h \
+  /usr/include/sys/unistd.h ../include/net.h \
   ../include/anim_tbl.h
 map_util.o: map_util.c ../include/version.h ../include/correct_bug.h \
   ../include/common.h /usr/include/stdio.h /usr/include/_ansi.h \

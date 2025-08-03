@@ -49,7 +49,7 @@ chmod:
 depend:
 	$(MV) makefile makefile.bak
 	$(SED) -ne '1,/^# DO NOT DELETE THIS LINE/p' makefile.bak>makefile
-	$(CC) $(INCFLAGS) -M $(SRC) >> makefile 
+	$(CC) $(INCFLAGS) -M $(SRC) >> makefile
 
 clean:
 	$(RM) $(PROG)
@@ -99,7 +99,7 @@ battle.o: battle.c ../include/version.h ../include/correct_bug.h \
   ../include/battle_command.h ../include/battle_ai.h \
   ../include/configfile.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ../include/encount.h \
+  /usr/include/sys/unistd.h ../include/encount.h \
   ../include/enemy.h ../include/handletime.h ../include/readmap.h \
   ../include/pet_skill.h ../include/npcutil.h ../include/magic.h \
   ../include/npc_npcenemy.h ../include/log.h ../include/pet_skillinfo.h \
@@ -139,7 +139,7 @@ battle_event.o: battle_event.c ../include/version.h \
   ../include/battle.h ../include/battle_event.h ../include/configfile.h \
   ../include/pet.h ../include/log.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ../include/anim_tbl.h \
+  /usr/include/sys/unistd.h ../include/anim_tbl.h \
   ../include/battle_magic.h ../include/util.h ../include/enemy.h \
   ../include/pet_skill.h ../include/char_base.h ../include/item_event.h
 battle_command.o: battle_command.c ../include/version.h \
@@ -176,7 +176,7 @@ battle_command.o: battle_command.c ../include/version.h \
   ../include/battle.h ../include/pet_skill.h ../include/battle_event.h \
   ../include/battle_command.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ../include/magic.h \
+  /usr/include/sys/unistd.h ../include/magic.h \
   ../include/magic_base.h ../include/handletime.h
 battle_ai.o: battle_ai.c ../include/version.h ../include/correct_bug.h \
   /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h \
@@ -243,7 +243,7 @@ battle_magic.o: battle_magic.c ../include/version.h \
   ../include/battle_magic.h ../include/item_event.h ../include/anim_tbl.h \
   ../include/common.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h
+  /usr/include/sys/unistd.h
 pet_skill.o: pet_skill.c ../include/version.h ../include/correct_bug.h \
   /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h \
   /usr/include/sys/config.h /usr/include/machine/ieeefp.h \
@@ -312,5 +312,4 @@ battle_item.o: battle_item.c ../include/version.h \
   ../include/battle_magic.h ../include/item_event.h ../include/log.h \
   ../include/anim_tbl.h ../include/npcutil.h ../include/magic_base.h \
   ../include/lssproto_serv.h ../include/lssproto_util.h \
-  /usr/include/strings.h /usr/include/unistd.h /usr/include/sys/unistd.h \
-  /usr/include/getopt.h
+  /usr/include/strings.h /usr/include/unistd.h /usr/include/sys/unistd.h

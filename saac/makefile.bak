@@ -21,10 +21,10 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
 #CFLAGS="-march=athlon-xp -O3 -pipe -fomit-frame-pointer" $(INCFLAGS)
-#Athlon64£º
+#Athlon64ï¿½ï¿½
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
-#¼ÓÈëmysql×ÊÁÏ¿â¹¦ÄÜ¯à
+#ï¿½ï¿½ï¿½ï¿½mysqlï¿½ï¿½ï¿½Ï¿â¹¦ï¿½Ü¯ï¿½
 MYSQL= -lodbc32 -lz
 
 TOP=../..
@@ -40,7 +40,7 @@ RPCSRC = saacproto_serv.c saacproto_util.c
 RPCINCLUDE = saacproto_serv.h saacproto_util.h mac.h
 RPCNOUSE = saacproto_cli.c saacproto_cli.h
 
-#¼ÓÈëmysql×ÊÁÏ¿â¹¦ÄÜ¥\¯à
+#ï¿½ï¿½ï¿½ï¿½mysqlï¿½ï¿½ï¿½Ï¿â¹¦ï¿½Ü¥\ï¿½ï¿½
 SRC = main.c recv.c util.c char.c db.c mail.c acfamily.c lock.c sasql.c $(RPCSRC)
 #SRC = main.c recv.c util.c char.c db.c mail.c acfamily.c lock.c $(RPCSRC)
 
@@ -107,7 +107,7 @@ main.o: main.c ./include/main.h /usr/include/stdio.h /usr/include/_ansi.h \
   /usr/include/sys/time.h /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/version.h \
   ./include/util.h ./include/mail.h ./include/db.h \
@@ -139,7 +139,7 @@ recv.o: recv.c ./include/version.h ./include/main.h /usr/include/stdio.h \
   /usr/include/sys/time.h /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/version.h \
   ./include/saacproto_util.h ./include/saacproto_serv.h \
@@ -169,7 +169,7 @@ util.o: util.c /usr/include/sys/types.h /usr/include/_ansi.h \
   /usr/include/sys/stdio.h /usr/include/string.h \
   /usr/include/sys/string.h /usr/include/stdlib.h \
   /usr/include/machine/stdlib.h /usr/include/alloca.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/dirent.h /usr/include/sys/dirent.h /usr/include/netdb.h \
   /usr/include/errno.h /usr/include/sys/errno.h /usr/include/ctype.h \
   ./include/main.h /usr/include/strings.h ./include/version.h \
@@ -190,7 +190,7 @@ char.o: char.c /usr/include/time.h /usr/include/_ansi.h \
   /usr/include/sys/stdio.h /usr/include/sys/stat.h \
   /usr/include/cygwin/stat.h /usr/include/fcntl.h \
   /usr/include/sys/fcntl.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ./include/main.h \
+  /usr/include/sys/unistd.h ./include/main.h \
   /usr/include/stdlib.h /usr/include/machine/stdlib.h \
   /usr/include/alloca.h /usr/include/netinet/in.h \
   /usr/include/cygwin/in.h /usr/include/asm/byteorder.h \
@@ -226,7 +226,7 @@ db.o: db.c ./include/db.h ./include/main.h /usr/include/stdio.h \
   /usr/include/sys/time.h /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/version.h \
   ./include/util.h ./include/version.h /usr/include/dirent.h \
@@ -253,7 +253,7 @@ mail.o: mail.c ./include/main.h /usr/include/stdio.h /usr/include/_ansi.h \
   /usr/include/sys/time.h /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/version.h \
   ./include/mail.h ./include/util.h ./include/saacproto_serv.h \
@@ -283,7 +283,7 @@ acfamily.o: acfamily.c ./include/version.h ./include/main.h \
   /usr/include/sys/time.h /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/version.h \
   ./include/acfamily.h ./include/util.h ./include/saacproto_serv.h \
@@ -313,7 +313,7 @@ lock.o: lock.c /usr/include/stdio.h /usr/include/_ansi.h \
   /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/char.h
 sasql.o: sasql.c ./include/version.h ./include/main.h \
@@ -338,7 +338,7 @@ sasql.o: sasql.c ./include/version.h ./include/main.h \
   /usr/include/sys/time.h /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/strings.h /usr/include/string.h /usr/include/sys/string.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/version.h \
   /usr/lib/gcc/i686-pc-cygwin/3.4.4/../../../../include/w32api/windows.h \
@@ -408,7 +408,7 @@ saacproto_serv.o: saacproto_serv.c ./include/version.h \
   /usr/include/sys/types.h /usr/include/machine/_types.h \
   /usr/include/machine/types.h /usr/include/sys/features.h \
   /usr/include/cygwin/types.h /usr/include/sys/sysmacros.h \
-  /usr/include/stdint.h /usr/include/getopt.h ./include/main.h \
+  /usr/include/stdint.h ./include/main.h \
   /usr/include/stdio.h /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stdarg.h \
   /usr/include/sys/stdio.h /usr/include/netinet/in.h \
   /usr/include/cygwin/in.h /usr/include/asm/byteorder.h \
@@ -435,7 +435,7 @@ saacproto_util.o: saacproto_util.c ./include/version.h \
   /usr/include/sys/stdio.h /usr/include/stdlib.h \
   /usr/include/machine/stdlib.h /usr/include/alloca.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h /usr/include/strings.h \
+  /usr/include/sys/unistd.h /usr/include/strings.h \
   ./include/main.h /usr/include/netinet/in.h /usr/include/cygwin/in.h \
   /usr/include/asm/byteorder.h /usr/include/arpa/inet.h \
   /usr/include/netdb.h /usr/include/sys/socket.h /usr/include/features.h \

@@ -15,7 +15,7 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
 #CFLAGS="-march=athlon-xp -O3 -pipe -fomit-frame-pointer" $(INCFLAGS)
-#Athlon64£º
+#Athlon64ï¿½ï¿½
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
 PROG=libmagic.a
@@ -101,7 +101,7 @@ magic.o: magic.c ../include/version.h ../include/correct_bug.h \
   ../include/family.h ../include/handletime.h ../include/battle_magic.h \
   ../include/battle_event.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ../include/pet_skill.h
+  /usr/include/sys/unistd.h ../include/pet_skill.h
 magic_base.o: magic_base.c ../include/version.h ../include/correct_bug.h \
   /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h \
   /usr/include/sys/config.h /usr/include/machine/ieeefp.h \

@@ -15,7 +15,7 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
 #CFLAGS="-march=athlon-xp -O3 -pipe -fomit-frame-pointer" $(INCFLAGS)
-#Athlon64£º
+#Athlon64ï¿½ï¿½
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
 PROG=libitem.a
@@ -134,7 +134,7 @@ item_event.o: item_event.c ../include/version.h ../include/correct_bug.h \
   ../include/util.h ../include/encount.h ../include/battle.h \
   ../include/battle_item.h ../include/lssproto_serv.h \
   ../include/lssproto_util.h /usr/include/strings.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h ../include/net.h \
+  /usr/include/sys/unistd.h ../include/net.h \
   ../include/pet.h ../include/npcutil.h ../include/enemy.h \
   ../include/battle_magic.h ../include/pet_skill.h \
   ../include/npc_freepetskillshop.h
@@ -172,5 +172,5 @@ item_gen.o: item_gen.c ../include/version.h ../include/correct_bug.h \
   ../include/item.h ../include/char.h ../include/item.h \
   ../include/item_gen.h ../include/enemy.h ../include/log.h \
   ../include/saacproto_cli.h ../include/saacproto_util.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   ../include/family.h ../include/magic_base.h

@@ -174,7 +174,7 @@ main.o: main.c ./include/version.h ./include/correct_bug.h \
   /usr/include/cygwin/time.h /usr/include/signal.h \
   /usr/include/sys/signal.h /usr/include/cygwin/signal.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h /usr/include/pthread.h \
+  /usr/include/sys/unistd.h /usr/include/pthread.h \
   /usr/include/sched.h ./include/init.h ./include/common.h \
   /usr/include/errno.h /usr/include/sys/errno.h ./include/net.h \
   /usr/include/sys/time.h /usr/include/cygwin/sys_time.h \
@@ -201,7 +201,7 @@ init.o: init.c ./include/version.h ./include/correct_bug.h \
   /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stddef.h \
   /usr/include/machine/types.h /usr/include/sys/features.h \
   /usr/include/cygwin/types.h /usr/include/sys/sysmacros.h \
-  /usr/include/stdint.h /usr/include/endian.h /usr/include/getopt.h \
+  /usr/include/stdint.h /usr/include/endian.h \
   /usr/include/stdio.h /usr/include/_ansi.h \
   /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stdarg.h \
   /usr/include/sys/reent.h /usr/include/sys/stdio.h \
@@ -246,7 +246,7 @@ configfile.o: configfile.c ./include/version.h ./include/correct_bug.h \
   /usr/include/sys/sysmacros.h /usr/include/stdint.h \
   /usr/include/endian.h /usr/include/sys/stdio.h /usr/include/sys/cdefs.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/strings.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   ./include/util.h /usr/include/sys/time.h /usr/include/cygwin/sys_time.h \
   /usr/include/sys/select.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/cygwin/time.h \
@@ -293,7 +293,7 @@ util.o: util.c ./include/version.h ./include/correct_bug.h \
   /usr/include/sys/string.h /usr/include/stdlib.h \
   /usr/include/machine/stdlib.h /usr/include/alloca.h \
   /usr/include/cygwin/stdlib.h /usr/include/cygwin/wait.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/dirent.h /usr/include/sys/dirent.h /usr/include/netdb.h \
   /usr/include/errno.h /usr/include/sys/errno.h /usr/include/ctype.h \
   ./include/common.h ./include/util.h ./include/common.h \
@@ -314,7 +314,7 @@ net.o: net.c ./include/version.h ./include/correct_bug.h \
   /usr/include/alloca.h /usr/include/cygwin/stdlib.h \
   /usr/include/cygwin/wait.h /usr/include/string.h \
   /usr/include/sys/string.h /usr/include/errno.h /usr/include/sys/errno.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   /usr/include/netdb.h /usr/include/sys/socket.h /usr/include/features.h \
   /usr/include/cygwin/socket.h /usr/include/asm/socket.h \
   /usr/include/cygwin/if.h /usr/include/cygwin/sockios.h \
@@ -372,7 +372,7 @@ msignal.o: msignal.c ./include/version.h ./include/correct_bug.h \
   /usr/include/sys/sysmacros.h /usr/include/stdint.h \
   /usr/include/endian.h /usr/include/cygwin/signal.h /usr/include/errno.h \
   /usr/include/sys/errno.h /usr/include/sys/reent.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h /usr/include/stdio.h \
+  /usr/include/sys/unistd.h /usr/include/stdio.h \
   /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stdarg.h \
   /usr/include/sys/stdio.h /usr/include/sys/cdefs.h ./include/buf.h \
   ./include/common.h ./include/net.h /usr/include/sys/time.h \
@@ -412,7 +412,7 @@ callfromac.o: callfromac.c /usr/include/stdio.h /usr/include/_ansi.h \
   /usr/include/machine/stdlib.h /usr/include/alloca.h \
   /usr/include/cygwin/stdlib.h /usr/include/cygwin/wait.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/strings.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   ./include/lssproto_serv.h ./include/lssproto_util.h ./include/net.h \
   ./include/common.h /usr/include/sys/time.h \
   /usr/include/cygwin/sys_time.h /usr/include/sys/select.h \
@@ -456,7 +456,7 @@ callfromcli.o: callfromcli.c ./include/version.h ./include/correct_bug.h \
   /usr/include/cygwin/sys_time.h /usr/include/sys/select.h \
   ./include/common.h ./include/lssproto_serv.h ./include/lssproto_util.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/strings.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   ./include/saacproto_cli.h ./include/version.h \
   ./include/saacproto_util.h ./include/net.h /usr/include/netinet/in.h \
   /usr/include/cygwin/in.h /usr/include/cygwin/socket.h \
@@ -642,7 +642,7 @@ autil.o: autil.c ./include/version.h ./include/correct_bug.h \
   /usr/include/pthread.h /usr/include/sched.h ./include/char_data.h \
   ./include/item.h ./include/char.h ./include/lssproto_util.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/strings.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   ./include/common.h
 saacproto_cli.o: saacproto_cli.c ./include/version.h \
   ./include/correct_bug.h ./include/saacproto_cli.h ./include/version.h \
@@ -659,7 +659,7 @@ saacproto_cli.o: saacproto_cli.c ./include/version.h \
   /usr/include/machine/_types.h /usr/include/machine/types.h \
   /usr/include/sys/features.h /usr/include/cygwin/types.h \
   /usr/include/sys/sysmacros.h /usr/include/stdint.h \
-  /usr/include/endian.h /usr/include/getopt.h /usr/include/stdio.h \
+  /usr/include/endian.h /usr/include/stdio.h \
   /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stdarg.h \
   /usr/include/sys/stdio.h /usr/include/sys/cdefs.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/cygwin/time.h \
@@ -690,7 +690,7 @@ saacproto_util.o: saacproto_util.c ./include/version.h \
   /usr/include/alloca.h /usr/include/cygwin/stdlib.h \
   /usr/include/cygwin/wait.h /usr/include/string.h \
   /usr/include/sys/string.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h /usr/include/strings.h \
+  /usr/include/sys/unistd.h /usr/include/strings.h \
   ./include/saacproto_util.h
 lssproto_serv.o: lssproto_serv.c ./include/version.h \
   ./include/correct_bug.h ./include/autil.h ./include/version.h \
@@ -710,7 +710,7 @@ lssproto_serv.o: lssproto_serv.c ./include/version.h \
   /usr/include/machine/stdlib.h /usr/include/alloca.h \
   /usr/include/cygwin/stdlib.h /usr/include/cygwin/wait.h \
   /usr/include/string.h /usr/include/sys/string.h /usr/include/strings.h \
-  /usr/include/unistd.h /usr/include/sys/unistd.h /usr/include/getopt.h \
+  /usr/include/unistd.h /usr/include/sys/unistd.h \
   ./include/common.h ./include/log.h /usr/include/time.h \
   /usr/include/machine/time.h /usr/include/cygwin/time.h \
   /usr/include/signal.h /usr/include/sys/signal.h \
@@ -741,6 +741,6 @@ lssproto_util.o: lssproto_util.c ./include/version.h \
   /usr/include/alloca.h /usr/include/cygwin/stdlib.h \
   /usr/include/cygwin/wait.h /usr/include/string.h \
   /usr/include/sys/string.h /usr/include/unistd.h \
-  /usr/include/sys/unistd.h /usr/include/getopt.h /usr/include/strings.h \
+  /usr/include/sys/unistd.h /usr/include/strings.h \
   ./include/lssproto_util.h ./include/common.h /usr/include/errno.h \
   /usr/include/sys/errno.h
