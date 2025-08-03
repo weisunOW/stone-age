@@ -167,17 +167,17 @@ typedef enum{
 #ifdef _SKILL_SACRIFICE
     BATTLE_COM_S_SACRIFICE,			//¾ÈÔ®		vincent add 2002/05/30
 #endif
-#ifdef _SKILL_WEAKEN  
+#ifdef _SKILL_WEAKEN
 	    BATTLE_COM_S_WEAKEN,		//ÐéÈõ		vincent add 2002/07/11
 #endif
-#ifdef _SKILL_DEEPPOISON  
+#ifdef _SKILL_DEEPPOISON
 	    BATTLE_COM_S_DEEPPOISON,	//¾ç¶¾		vincent add 2002/07/16
 #endif
-#ifdef _SKILL_BARRIER  
+#ifdef _SKILL_BARRIER
 	    BATTLE_COM_S_BARRIER,		//Ä§ÕÏ		vincent add 2002/07/16
 #endif
 
-#ifdef _SKILL_ROAR 
+#ifdef _SKILL_ROAR
     BATTLE_COM_S_ROAR,			    //´óºð		vincent add 2002/07/11
 #endif
 #ifdef _BATTLENPC_WARP_PLAYER
@@ -231,7 +231,7 @@ typedef enum{
     BATTLE_COM_S_FIREKILL,
 #endif
 #ifdef _PETSKILL_DAMAGETOHP
-	BATTLE_COM_S_DAMAGETOHP2, //°µÔÂ¿ñÀÇ(ÊÈÑª¼¼µÄ±äÌå) 
+	BATTLE_COM_S_DAMAGETOHP2, //°µÔÂ¿ñÀÇ(ÊÈÑª¼¼µÄ±äÌå)
 #endif
 #ifdef _PETSKILL_BECOMEFOX
     BATTLE_COM_S_BECOMEFOX,
@@ -366,7 +366,7 @@ typedef struct _Battle
 	unsigned int EndTime;
 	unsigned int PartTime;
 	int flgTime;
-	
+
 #endif
 	int		iEntryBack[BATTLE_ENTRY_MAX*2];		// ó¡Õý¡õ¼þè¶  ½ñÄ¾»¯ÖÐÐ×¶ª¼þÌï¡õ
 	int		iEntryBack2[BATTLE_ENTRY_MAX*2];		// ó¡Õý¡õ¼þè¶  ½ñÄ¾»¯ÖÐÐ×¶ª¼þÌï¡õ
@@ -384,7 +384,7 @@ typedef struct _Battle
 enum{	// Ïþ¼°field_att ±å  Ä¾ÔÂ°À
 	BATTLE_ATTR_NONE = 0,	//   óìÁë
 	BATTLE_ATTR_EARTH,		// »©
-	BATTLE_ATTR_WATER,		//   
+	BATTLE_ATTR_WATER,		//
 	BATTLE_ATTR_FIRE,		// ÉÜ
 	BATTLE_ATTR_WIND,		// ë®
 	BATTLE_ATTR_END
@@ -421,14 +421,14 @@ extern BATTLE *BattleArray; 	/* ¾ô  Õýµ©ÛÍ     */
 extern int BATTLE_battlenum;	/*     ¼°ÐÑ */
 extern char szAllBattleString[BATTLE_STRING_MAX];	/* ¾ô  ±åÒøµ¤ÎìÑ¨¼þÓñ  Ù¯   */
 extern char *pszBattleTop, *pszBattleLast;	/* ¾ô  ±åÒøµ¤  Ù¯  ¼°ÞË   */
-extern char szBadStatusString[];	// µ©  ¡õÕýµ©³ªéÙåÃ  Ù¯  
-extern int gWeponType;	// òØ»þ¼°  Õ¿¼°ÅË  
+extern char szBadStatusString[];	// µ©  ¡õÕýµ©³ªéÙåÃ  Ù¯
+extern int gWeponType;	// òØ»þ¼°  Õ¿¼°ÅË
 extern float gDamageDiv;	// Ä¸¶ª¡õ³âÛÐà«
 
 #define BATTLE_CHECKINDEX( a ) ( ((a)>=BATTLE_battlenum || (a)<0 )?(FALSE):(TRUE) )
 #define BATTLE_CHECKSIDE( a ) ( ((a)>=2 || (a)<0)?(FALSE):( TRUE) )
 #define BATTLE_CHECKNO( a ) ( ((a)>=20 || (a)<0 )?(FALSE):(TRUE) )
-#define BATTLE_CHECKADDRESS( a )  ((&BattleArray[0])<=(a) && (a)<=(&BattleArray[BATTLE_battlenum-1] )?(TRUE):(FALSE) ) 
+#define BATTLE_CHECKADDRESS( a )  ((&BattleArray[0])<=(a) && (a)<=(&BattleArray[BATTLE_battlenum-1] )?(TRUE):(FALSE) )
 
 #define IsBATTLING( a ) (CHAR_getWorkInt((a),CHAR_WORKBATTLEMODE)?(TRUE):(FALSE))
 
@@ -493,7 +493,7 @@ int BATTLE_RescueEntry( int charaindex, int toindex);
 int BATTLE_PetDefaultExit( int charaindex, int battleindex);
 
 int	BATTLE_PetDefaultEntry(
-	int charaindex,	// Ê¸ÓÀÐþÃ«  ÔÈ»¯ÖÐÔÂÃóÒÁÄÌØÀ¡õ¼°          
+	int charaindex,	// Ê¸ÓÀÐþÃ«  ÔÈ»¯ÖÐÔÂÃóÒÁÄÌØÀ¡õ¼°
 	int battleindex,// ÌïÐþ»ïÄÌ¼þ·¸ÓÀÛÍµ©
 	int side
 );
@@ -513,6 +513,7 @@ void BATTLE_BadStatusString( int defNo, int status );
 int BATTLE_MultiList( int battleindex, int toNo, int ToList[] );
 BOOL BATTLE_IsCharge( int com );
 BOOL BATTLE_CanMoveCheck( int charaindex );
+int BATTLE_AddProfit( int battleindex,	int *pBidList);
 int BATTLE_TargetCheck( int battleindex, int defNo);
 char *BATTLE_CharTitle( int charaindex );
 void BATTLE_EscapeDpSend( int battleindex, int charaindex );

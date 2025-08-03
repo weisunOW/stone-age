@@ -61,8 +61,8 @@
 
 typedef enum
 {
-    CHAR_HEAD,               
-    CHAR_BODY, 
+    CHAR_HEAD,
+    CHAR_BODY,
     CHAR_ARM,
     CHAR_DECORATION1,
     CHAR_DECORATION2,
@@ -235,7 +235,7 @@ typedef enum
       CHAR_TRADE_TRADING,   /* 交易中 */
       CHAR_TRADE_LOCK,	    /* 交易锁定中 */
 }CHAR_TRADE_MODE;
-                  
+
 typedef enum
 {
     CHAR_PETMAIL_NONE,
@@ -262,10 +262,10 @@ typedef enum
 	PET_RACE1 = 5,		// 竞速场_宠物1
 	PET_RACE2,			// 竞速场_宠物2
 	PET_RACE3,			// 竞速场_宠物3
-	ROULETTE1 = 11,	ROULETTE2, ROULETTE3, ROULETTE4, ROULETTE5,	ROULETTE6, ROULETTE7, 
+	ROULETTE1 = 11,	ROULETTE2, ROULETTE3, ROULETTE4, ROULETTE5,	ROULETTE6, ROULETTE7,
 	ROULETTE8, ROULETTE9, ROULETTE10, ROULETTE11, ROULETTE12, ROULETTE13, ROULETTE14,
-	ROULETTE15,	ROULETTE16,	ROULETTE17,	ROULETTE18,	ROULETTE19,	ROULETTE20,	
-	ROULETTE21 = 41, ROULETTE22, ROULETTE23, ROULETTE24,	ROULETTE25,	ROULETTE26,	
+	ROULETTE15,	ROULETTE16,	ROULETTE17,	ROULETTE18,	ROULETTE19,	ROULETTE20,
+	ROULETTE21 = 41, ROULETTE22, ROULETTE23, ROULETTE24,	ROULETTE25,	ROULETTE26,
 	ROULETTE27,	ROULETTE28,	ROULETTE29, ROULETTE30, ROULETTE31, ROULETTE32,
 	ROULETTE33,	ROULETTE34,	ROULETTE35,	ROULETTE36,	ROULETTE37,	ROULETTE38,
 	ROULETTE39,	ROULETTE40,
@@ -378,14 +378,14 @@ typedef enum
 	CHAR_TRANSMIGRATION,
 	CHAR_TRANSEQUATION,
   CHAR_INITDATA,
-  CHAR_SILENT,				/* char shutup time */    
+  CHAR_SILENT,				/* char shutup time */
   CHAR_FMINDEX,				// 家族 index
   CHAR_FMLEADERFLAG,			/* 家族成员种类
     							 * FMMEMBER_NONE	:没有加入任何家族
     							 * FMMEMBER_APPLY	:申请加入家族中
     							 * FMMEMBER_LEADER	:族长
     							 * FMMEMBER_MEMBER	:一般成员
-    							 * FMMEMBER_ELDER	:长老    
+    							 * FMMEMBER_ELDER	:长老
     							 * FMMEMBER_INVITE	:祭司			// 暂时不用
     							 * FMMEMBER_BAILEE	:财务长			// 暂时不用
     							 * FMMEMBER_VICELEADER  :副族长		// 暂时不用
@@ -399,7 +399,7 @@ typedef enum
 	CHAR_LOWRIDEPETS,
 #endif
   CHAR_LIMITLEVEL,
-    
+
 #ifdef _PERSONAL_FAME	// Arminius 8.30: 家族个人声望
     CHAR_FAME,
 #endif
@@ -407,7 +407,7 @@ typedef enum
 #ifdef _NEWSAVE
     CHAR_SAVEINDEXNUMBER,	/*  SaveFile .0.char or .1.char */
 #endif
- 
+
 #ifdef _ATTACK_MAGIC
 		CHAR_EARTH_EXP,						// 玩家的地魔法熟练度
 		CHAR_WATER_EXP,						// 玩家的水魔法熟练度
@@ -443,7 +443,7 @@ typedef enum
 #endif
 
 #ifdef _ALLDOMAN // (不可开) Syu ADD 排行榜NPC
-		CHAR_HEROFLOOR, 
+		CHAR_HEROFLOOR,
 #endif
 #ifdef _PETSKILL_BECOMEPIG
 		CHAR_BECOMEPIG,
@@ -631,7 +631,7 @@ typedef enum
     CHAR_WORKWEAKEN,             //虚弱  vincent add  _MAGIC_WEAKEN
 	CHAR_WORKDEEPPOISON,         //剧毒  vincent add _MAGIC_DEEPPOISON
 	CHAR_WORKBARRIER,            //魔障  vincent add _MAGIC_BARRIER
-	CHAR_WORKNOCAST,             //沉默  vincent add _MAGIC_NOCAST  
+	CHAR_WORKNOCAST,             //沉默  vincent add _MAGIC_NOCAST
     CHAR_WORKMODPOISON,
     CHAR_WORKMODPARALYSIS,
     CHAR_WORKMODSLEEP,
@@ -685,7 +685,7 @@ typedef enum
 #endif
 	CHAR_NPCWORKINT13,
     CHAR_WORKWARPCHECK,
-    CHAR_TENSEICHECKED,    
+    CHAR_TENSEICHECKED,
     CHAR_WORKFMINDEXI,		// 家族索引 index
     CHAR_WORKFMCHANNEL,		// 家族频道
     CHAR_WORKFMCHANNELQUICK,
@@ -695,13 +695,13 @@ typedef enum
     CHAR_WORKFMSETUPFLAG,	// 家族是否已正式成立
     CHAR_WORKFMMANINDEX,	// FMWARPMAN Index
     CHAR_WORKFMCHARINDEX,	// 家族成员索引 index
-    CHAR_WORKBATTLEFLAG,    // -1(战斗不能)，1(可战斗)    
+    CHAR_WORKBATTLEFLAG,    // -1(战斗不能)，1(可战斗)
 
-	CHAR_WORK_PET0_STAT,        
+	CHAR_WORK_PET0_STAT,
 	CHAR_WORK_PET1_STAT,
 	CHAR_WORK_PET2_STAT,
 	CHAR_WORK_PET3_STAT,
-	CHAR_WORK_PET4_STAT,	
+	CHAR_WORK_PET4_STAT,
 
     CHAR_WORKLOGINTIME,		// 玩家登入时间
     CHAR_WORKTALKCOUNT,
@@ -728,7 +728,7 @@ typedef enum
     CHAR_WORKOTHERDEFC,
 #endif
 
-#ifdef _LOSE_FINCH_ 
+#ifdef _LOSE_FINCH_
 	CHAR_WORKSPETRELIFE,	//宠物复活特性
 #endif
 
@@ -822,7 +822,7 @@ typedef enum
     CHAR_WORKITEM_ADDEXPTIME,
 #endif
 #ifdef _ALLDOMAN // (不可开) Syu ADD 排行榜NPC
-	CHAR_WORKHEROFLOOR, 
+	CHAR_WORKHEROFLOOR,
 #endif
 
 #ifdef _MAGICSTAUTS_RESIST
@@ -871,7 +871,7 @@ typedef enum
     CHAR_WORKSHOPRELEVANTTRD = CHAR_NPCWORKINT7,
     CHAR_WORKTRADER = CHAR_NPCWORKINT8,
 	CHAR_WORKEFFECT = CHAR_NPCWORKINT9,
-	CHAR_WORKRENAMEITEMNUM = CHAR_NPCWORKINT10, 
+	CHAR_WORKRENAMEITEMNUM = CHAR_NPCWORKINT10,
 	CHAR_WORKRENAMEITEMINDEX = CHAR_NPCWORKINT5,
     CHAR_WORKPLAYERINDEX = CHAR_NPCWORKINT1,
     CHAR_WORKTACTICS = CHAR_NPCWORKINT2,
@@ -953,7 +953,7 @@ typedef enum
     CHAR_WORKDOORMANDOORNAME	= CHAR_NPCWORKCHAR1,
     CHAR_TIME1,
     CHAR_TIME2			= CHAR_NPCWORKCHAR6,
-	
+
 }CHAR_WORKDATACHAR;
 
 
@@ -1173,7 +1173,7 @@ typedef struct tagtagRidePetTable
 	int charNo;
 	int petNo;
 	int petId;
-	
+
 } tagRidePetTable;
 
 
@@ -1191,8 +1191,8 @@ typedef enum
 typedef enum
 {
 	PET_STAT_NONE = 0,
-	PET_STAT_SELECT,		
-	PET_STAT_MAIL = 4,	
+	PET_STAT_SELECT,
+	PET_STAT_MAIL = 4,
 } CHAR_PET_STAT;
 
 
@@ -1278,7 +1278,7 @@ int CHAR_FmLeaderRide(int meindex,int pet);
 
 typedef struct	{
 	int petNo;
-#ifdef _RIDE_CF	
+#ifdef _RIDE_CF
 	int petNo1;
 #endif
 	unsigned int learnCode;
@@ -1295,7 +1295,7 @@ typedef struct	{
 	int sex;
 }tagRidePetList;
 int RIDEPET_getNOindex( int baseNo);
-#ifdef _RIDE_CF	
+#ifdef _RIDE_CF
 int RIDEPET_getPETindex( int PetNo, unsigned int learnCode, int unsigned learnCode1 );
 int RIDEPET_getPETindex64( int PetNo, unsigned int learnCode, unsigned int learnCode1 );
 #else
@@ -1334,6 +1334,10 @@ void CHAR_getDefaultCharTempNum( Char* ch );
 
 #ifdef _RIDE_CF
 int CHAR_Ride_CF_init();
+#endif
+
+#ifdef _FM_LEADER_RIDE
+int CHAR_FmLeaderRide_init();
 #endif
 
 void LodBadPetString( char *data, char *err, int ti);

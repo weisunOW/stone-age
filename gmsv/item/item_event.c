@@ -34,6 +34,9 @@ extern	tagRidePetTable	ridePetTable[296];
 #include "npc_freepetskillshop.h"
 #endif
 
+#include "battle_event.h"
+#include "chatmagic.h"
+
 int ITEM_TimeDelCheck( int itemindex )
 {
 	int icnt, jcnt, playernum;

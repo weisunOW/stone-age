@@ -4,7 +4,6 @@
 #include <strings.h>
 #include <unistd.h>
 
-
 #include "configfile.h"
 #include "util.h"
 #include "net.h"
@@ -30,6 +29,8 @@
 #include "item_gen.h"
 #include "petmail.h"
 #include "npc_quiz.h"
+#include "char_base.h"
+#include "battle_event.h"
 
 #ifdef _ITEM_QUITPARTY
 #include "init.h"
@@ -158,9 +159,9 @@ BOOL init(int argc , char** argv , char** env )
     }
 
     print( "配置文件: %s\n" , getConfigfilename() );
-		
+
     GOTORETURNFALSEIFFALSE(readconfigfile( getConfigfilename() ) );
-    
+
     nice(getrunlevel());
     //ttom start
     {  int iWork = setEncodeKey();
@@ -378,39 +379,39 @@ BOOL init(int argc , char** argv , char** env )
 		print("骑宠等级相差: %d级\n",getRideLevel());
 #endif
 #ifdef _REVLEVEL
-		print("还原上限等级: %s级\n",getRevLevel());	
+		print("还原上限等级: %s级\n",getRevLevel());
 #endif
 #ifdef _TRANS_LEVEL_CF
-		print("一般等级上限: %d级\n",getYBLevel());	
-		print("最高等级上限: %d级\n",getMaxLevel());	
+		print("一般等级上限: %d级\n",getYBLevel());
+		print("最高等级上限: %d级\n",getMaxLevel());
 #endif
 #ifdef _FIX_CHARLOOPS
-	print("恶魔时间倍数: %d倍\n",getCharloops());	
+	print("恶魔时间倍数: %d倍\n",getCharloops());
 #endif
 #ifdef _PLAYER_ANNOUNCE
 	if(getPAnnounce()==-1)
 		print("喇叭消耗点数: 关闭使用\n");
 	else
-		print("喇叭消耗点数: %d点\n",getPAnnounce());	
+		print("喇叭消耗点数: %d点\n",getPAnnounce());
 #endif
 #ifdef _PLAYER_MOVE
 	if(getPMove()==-1)
-		print("顺移消耗点数: 关闭使用\n");	
+		print("顺移消耗点数: 关闭使用\n");
 	else
-		print("顺移消耗点数: %d点\n",getPMove());	
+		print("顺移消耗点数: %d点\n",getPMove());
 #endif
 #ifdef _BATTLE_GOLD
-		print("战斗获得金钱: %d%\n",getBattleGold());	
+		print("战斗获得金钱: %d%\n",getBattleGold());
 #endif
 #ifdef _ANGEL_TIME
-		print("精灵召唤时间: (%d人/在线人数)分\n",getAngelPlayerTime());	
-		print("精灵召唤人数: %d人\n",getAngelPlayerMun());	
+		print("精灵召唤时间: (%d人/在线人数)分\n",getAngelPlayerTime());
+		print("精灵召唤人数: %d人\n",getAngelPlayerMun());
 #endif
 #ifdef _RIDEMODE_20
-		print("2.0 骑宠模式: %d\n",getRideMode());	
+		print("2.0 骑宠模式: %d\n",getRideMode());
 #endif
 #ifdef _FM_POINT_PK
-		print("庄园互抢模式: %s\n",getFmPointPK());	
+		print("庄园互抢模式: %s\n",getFmPointPK());
 #endif
     }
 
@@ -422,14 +423,14 @@ BOOL init(int argc , char** argv , char** env )
 		print("\n游戏服务器ID: %s\n",  GameServerName );
 	}
     print("开始初始化\n" );
-    
+
 //#define DEBUG1( arg... ) if( getDebuglevel()>1 ){##arg}
     print( "建立内存空间..." );
     GOTORETURNFALSEIFFALSE(configmem( getMemoryunit(),
                                       getMemoryunitnum() ) );
     GOTORETURNFALSEIFFALSE(memInit());
 		print( "完成\n" );
-				
+
 		print( "始终化连接空间..." );
     if( !initConnect(getFdnum()) )
         goto MEMEND;
@@ -448,7 +449,7 @@ BOOL init(int argc , char** argv , char** env )
     if( !initObjectArray( getObjnum()) )
         goto CLOSEBIND;
 	print( "完成\n" );
-	
+
 	print( "建立人物..." );
     if(!CHAR_initCharArray( getFdnum(), getPetcharnum(),getOtherscharnum()) )
         goto CLOSEBIND;
@@ -531,7 +532,7 @@ BOOL init(int argc , char** argv , char** env )
 	print( "完成\n" );
 
     #endif
- 
+
 	print( "读取宠物技能文件..." );
     if( !PETSKILL_initPetskill( getPetskillfile() ) )
         goto CLOSEBIND;
@@ -547,12 +548,12 @@ BOOL init(int argc , char** argv , char** env )
     if( !ITEM_initItemIngCache() )
         goto CLOSEBIND;
 	print("完成\n" );
-    
+
 	print( "初始料理合成随机设定..." );
     if( !ITEM_initRandTable() )
         goto CLOSEBIND;
 	print("完成\n" );
-  
+
 	print( "读取遇敌配置文件..." );
     if( !CHAR_initEffectSetting( getEffectfile() ) )
         goto CLOSEBIND;
@@ -639,7 +640,7 @@ BOOL init(int argc , char** argv , char** env )
     if( !CONNECT_acfdInitRB( acfd)) goto CLOSEAC;
     if( !CONNECT_acfdInitWB( acfd)) goto CLOSEAC;
     CONNECT_setCtype( acfd, AC );
-	
+
 	print( "初始化 NPC 客户端 ... " );
     /*  rpc(client)及赓渝祭 */
     if( saacproto_InitClient( lsrpcClientWriteFunc,LSGENWORKINGBUFFER, acfd) < 0 )
@@ -679,7 +680,7 @@ BOOL init(int argc , char** argv , char** env )
     }
 #ifdef _ITEM_QUITPARTY
 	print( "读取队伍解散物品消失文件..." );
-    
+
 	//读取档案
     f = fopen( getitemquitparty(), "r" );
 	if( f != NULL ){
@@ -706,7 +707,7 @@ BOOL init(int argc , char** argv , char** env )
 		//将道具编号存入 Disappear_Item.string
 		while( fgets( line, sizeof( line ), f ) ){
 			if( line[0] == '#' )continue;
-			if( line[0] == '\n' )continue; 
+			if( line[0] == '\n' )continue;
 			chomp( line );
 			sprintf( Disappear_Item[i].string,"%s",line );
 			print("\n道具编号:%s", Disappear_Item[i].string );

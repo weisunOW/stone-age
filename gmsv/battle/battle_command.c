@@ -12,6 +12,8 @@
 #include "magic_base.h"
 #include "handletime.h"
 
+int checkErrorStatus( int charaindex);
+
 int NowBattlerFd;
 #if 1
 int BATTLE_MpDown( int charaindex, int down )
@@ -80,7 +82,7 @@ void BattleCommandDispach( int fd,	char *command )
 
 	if( strncmp( command, "U", 1 ) == 0 ){
 		// shan 2001/12/25 begin
-		EscapeFree = 0; 
+		EscapeFree = 0;
 		if (CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEWATCH )!=TRUE){
 			CHAR_talkToCli( charaindex, -1,
                 "华义大魔王使出定身法，定定定定定定把你定在战斗里。", CHAR_COLORYELLOW );
@@ -88,7 +90,7 @@ void BattleCommandDispach( int fd,	char *command )
             CHAR_setWorkInt( charaindex, CHAR_WORKBATTLEMODE, BATTLE_CHARMODE_C_OK );
             //sprintf( szBuffer, "Command(%s)(防御)", CHAR_getUseName( charaindex ) );
             endFlg = 1;
-			BATTLE_MpDown( charaindex, 2 ); 
+			BATTLE_MpDown( charaindex, 2 );
 		}else{
 			BATTLE_WatchStop( charaindex );
 		}
@@ -275,7 +277,7 @@ void BattleCommandDispach( int fd,	char *command )
 		if( CHAR_CHECKINDEX( petindex ) == FALSE ){
 		}else{
 
-			if( iNum < 0 || iNum >= CHAR_MAXPETSKILLHAVE 
+			if( iNum < 0 || iNum >= CHAR_MAXPETSKILLHAVE
 #ifdef _PETSKILLBUG  //Add By Syu 2002.0805
 				|| (CHAR_getFlg( charaindex, CHAR_ISDIE ) == TRUE )||
 				(CHAR_getInt( charaindex, CHAR_HP ) <= 0)
@@ -287,7 +289,7 @@ void BattleCommandDispach( int fd,	char *command )
 				CHAR_setWorkInt( petindex, CHAR_WORKBATTLEMODE, BATTLE_CHARMODE_C_OK );
 #ifdef _PETSKILLBUG //Add By Syu 2002.0805
 			}else if ((CHAR_getInt(petindex, CHAR_TRANSMIGRATION)<1)
-				&& (  iNum>=CHAR_getInt(petindex, CHAR_SLOT) ) ) 
+				&& (  iNum>=CHAR_getInt(petindex, CHAR_SLOT) ) )
 				{
 				//sprintf( szBuffer, "Command(%s)(自动)", CHAR_getUseName( petindex ) );
 				CHAR_setWorkInt( petindex, CHAR_WORKBATTLEMODE, BATTLE_CHARMODE_C_OK );
@@ -345,7 +347,7 @@ void BattleCommandDispach( int fd,	char *command )
 		if( sscanf( command+2, "%X|%X", &iNum, &ToNo ) != 2 ){
 			iNum = -1; ToNo = -1;
 		}
-			
+
 		if( iNum < CHAR_EQUIPPLACENUM && iNum >= CHAR_HEAD ){
 			magicindex = MAGIC_GetArrayNo( charaindex, iNum );
 			itemindex = CHAR_getItemIndex( charaindex, iNum );
@@ -434,12 +436,12 @@ void BattleCommandDispach( int fd,	char *command )
 
 	if( endFlg ){
 		BATTLE_ActSettingSend( battleindex );
-		
+
 		if( endFlg==1 ){
 			int fd;
 			if( CHAR_getInt( charaindex, CHAR_WHICHTYPE)==CHAR_TYPEPLAYER ){
-				fd = CHAR_getWorkInt( charaindex, CHAR_WORKFD);	
-				CONNECT_SetBattleRecvTime( fd, &NowTime);				
+				fd = CHAR_getWorkInt( charaindex, CHAR_WORKFD);
+				CONNECT_SetBattleRecvTime( fd, &NowTime);
 			}
 		}
 	}
@@ -447,7 +449,7 @@ void BattleCommandDispach( int fd,	char *command )
 	{
 		//if( BATTLE_CHECKINDEX( battleindex ) == TRUE ){
 		//	BATTLE_BroadCast( battleindex, szBuffer, CHAR_COLORWHITE ) ;
-		//}		
+		//}
 	}
 
 	if( BattleArray[battleindex].turn == 0 ){
@@ -526,7 +528,7 @@ void BATTLE_ActSettingSend( int battleindex )
 
 
 BOOL BATTLE_IsHide( int charaindex ){
-	if( CHAR_getWorkInt( charaindex, CHAR_WORKBATTLECOM1 ) == BATTLE_COM_S_EARTHROUND0 
+	if( CHAR_getWorkInt( charaindex, CHAR_WORKBATTLECOM1 ) == BATTLE_COM_S_EARTHROUND0
 		){
 		return TRUE;
 	}
@@ -547,7 +549,7 @@ BOOL BATTLE_CommandSend( int charaindex, char *pszCommand )
 {
 	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return FALSE;
 	if(	getfdFromCharaIndex( charaindex ) < 0 )return FALSE;
-	lssproto_B_send( getfdFromCharaIndex( charaindex ), pszCommand );	
+	lssproto_B_send( getfdFromCharaIndex( charaindex ), pszCommand );
 	return TRUE;
 }
 
@@ -597,10 +599,10 @@ BOOL BATTLE_MakeCharaString(
 			if( CHAR_getWorkInt( charaindex, CHAR_WORKPOISON ) > 0 ){
 				flg |= BC_FLG_POISON;
 			}else
-#ifdef _MAGIC_WEAKEN      //   虚弱			
+#ifdef _MAGIC_WEAKEN      //   虚弱
 			if( CHAR_getWorkInt( charaindex, CHAR_WORKWEAKEN ) > 0 ){
 				flg |= BC_FLG_WEAKEN;
-			}else 
+			}else
 #endif
 #ifdef _MAGIC_DEEPPOISON  //   剧毒
 			if( CHAR_getWorkInt( charaindex, CHAR_WORKDEEPPOISON ) > 0 ){
@@ -615,7 +617,7 @@ BOOL BATTLE_MakeCharaString(
 #ifdef _MAGIC_BARRIER	  //   魔障
 			if( CHAR_getWorkInt( charaindex, CHAR_WORKBARRIER ) > 0 ){
 				flg |= BC_FLG_BARRIER;
-			}else 
+			}else
 #endif
 			if( CHAR_getWorkInt( charaindex, CHAR_WORKPARALYSIS ) > 0 ){
 				flg |= BC_FLG_PARALYSIS;
@@ -647,22 +649,22 @@ BOOL BATTLE_MakeCharaString(
 			}
 #endif
 			makeEscapeString( CHAR_getUseName( charaindex ),
-				szEscapeName, 
+				szEscapeName,
 				sizeof( szEscapeName ) );
 			makeEscapeString( BATTLE_CharTitle( charaindex ),
-				szEscapeTitle, 
+				szEscapeTitle,
 				sizeof( szEscapeTitle ) );
  // Robin 0728 ride Pet
 			petindex = BATTLE_getRidePet( charaindex );
 			if( petindex != -1 ){
 				rideflg = 1;
 				makeEscapeString( CHAR_getUseName( petindex ),
-					szEscapePetName, 
+					szEscapePetName,
 					sizeof( szEscapePetName ) );
 				petlevel = CHAR_getInt( petindex, CHAR_LV);
 				pethp = CHAR_getInt( petindex, CHAR_HP);
 				petmaxhp = CHAR_getWorkInt( petindex, CHAR_WORKMAXHP);
-				
+
 			}else {
 				if( CHAR_getWorkInt( charaindex, CHAR_WORKPETFALL ) == 1 ){
 					rideflg = -1;
@@ -700,7 +702,7 @@ BOOL BATTLE_MakeCharaString(
 				petmaxhp
 			);
 			STRCPY_TAIL( pszTop, pszLast, szBuffer );
-			if( pszTop >= pszLast )return FALSE;// 译尹凶日撩  
+			if( pszTop >= pszLast )return FALSE;// 译尹凶日撩
 		}
 	}
 
@@ -709,7 +711,7 @@ BOOL BATTLE_MakeCharaString(
 
 void BATTLE_BpSendToWatch(
 	BATTLE *pBattle, 	// 棋爵田玄伙正旦弁及禾奶件正
-	char *pszBcString 	// BC  侬  
+	char *pszBcString 	// BC  侬
 )
 {
 
@@ -728,7 +730,7 @@ void BATTLE_BpSendToWatch(
 	for( i = 0; i < BATTLE_ENTRY_MAX; i ++ ){
 		charaindex = pBattle->Side[0].Entry[i].charaindex;
 		if( CHAR_CHECKINDEX( charaindex ) == FALSE )continue;
-		if( CHAR_getInt( charaindex, CHAR_WHICHTYPE ) 
+		if( CHAR_getInt( charaindex, CHAR_WHICHTYPE )
 			!= CHAR_TYPEPLAYER ) continue;
 		if( CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE )
 			== BATTLE_CHARMODE_WATCHINIT){
@@ -786,7 +788,7 @@ void BATTLE_CharSendAll( int battleindex )
 			if( pet >= 0 ){
 				snprintf( szBp, sizeof( szBp ), "K%d", pet );
 				CHAR_sendStatusString( charaindex, szBp );
-				
+
 				pindex = CHAR_getCharPet( charaindex, pet );
 
 #ifdef _PETSKILL_DAMAGETOHP
@@ -798,16 +800,16 @@ void BATTLE_CharSendAll( int battleindex )
            ╰⊙═⊙╯我来给你送月饼了
 */
 		char msg[32]={0};
-		//print("\n宠物id:%d",CHAR_getInt( pindex, CHAR_PETID)); 
-		//print("\n宠物名:%s",CHAR_getChar( pindex, CHAR_NAME)); 
+		//print("\n宠物id:%d",CHAR_getInt( pindex, CHAR_PETID));
+		//print("\n宠物名:%s",CHAR_getChar( pindex, CHAR_NAME));
 		//if( CHAR_getInt( pindex, CHAR_PETID) == 777 ){//宠物ID 水双头狼
 		//	  || CHAR_getInt( pindex, CHAR_PETID) == 146 ) //火双头狼
 		//	&& CHAR_getInt( pindex, CHAR_HP) ){
 		    sprintf( msg, "o%d", pet );
 		    CHAR_sendStatusString( charaindex, msg );
-			
+
 		//}
-	} 
+	}
 #endif
 
 #ifdef _PETSKILL_BECOMEFOX // 限制中了媚惑术的宠物的技能
@@ -816,7 +818,7 @@ void BATTLE_CharSendAll( int battleindex )
 			    char msg[32]={0};
 				sprintf( msg, "a%d", pet );
 		        CHAR_sendStatusString( charaindex, msg );
-				
+
 			}
 #endif
 
@@ -885,7 +887,7 @@ void BattleEncountOut( int charaindex)
 		CHAR_sendBattleWatch( CHAR_getWorkInt( charaindex, CHAR_WORKOBJINDEX ), OFF);
 		CHAR_setWorkInt( charaindex, CHAR_WORKBATTLEWATCH, 0 );
 	}
-   
+
 	if( CHAR_getWorkInt( charaindex, CHAR_WORKPARTYMODE ) == CHAR_PARTY_CLIENT ){
 		int pmode/*, battleindex*/;
 		int pindex = CHAR_getWorkInt( charaindex, CHAR_WORKPARTYINDEX1 );
@@ -923,7 +925,7 @@ int checkErrorStatus( int charaindex)
 {
 	//if( BATTLE_CanMoveCheck( charaindex) == FALSE) {
 
-	if( 
+	if(
 		CHAR_getWorkInt( charaindex, CHAR_WORKPARALYSIS ) > 0	// 麻痹
 		|| CHAR_getWorkInt( charaindex, CHAR_WORKSTONE ) > 0	// 石化
 		|| CHAR_getWorkInt( charaindex, CHAR_WORKSLEEP ) > 0	// 睡眠
@@ -936,7 +938,7 @@ int checkErrorStatus( int charaindex)
 			strcpy( cdkey, CHAR_getChar( charaindex, CHAR_CDKEY));
 		else
 			strcpy( cdkey, CHAR_getChar( charaindex, CHAR_OWNERCDKEY) );
-	
+
 //		print("\n 改封包!不可战斗的状态!!:%s ", cdkey );
 
 		return 1;

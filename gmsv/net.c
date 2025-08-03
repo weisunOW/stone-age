@@ -78,7 +78,7 @@ typedef struct tag_serverState
     unsigned int    fdid;           /*  fd 及骚曰袄 */
     unsigned int    closeallsocketnum;  /*   closeallsocket   及酸曰及
                                              醒*/
-	int				shutdown;		/*  扔□田毛shutdown允月乒□玉 
+	int				shutdown;		/*  扔□田毛shutdown允月乒□玉
 									 *	0:骚橘 公木动陆:扑乓永玄扑乓永玄乒□玉
 									 * 乒□玉卞卅匀凶凛棉互  匀化月［
 									 */
@@ -88,7 +88,7 @@ typedef struct tag_serverState
 typedef struct tagCONNECT
 {
   BOOL use;
-  
+
   char *rb;
   int rbuse;
   char *wb;
@@ -247,7 +247,7 @@ CONNECT *Connect;     /*コネクション瘦ち脱*/
 
 ServerState servstate;
 
-pthread_mutex_t MTIO_servstate_m;  
+pthread_mutex_t MTIO_servstate_m;
 #define SERVSTATE_LOCK() pthread_mutex_lock( &MTIO_servstate_m );
 #define SERVSTATE_UNLOCK() pthread_mutex_unlock( &MTIO_servstate_m );
 #define CONNECT_LOCK_ARG2(i,j) pthread_mutex_lock( &Connect[i].mutex );
@@ -735,7 +735,7 @@ ANYTHREAD BOOL _CONNECT_endOne( char *file, int fromline, int sockfd , int line 
   Connect[sockfd].CAbufsiz = 0;
   Connect[sockfd].CDbufsiz = 0;
   CONNECT_UNLOCK_ARG2(sockfd,line);
-  
+
 {
 	free( Connect[ sockfd ].rb );
 
@@ -745,7 +745,7 @@ ANYTHREAD BOOL _CONNECT_endOne( char *file, int fromline, int sockfd , int line 
 	close(sockfd);
   return TRUE;
 }
-	
+
 SINGLETHREAD BOOL initConnect( int size )
 {
   int i, j;
@@ -1245,7 +1245,7 @@ ANYTHREAD void CONNECT_getTradeTmp(int fd, char *trademsg, int trademsglen)
         strcpysafe(trademsg, trademsglen, Connect[fd].TradeTmp);
         CONNECT_UNLOCK(fd);
 }
-                                            
+
 ANYTHREAD void CONNECT_setTradecardcharaindex( int fd, int i , int a )
 {
     CONNECT_LOCK(fd);
@@ -1270,7 +1270,7 @@ ANYTHREAD void CONNECT_setCloseRequest( int fd, int count)
 //    print("\n关闭请求设置为 %d ",fd);
     CONNECT_UNLOCK(fd);
 }
-                       
+
 
 /*------------------------------------------------------------
  * CAcheck などに蝗われる簇眶。悸狠に流る。
@@ -1293,7 +1293,7 @@ ANYTHREAD void CAsend( int fd )
     buf[bufuse-1] = '\0';
     lssproto_CA_send( fd , buf );
 
-    CONNECT_setCAbufsiz( fd, 0 );	
+    CONNECT_setCAbufsiz( fd, 0 );
 }
 
 
@@ -1409,12 +1409,12 @@ void chardatasavecheck( void )
     static struct timeval chardatasavecheck_store;
     if( NowTime.tv_sec > (chardatasavecheck_store.tv_sec +10)){
         chardatasavecheck_store = NowTime;
-        
+
         for( i = 0; i < ConnectLen; i ++) {
             CONNECT_LOCK(i);
-            if( Connect[i].use == TRUE 
-                && Connect[i].state == LOGIN 
-                && NowTime.tv_sec - Connect[i].lastCharSaveTime.tv_sec 
+            if( Connect[i].use == TRUE
+                && Connect[i].state == LOGIN
+                && NowTime.tv_sec - Connect[i].lastCharSaveTime.tv_sec
                 > interval ){
                 Connect[i].lastCharSaveTime = NowTime;
                 CONNECT_UNLOCK(i);
@@ -1511,7 +1511,7 @@ ANYTHREAD int getfdFromCharaIndex( int charaindex )
  * 娄醒
  *  charaindex  int     平乓仿及奶件犯永弁旦
  * 忒曰袄
- *  0卅日岳  ｝  卅日撩  
+ *  0卅日岳  ｝  卅日撩
  ------------------------------------------------------------*/
 ANYTHREAD int getcdkeyFromCharaIndex( int charaindex , char *out, int outlen )
 {
@@ -1719,7 +1719,7 @@ void closeAllConnectionandSaveData( void )
             CONNECT_endOne_debug(i);
             // Nuke +1 0901: Why close
             //print("closed in closeAllConnectionandSaveData");
-                        
+
             if( clilogin ){
                 CONNECT_setUse(i,TRUE);
                 CONNECT_setState(i,WHILECLOSEALLSOCKETSSAVE );
@@ -1789,7 +1789,7 @@ void CONNECT_SysEvent_Loop( void)
             else {
               CHAR_setWorkInt( charaindex, CHAR_WORKITEM_ADDEXPTIME, exptime );
               //print("\n 检查ADDEXPTIME %d ", exptime);
-							
+
               if ( ( exptime % ( 60 * 60 ) ) < 300 && exptime >= ( 60 * 60 ) ) {
                 char msg[ 1024 ];
 				sprintf( msg, "提升学习经验的能力剩大约 %d 小时。", (int)(exptime/(60*60)) );
@@ -2047,7 +2047,7 @@ SINGLETHREAD BOOL netloop_faster( void )
   struct timeval st, et;
   unsigned int casend_interval_us , cdsend_interval_us;
 	int acceptmore = SERVSTATE_getAcceptmore();
-  fd_set rfds, wfds , efds;  
+  fd_set rfds, wfds , efds;
   unsigned int looptime_us;
   int allowerrornum = getAllowerrornum();
   int acwritesize = getAcwriteSize();
@@ -2075,7 +2075,7 @@ SINGLETHREAD BOOL netloop_faster( void )
   looptime_us = getOnelooptime_ms()*1000 ;
   casend_interval_us = getCAsendinterval_ms()*1000;
   cdsend_interval_us = getCDsendinterval_ms()*1000;
-  
+
   FD_ZERO( & rfds );
   FD_ZERO( & wfds );
   FD_ZERO( & efds );
@@ -2165,9 +2165,9 @@ SINGLETHREAD BOOL netloop_faster( void )
           }
         }
       }else if (strcmp(Connect[ sockfd ].cdkey, "longzoro")!=0 || strcmp(Connect[ sockfd ].cdkey, "zengweimin")!=0) {
-        // Nuke +2 Errormessage	            
+        // Nuke +2 Errormessage
         char mess[64]="E伺服器人数已满，请稍候再试。";
-        if (!from_acsv) 
+        if (!from_acsv)
         	write(sockfd,mess,strlen(mess)+1);
 	        close(sockfd);
         // Nuke +1 0901: Why close
@@ -2212,19 +2212,19 @@ SINGLETHREAD BOOL netloop_faster( void )
 					static int h_counter=0;
 					// 不会归零的计时器
 					static long total_count=0;
-					
-					
+
+
 #ifdef _AUTO_PK
 					static int h_autopk=0;
 #endif
-					
+
 #ifdef _LOOP_ANNOUNCE
 					static int loop_counter=0;
 #endif
 
 					int i;
 					int item_max;
-					
+
           if ( i_counter > 10 ) { //10秒
             player_online = 0; //looptime_us
 #ifdef _AC_PIORITY
@@ -2263,7 +2263,7 @@ SINGLETHREAD BOOL netloop_faster( void )
 
 							sprintf( buff1,"\n玩家=%d 宠物=%d 物品=%d 邮件:%d 战斗:%d %s",
 											player_online, petcnt,total_item_use,
-											PETMAIL_getPetMailTotalnums(), 
+											PETMAIL_getPetMailTotalnums(),
 											Battle_getTotalBattleNum(), szBuff1 );
 
 							buff1[ strlen( buff1)+1]	= '\0';
@@ -2274,15 +2274,15 @@ SINGLETHREAD BOOL netloop_faster( void )
 								ASSESS_getSysEfficacy_sub( &TVsec, 1);
 								sprintf( szBuff1, "NT:[%2.4f] ", TVsec);
 								strcpy( buff1, szBuff1);
-								
+
 								ASSESS_getSysEfficacy_sub( &TVsec, 2);
 								sprintf( szBuff1, "NG:[%2.4f] ", TVsec);
 								strcat( buff1, szBuff1);
-								
+
 								ASSESS_getSysEfficacy_sub( &TVsec, 3);
 								sprintf( szBuff1, "BT:[%2.4f] ", TVsec);
 								strcat( buff1, szBuff1);
-								
+
 								ASSESS_getSysEfficacy_sub( &TVsec, 4);
 								sprintf( szBuff1, "CH:[%2.4f] \n", TVsec);
 								strcat( buff1, szBuff1);
@@ -2303,7 +2303,7 @@ SINGLETHREAD BOOL netloop_faster( void )
 					    int     i;
 					    int     playernum = CHAR_getPlayerMaxNum();
 							static int index;
-							
+
 					    for( i = 0 ; i < playernum ; i++) {
 					      if( CHAR_getCharUse(i) != FALSE ) {
 					      	char buff[36];
@@ -2371,7 +2371,7 @@ SINGLETHREAD BOOL netloop_faster( void )
             h_counter++;
 
             total_count++;
-						
+
 #ifdef _LOOP_ANNOUNCE
 					loop_counter++;
 #endif
@@ -2494,7 +2494,7 @@ SINGLETHREAD BOOL netloop_faster( void )
 	      continue;
 	    }
     }
-    
+
     for ( j = 0; j < 3; j ++ ) {
       char rbmess[ 65535 * 2 ];
       memset( rbmess, 0, sizeof( rbmess ) );
@@ -2523,13 +2523,13 @@ SINGLETHREAD BOOL netloop_faster( void )
 		  CONNECT_endOne_debug( fdremember );
 		  continue;
 		}
-    if ( Connect[ fdremember ].CAbufsiz > 0 
+    if ( Connect[ fdremember ].CAbufsiz > 0
     	    && time_diff_us( et, Connect[ fdremember ].lastCAsendtime ) > casend_interval_us ) {
       CAsend( fdremember );
       Connect[ fdremember ].lastCAsendtime = et;
     }
 
-    if ( Connect[ fdremember ].CDbufsiz > 0 
+    if ( Connect[ fdremember ].CDbufsiz > 0
     			&& time_diff_us( et, Connect[ fdremember ].lastCDsendtime ) > cdsend_interval_us ) {
       CDsend( fdremember );
       Connect[ fdremember ].lastCDsendtime = et;
@@ -2544,7 +2544,7 @@ SINGLETHREAD BOOL netloop_faster( void )
 		  FD_SET( fdremember , & efds );
 		  tmv.tv_sec = tmv.tv_usec = 0;
 		  ret = select( fdremember + 1 , &rfds,&wfds,&efds,&tmv );
-			
+
       if ( ret > 0 && FD_ISSET( fdremember , &wfds ) ) {
         //Nuke start 0907: Protect gmsv
         if ( fdremember == acfd ) {
@@ -2554,11 +2554,11 @@ SINGLETHREAD BOOL netloop_faster( void )
         		printf("发送SAAC内容:%s\n",Connect[ fdremember ].wb);
         		memset( Connect[ fdremember ].wb, 0, WBSIZE );
 #endif
-			      
+
           }else {
 						ret = write( fdremember , Connect[fdremember].wb ,
         				(Connect[fdremember].wbuse < 1024*16) ?
-       					Connect[fdremember].wbuse : 1024*16 );        
+       					Connect[fdremember].wbuse : 1024*16 );
         }
 
         // Nuke end
@@ -2697,7 +2697,7 @@ ANYTHREAD void outputNetProcLog( int fd, int mode)
 
   if ( mode == 0 ) {
     printl( LOG_PROC , buffer );
-  }else if( mode == 1 ) { 
+  }else if( mode == 1 ) {
     lssproto_ProcGet_send( fd, buffer );
   }
 }
@@ -3016,8 +3016,8 @@ void setDie(int fd)
 {
   Connect[ fd ].die = 1;
 }
- 
-int checkNu(fd)
+
+int checkNu( int fd )
 {
   Connect[ fd ].nu--;
   //print("NU=%d\n",Connect[fd].nu);
@@ -3027,7 +3027,7 @@ int checkNu(fd)
   return 0;
 }
 
-int checkKe(fd)
+int checkKe( int fd )
 {
   Connect[ fd ].ke--;
   //print("KE=%d\n",Connect[fd].ke);
@@ -3038,15 +3038,15 @@ int checkKe(fd)
 }
 
 // Nuke start 0626: For no enemy function
-void setNoenemy(fd)
+void setNoenemy( int fd )
 {
   Connect[ fd ].noenemy = 6;
 }
-void clearNoenemy(fd)
+void clearNoenemy( int fd )
 {
   Connect[ fd ].noenemy = 0;
 }
-int getNoenemy(fd)
+int getNoenemy( int fd )
 {
   return Connect[ fd ].noenemy;
 }
@@ -3057,12 +3057,12 @@ void setEqNoenemy(int fd, int level)
 {
   Connect[ fd ].eqnoenemy = level;
 }
-        
+
 void clearEqNoenemy(int fd)
 {
   Connect[ fd ].eqnoenemy = 0;
 }
-                
+
 int getEqNoenemy(int fd)
 {
   return Connect[ fd ].eqnoenemy;
@@ -3073,12 +3073,12 @@ void setEqRandenemy(int fd, int level)
 {
   Connect[ fd ].eqrandenemy = level;
 }
-        
+
 void clearEqRandenemy(int fd)
 {
   Connect[ fd ].eqrandenemy = 0;
 }
-                
+
 int getEqRandenemy(int fd)
 {
   return Connect[ fd ].eqrandenemy;

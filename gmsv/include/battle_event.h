@@ -25,9 +25,9 @@
 #ifdef _PSKILL_MODIFY
 #define BCF_ATTDOUBLE	(1 << 16)	//属性强化
 #endif
-#ifdef _SKILL_ROAR  
+#ifdef _SKILL_ROAR
 #define BCF_ROAR		(1 << 17)	//宠技:大吼(克年兽)
-#endif 
+#endif
 
 #ifdef _MAGIC_DEFMAGICATT
 #define BCF_DEFMAGICATT	(1 << 19)
@@ -98,8 +98,8 @@ enum{
 	BATTLE_MST_DEFMAGIC,
 	BATTLE_MST_SUPERWALL,
 #ifdef _MAGICSTAUTS_RESIST
-	BATTLE_MST_MAGICFIRE, 
-	BATTLE_MST_MAGICTHUNDER, 
+	BATTLE_MST_MAGICFIRE,
+	BATTLE_MST_MAGICTHUNDER,
 	BATTLE_MST_MAGICICE,
 #endif
 	BATTLE_MST_END
@@ -112,11 +112,11 @@ enum{
 	BATTLE_MD_REFLEC,
 	BATTLE_MD_VANISH,
 	BATTLE_MD_TRAP,
-	BATTLE_MD_END 
+	BATTLE_MD_END
 };
 
 #ifdef _PETSKILL_RETRACE
-    //存放BATTLE_Attack函式执行後的攻击模式   
+    //存放BATTLE_Attack函式执行後的攻击模式
 typedef struct tagBattle_Attack_ReturnData_x1
 {
     int Battle_Attack_ReturnData;
@@ -171,7 +171,7 @@ int BATTLE_S_Refresh( int battleindex, int attackNo, int defNo, int marray );
 int BATTLE_S_Weaken( int battleindex, int attackNo, int defNo, int marray );
 #endif
 
-#ifdef _SKILL_DEEPPOISON  //vincent宠技:剧毒 
+#ifdef _SKILL_DEEPPOISON  //vincent宠技:剧毒
 int BATTLE_S_Deeppoison( int battleindex, int attackNo, int defNo, int marray );
 #endif
 
@@ -202,6 +202,8 @@ int BATTLE_StatusAttackCheck(
 	float Bai,
 	int *pPer
 );
+
+int PROFESSION_BATTLE_StatusAttackCheck( int charaindex, int toindex, int status, int Success );
 
 int BATTLE_Combo( int battleindex, int *pAttackList, int defNo );
 
