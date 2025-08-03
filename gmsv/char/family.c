@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <time.h>
 
+#include "configfile.h"
 #include "readmap.h"
 #include "object.h"
 #include "char.h"
@@ -112,14 +113,14 @@ int getFmLv(int playerindex)	// 合成时专用
 	// Nuke 20040217: Open the merge limit
 	//if(i>=9) i = 8;
 	if (i>=10) i=10;
-	
+
     return i;
 }
 
 struct FMMEMBER_LIST memberlist[FAMILY_MAXNUM];
 struct FMS_MEMO      fmsmemo;
 struct FM_POINTLIST  fmpointlist;
-struct FMS_DPTOP     fmdptop; 
+struct FMS_DPTOP     fmdptop;
 struct FM_PKFLOOR    fmpkflnum[FAMILY_FMPKFLOOR]=
 {
 	{142},
@@ -146,11 +147,11 @@ int leaderdengonindex = 0;
 void SetFMPetVarInit(int meindex)
 {
 	int i = 0, petindex = 0;
-#ifdef _FMVER21	
+#ifdef _FMVER21
 	if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER)
 #else
 	if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1)
-#endif	
+#endif
 	{
 		for (i = 0; i < CHAR_MAXPETHAVE; i++)
 		{
@@ -167,11 +168,11 @@ void SetFMVarInit(int meindex)
    	CHAR_setInt(meindex, CHAR_FMINDEX, -1);
    	CHAR_setChar(meindex, CHAR_FMNAME, "");
    	CHAR_setInt(meindex, CHAR_FMSPRITE, -1);
-#ifdef _FMVER21   	
+#ifdef _FMVER21
    	CHAR_setInt(meindex, CHAR_FMLEADERFLAG, FMMEMBER_NONE);
 #else
    	CHAR_setInt(meindex, CHAR_FMLEADERFLAG, -1);
-#endif   	
+#endif
    	CHAR_setWorkInt(meindex, CHAR_WORKFMSETUPFLAG, -1);
    	CHAR_setWorkInt(meindex, CHAR_WORKFMINDEXI, -1);
    	CHAR_setWorkInt(meindex, CHAR_WORKFMCHARINDEX, -1);
@@ -189,7 +190,7 @@ void FAMILY_Init( void )
 
 	for( i=0; i<FAMILY_MAXNUM; i++)
 	    for( j=0; j<FAMILY_MAXMEMBER; j++ )
-	    	familyMemberIndex[i][j] = -1;	    
+	    	familyMemberIndex[i][j] = -1;
 	familyListBuf[0] = '\0';
 	saacproto_ACShowFMList_send( acfd );
 
@@ -207,9 +208,9 @@ void CHAR_Family(int fd, int index, char *message)
       if (*message == 0)	return;
       CHAR_getMessageBody(message, firstToken,
          sizeof(firstToken), &messagebody);
-         
+
       if (!messagebody)		return;
-      
+
       strcpysafe(messageeraseescape, sizeof(messageeraseescape),
          messagebody);
       makeStringFromEscaped(messageeraseescape);
@@ -231,7 +232,7 @@ void CHAR_Family(int fd, int index, char *message)
 			case 'm':
 				// 族长审核
 				FAMILY_CheckMember(fd, index, message);
-				break;         
+				break;
 			case 's':
 				// 取得家族相关资料
 				FAMILY_Detail(fd, index, message);
@@ -287,7 +288,7 @@ int CheckFMLeader(int meindex)
    if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == FMMEMBER_LEADER)	return -1;
 #else
    if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == 1)	return -1;
-#endif   
+#endif
    return 1;
 }
 
@@ -300,7 +301,7 @@ int CheckFMMember(int meindex)
        CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_APPLY )	return -1;
 #else
    if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) > 0 )	return -1;
-#endif       
+#endif
    return 1;
 }
 
@@ -320,12 +321,12 @@ void FAMILY_Add(int fd, int meindex, char* message)
 	char petname[128], fmrule[256], petattr[256], buf[1024];
 	int charlv, havepetindex, petindex, fmsprite = 0, chargrano;
 	int gold, tmpflag;
-	
+
 	if (!CHAR_CHECKINDEX(meindex))	return;
-	
+
 	if (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE)
 		return;
-	if (CHAR_getInt(meindex, CHAR_FMINDEX) >= 0 
+	if (CHAR_getInt(meindex, CHAR_FMINDEX) >= 0
 		&& strcmp(CHAR_getChar(meindex, CHAR_FMNAME), "") != 0)
 	{
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
@@ -343,14 +344,14 @@ void FAMILY_Add(int fd, int meindex, char* message)
 			makeEscapeString( "\n很抱歉喔！你的等级不足！", buf, sizeof(buf)));
    	return;
 	}
-	
+
 	if(tmpflag == -2)
 	{
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 			WINDOW_BUTTONTYPE_OK,
 			-1, -1,
 			makeEscapeString( "\n很抱歉喔！你必须先完成成人礼才行！", buf, sizeof(buf)));
-   	return;   
+   	return;
 	}
 
 	gold = CHAR_getInt(meindex, CHAR_GOLD);
@@ -366,7 +367,7 @@ void FAMILY_Add(int fd, int meindex, char* message)
    	CHAR_setInt( meindex, CHAR_GOLD, gold-10000 );
    	CHAR_send_P_StatusString( meindex , CHAR_P_STRING_GOLD);
 	}
-	
+
 	if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
 	sprintf(fmname, "%s", token);
@@ -407,7 +408,7 @@ void FAMILY_Add(int fd, int meindex, char* message)
    	sprintf(petname, "%s", CHAR_getChar(petindex, CHAR_NAME));
 	else
    	sprintf(petname, "%s", CHAR_getChar(petindex, CHAR_USERPETNAME));
-	sprintf(petattr, "%d %d %d %d", 
+	sprintf(petattr, "%d %d %d %d",
    	CHAR_getInt(petindex, CHAR_BASEIMAGENUMBER),
    	CHAR_getWorkInt(petindex, CHAR_WORKATTACKPOWER),
    	CHAR_getWorkInt(petindex, CHAR_WORKDEFENCEPOWER),
@@ -418,7 +419,7 @@ void FAMILY_Add(int fd, int meindex, char* message)
 	CHAR_setInt(meindex, CHAR_FMLEADERFLAG, FMMEMBER_LEADER);
 #else
 	CHAR_setInt(meindex, CHAR_FMLEADERFLAG, 1);
-#endif   
+#endif
 	CHAR_setInt(meindex, CHAR_FMSPRITE, fmsprite);
 
 	//   print("%s %s %s %d %s %s %s %d %d\n", fmname, charname, charid, charlv, petname,
@@ -433,20 +434,20 @@ void FAMILY_Add(int fd, int meindex, char* message)
 	saacproto_ACAddFM_send(acfd, fmname, charname, charid, charlv,
    	petname, petattr, fmrule, fmsprite, chargrano, CONNECT_getFdid(fd));
 #endif
-	
+
 	// 要求最新家族列表
 	//saacproto_ACShowFMList_send( acfd );
-	
+
 }
 
 /*
-  ╭┐┌╮ 
+  ╭┐┌╮
 ╭┘└┘└╮
-└┐．．┌┘─╮ 
-╭┴──┤★~~├╮ 
-│ｏ　ｏ│　　│● 　 
-╰┬──╯　　│ ~~~~~~~~~哞 
-▲△▲△▲△▲△▲△▲△▲△▲△ 
+└┐．．┌┘─╮
+╭┴──┤★~~├╮
+│ｏ　ｏ│　　│● 　
+╰┬──╯　　│ ~~~~~~~~~哞
+▲△▲△▲△▲△▲△▲△▲△▲△
 
 */
 
@@ -454,13 +455,13 @@ void ACAddFM(int fd, int result, int fmindex, int index)
 {
    int meindex = CONNECT_getCharaindex(fd);
    char buf[1024];
-   
+
 //   print("ACAddFM result:%d fmindex:%d meindex:%d\n", result, fmindex, meindex); // test
 
    if (!CHAR_CHECKINDEX(meindex))	return;
 
 //   print("ACAddFM_2!\n");
-   
+
    if (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE)
          return;
 
@@ -477,13 +478,13 @@ void ACAddFM(int fd, int result, int fmindex, int index)
 			 makeEscapeString( "\n恭喜你成立了新的家族！但请在７天之内召集到１０名族人加入，不然会取消家族资格喔。", buf, sizeof(buf)));
 		 JoinMemberIndex( meindex, index);
 		 CHAR_charSaveFromConnect(fd, FALSE);
-		 
+
 		 // 要求最新家族资料
 		 saacproto_ACShowFMList_send( acfd );
 		 saacproto_ACShowMemberList_send( acfd, index );
 		 saacproto_ACShowTopFMList_send(acfd, FM_TOP_INTEGRATE);
-	
-		 
+
+
 		 LogFamily(
 			 CHAR_getChar( meindex, CHAR_FMNAME),
 			 CHAR_getInt( meindex, CHAR_FMINDEX),
@@ -501,7 +502,7 @@ void ACAddFM(int fd, int result, int fmindex, int index)
    	CHAR_setInt(meindex, CHAR_GOLD, gold + 10000);
    	CHAR_send_P_StatusString( meindex , CHAR_P_STRING_GOLD);
    	SetFMVarInit(meindex);
-   	
+
    	for (i = 0; i < CHAR_MAXPETHAVE; i++)
    	{
    	   petindex = CHAR_getCharPet(meindex, i);
@@ -526,7 +527,7 @@ void FAMILY_Join(int fd, int meindex, char *message)
    char token[128], fmname[128], charname[128], charid[128], buf[1024];
 
    if (!CHAR_CHECKINDEX(meindex))	return;
-   
+
    if ((CHAR_getWorkInt(meindex, CHAR_WORKPARTYMODE) != CHAR_PARTY_NONE)
       || (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE))
          return;
@@ -571,7 +572,7 @@ void FAMILY_Join(int fd, int meindex, char *message)
    CHAR_setInt(meindex, CHAR_FMLEADERFLAG, FMMEMBER_APPLY);
 #else
    CHAR_setInt(meindex, CHAR_FMLEADERFLAG, 0);
-#endif   
+#endif
    CHAR_setInt(meindex, CHAR_FMSPRITE, fmsprite);
    CHAR_setWorkInt(meindex, CHAR_WORKFMINDEXI, index);
 
@@ -582,7 +583,7 @@ void FAMILY_Join(int fd, int meindex, char *message)
 //   	CONNECT_getFdid(fd));
    saacproto_ACJoinFM_send(acfd, fmname, fmindex, charname, charid, charlv,
    	index, CHAR_getInt(meindex, CHAR_FAME), CONNECT_getFdid(fd));
-#else   
+#else
 //   print("charfdid:%d\n", CONNECT_getFdid(fd));
    saacproto_ACJoinFM_send(acfd, fmname, fmindex, charname, charid, charlv,
    	index, CONNECT_getFdid(fd));
@@ -593,9 +594,9 @@ void ACJoinFM(int fd, int result, int recv)
 {
   int meindex = CONNECT_getCharaindex(fd);
   char buf[1024];
-   
+
   if(!CHAR_CHECKINDEX(meindex))	return;
-  
+
    if ((CHAR_getWorkInt(meindex, CHAR_WORKPARTYMODE) != CHAR_PARTY_NONE)
       || (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE))
          return;
@@ -605,11 +606,11 @@ void ACJoinFM(int fd, int result, int recv)
 			WINDOW_BUTTONTYPE_OK,
 			-1, -1,
 			makeEscapeString( "\n谢谢你的加入申请！请先等族长对你的审核通过之後，才算正式加入。", buf, sizeof(buf)));
-		 
+
 		  JoinMemberIndex( meindex, CHAR_getWorkInt(meindex, CHAR_WORKFMINDEXI) );
-		 
+
 		sprintf(buf,"fame:%d",CHAR_getInt(meindex,CHAR_FAME));
-		 
+
 		 LogFamily(
 			 CHAR_getChar( meindex, CHAR_FMNAME),
 			 CHAR_getInt( meindex, CHAR_FMINDEX),
@@ -618,7 +619,7 @@ void ACJoinFM(int fd, int result, int recv)
 			 "JOINFAMILY(申请加入家族)",
 			 buf
 			 );
-		 
+
    }
    else
    {
@@ -643,27 +644,27 @@ void ACJoinFM(int fd, int result, int recv)
 			-1, -1,
 			makeEscapeString( "\n申请加入家族失败！", buf, sizeof(buf)));
    }
-   
-   CHAR_sendStatusString( meindex, "F");   
+
+   CHAR_sendStatusString( meindex, "F");
 }
 
 void FAMILY_Leave(int fd, int meindex, char *message)
 {
    int result, fmindex, index;
    char token[128], fmname[128], charname[128], charid[128], buf[1024];
-   
+
    if (!CHAR_CHECKINDEX(meindex))	return;
-   
+
    if (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE)
          return;
-   
+
    if ((CHAR_getInt(meindex, CHAR_FMINDEX) == -1)
       || (strcmp(CHAR_getChar(meindex, CHAR_FMNAME), "") == 0)
 #ifdef _FMVER21
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == FMMEMBER_NONE))
 #else
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == -1))
-#endif      
+#endif
    {
 	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 		WINDOW_BUTTONTYPE_OK,
@@ -680,7 +681,7 @@ void FAMILY_Leave(int fd, int meindex, char *message)
            if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == FMMEMBER_LEADER){
 #else
            if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == 1){
-#endif         
+#endif
 		       if( (fmpks[fmpks_pos+1].host_index+1)  == CHAR_getInt(meindex, CHAR_FMINDEX) ||
     			   (fmpks[fmpks_pos+1].guest_index+1) == CHAR_getInt(meindex, CHAR_FMINDEX) ){
 	    		   lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
@@ -692,7 +693,7 @@ void FAMILY_Leave(int fd, int meindex, char *message)
 		   }
 	   }
    }
-   
+
    if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
    result = atoi(token);
@@ -707,7 +708,7 @@ void FAMILY_Leave(int fd, int meindex, char *message)
       if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == FMMEMBER_LEADER) {
 #else
       if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == 1) {
-#endif      
+#endif
 //         print("DelFM index:%d fmindex:%d fmname:%s\n", index, fmindex, fmname);
          saacproto_ACDelFM_send(acfd, fmname, fmindex, index, charname, charid,
 				CONNECT_getFdid(fd));
@@ -729,11 +730,11 @@ void ACLeaveFM( int fd, int result, int resultflag)
 {
 	int meindex = CONNECT_getCharaindex(fd);
 	char buf[1024];
-	
+
 	if (!CHAR_CHECKINDEX(meindex))	return;
 	if (result == 1){
 		// won 2002/01/05
-		LogFamily(		
+		LogFamily(
 			CHAR_getChar( meindex, CHAR_FMNAME),
 			CHAR_getInt( meindex, CHAR_FMINDEX),
 			CHAR_getChar( meindex, CHAR_NAME),
@@ -764,7 +765,7 @@ void ACLeaveFM( int fd, int result, int resultflag)
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 		WINDOW_BUTTONTYPE_OK, -1, -1,
 		makeEscapeString( "\n申请退出家族失败！", buf, sizeof(buf)));
-	
+
 	CHAR_sendStatusString( meindex, "F" );
 }
 
@@ -773,11 +774,11 @@ void ACDelFM(int fd, int result)
    char buf[1024];
    int meindex = CONNECT_getCharaindex(fd);
    if (!CHAR_CHECKINDEX(meindex))	return;
-   
+
    //if ((CHAR_getWorkInt(meindex, CHAR_WORKPARTYMODE) != CHAR_PARTY_NONE)
    //   || (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE))
    //      return;
-         
+
    if (result == 1)
    {
 // WON ADD
@@ -797,7 +798,7 @@ void ACDelFM(int fd, int result)
       			familyMemberIndex[ CHAR_getWorkInt(meindex, CHAR_WORKFMINDEXI) ][i] = -1;
         }
         */
-        
+
 	SetFMVarInit(meindex);
 	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 		WINDOW_BUTTONTYPE_OK,
@@ -835,8 +836,8 @@ void ACShowFMList(int result, int fmnum, char *data)
 
    //print("\ngetFamilyListFromAC:%d", fmnum );
    familyNumTotal = fmnum;
-   strcpy( familyListBuf, data );   
-   
+   strcpy( familyListBuf, data );
+
 //   print( "FamilyData:%s ", familyListBuf );
 }
 
@@ -855,9 +856,9 @@ void ACShowMemberList(int result, int index, int fmnum, int fmacceptflag, int fm
            strcpy(memberlist[index].numberlistarray[j-1],"");
        }
        for(j=1;j<=fmnum;j++){
-           if(getStringFromIndexWithDelim(data," ",j,tmpbuf,sizeof(tmpbuf)) == FALSE) 
+           if(getStringFromIndexWithDelim(data," ",j,tmpbuf,sizeof(tmpbuf)) == FALSE)
                return;
-           strcpy(memberlist[index].numberlistarray[j-1],tmpbuf);    
+           strcpy(memberlist[index].numberlistarray[j-1],tmpbuf);
            getStringFromIndexWithDelim(tmpbuf,"|",1,numberid,sizeof(numberid));
            memberlist[index].memberindex[j-1] = atoi(numberid);
        }
@@ -897,7 +898,7 @@ void ACShowDpTop(int result,int num, char *data, int kindflag)
 #ifdef _FMVER21
                    // family popularity
                    getStringFromIndexWithDelim( tmpbuf, "|", 6, tmpbuf1, sizeof(tmpbuf1));
-                   fmdptop.fmtopdp[i] = atoi(tmpbuf1);                   
+                   fmdptop.fmtopdp[i] = atoi(tmpbuf1);
 #endif
                 }
             }
@@ -911,7 +912,7 @@ void ACShowDpTop(int result,int num, char *data, int kindflag)
                     if(getStringFromIndexWithDelim(data," ",i+1,tmpbuf,sizeof(tmpbuf)) == FALSE)
                         return;
                     strcpy(fmdptop.adv_topmemo[i], tmpbuf);
-                }                
+                }
             }
             break;
             case FM_TOP_FEED:
@@ -923,7 +924,7 @@ void ACShowDpTop(int result,int num, char *data, int kindflag)
                     if(getStringFromIndexWithDelim(data," ",i+1,tmpbuf,sizeof(tmpbuf)) == FALSE)
                         return;
                     strcpy(fmdptop.feed_topmemo[i], tmpbuf);
-                }                
+                }
             }
             break;
             case FM_TOP_SYNTHESIZE:
@@ -935,19 +936,19 @@ void ACShowDpTop(int result,int num, char *data, int kindflag)
                     if(getStringFromIndexWithDelim(data," ",i+1,tmpbuf,sizeof(tmpbuf)) == FALSE)
                         return;
                     strcpy(fmdptop.syn_topmemo[i], tmpbuf);
-                }                
+                }
             }
             break;
             case FM_TOP_DEALFOOD:
             {
                 for(i=0; i<30; i++)
-                    strcpy(fmdptop.food_topmemo[i], ""); 
+                    strcpy(fmdptop.food_topmemo[i], "");
                 fmdptop.food_num = num;
                 for(i=0; i<fmdptop.food_num; i++){
                     if(getStringFromIndexWithDelim(data," ",i+1,tmpbuf,sizeof(tmpbuf)) == FALSE)
                         return;
                     strcpy(fmdptop.food_topmemo[i], tmpbuf);
-                }                
+                }
             }
             break;
             case FM_TOP_PK:
@@ -959,7 +960,7 @@ void ACShowDpTop(int result,int num, char *data, int kindflag)
                     if(getStringFromIndexWithDelim(data," ",i+1,tmpbuf,sizeof(tmpbuf)) == FALSE)
                         return;
                     strcpy(fmdptop.pk_topmemo[i], tmpbuf);
-                }                
+                }
             }
             break;
             default:
@@ -978,7 +979,7 @@ void ACShowPointList(int result, char *data)
         for(i=0;i<FAMILY_MAXHOME;i++){
             if(getStringFromIndexWithDelim(data," ",i+1,tmpbuf,sizeof(tmpbuf)) == FALSE)
                return;
-            strcpy(fmpointlist.pointlistarray[i],tmpbuf);    
+            strcpy(fmpointlist.pointlistarray[i],tmpbuf);
         }
     }
 }
@@ -987,7 +988,7 @@ void ACShowFMMemo(int result, int index, int num, int dataindex, char *data)
 {
    int  j;
    char tmpbuf[220];
-   
+
    if(index==10000)
    {
        if(result==0){
@@ -997,10 +998,10 @@ void ACShowFMMemo(int result, int index, int num, int dataindex, char *data)
                strcpy(fmsmemo.memo[j-1],"");
            }
            for(j=1;j<=num;j++){
-               if(getStringFromIndexWithDelim(data,"|",j,tmpbuf,sizeof(tmpbuf)) == FALSE) 
+               if(getStringFromIndexWithDelim(data,"|",j,tmpbuf,sizeof(tmpbuf)) == FALSE)
                     return;
-               makeStringFromEscaped(tmpbuf);    
-               strcpy(fmsmemo.memo[j-1],tmpbuf);    
+               makeStringFromEscaped(tmpbuf);
+               strcpy(fmsmemo.memo[j-1],tmpbuf);
            }
            fmsmemo.memonum   = num;
            fmsmemo.memoindex = dataindex-1;
@@ -1018,10 +1019,10 @@ void ACShowFMMemo(int result, int index, int num, int dataindex, char *data)
                strcpy(memberlist[index].memo[j-1],"");
            }
            for(j=1;j<=num;j++){
-               if(getStringFromIndexWithDelim(data,"|",j,tmpbuf,sizeof(tmpbuf)) == FALSE) 
+               if(getStringFromIndexWithDelim(data,"|",j,tmpbuf,sizeof(tmpbuf)) == FALSE)
                    return;
                makeStringFromEscaped(tmpbuf);
-               strcpy(memberlist[index].memo[j-1],tmpbuf);    
+               strcpy(memberlist[index].memo[j-1],tmpbuf);
            }
            memberlist[index].memonum = num;
            memberlist[index].memoindex = dataindex-1;
@@ -1086,18 +1087,18 @@ void ACFMCharLogin(int fd, int result, int index, int floor, int fmdp,
 		 if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != joinflag)
 			 SetFMPetVarInit(meindex);
 		 CHAR_setInt(meindex, CHAR_FMLEADERFLAG, joinflag);
-		 
+
 		 JoinMemberIndex(meindex, index);
-		 
+
 		 CHAR_sendStatusString(meindex, "f");
-		 
+
 		 CHAR_complianceParameter( meindex );
 		 CHAR_sendCToArroundCharacter( CHAR_getWorkInt( meindex , CHAR_WORKOBJINDEX ));
 #ifdef _FMVER21
 		 if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == FMMEMBER_LEADER)
 #else
 		 if (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) == 1)
-#endif        
+#endif
 		 {
 			 for (i = 0; i < CHAR_MAXPETHAVE; i++)
 			 {
@@ -1138,12 +1139,12 @@ void ACFMCharLogin(int fd, int result, int index, int floor, int fmdp,
 	   if( CHAR_getInt( meindex, CHAR_RIDEPET ) != -1 )
 	   {
 		   int rideindex = CHAR_getCharPet( meindex, CHAR_getInt( meindex, CHAR_RIDEPET) );
-		
+
 		   if( CHAR_getInt( rideindex, CHAR_BASEBASEIMAGENUMBER) == 100372 || CHAR_getInt( rideindex, CHAR_BASEBASEIMAGENUMBER) == 100373 )
 		   {
 			   CHAR_setInt( meindex, CHAR_RIDEPET, -1);
 			   CHAR_send_P_StatusString( meindex, CHAR_P_STRING_RIDEPET );
-			
+
 			   CHAR_sendStatusString(meindex, "f");
 			   CHAR_complianceParameter( meindex );
 			   CHAR_sendCToArroundCharacter( CHAR_getWorkInt( meindex , CHAR_WORKOBJINDEX ));
@@ -1158,25 +1159,25 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 	char buf[1024], subbuf[256], sendbuf[2048];
 	int pindex1, i, j;
 	int fmindex, tempindex;
-	
+
 	if (!CHAR_CHECKINDEX(meindex))	return;
-	
+
 	if ((CHAR_getWorkInt(meindex, CHAR_WORKPARTYMODE) != CHAR_PARTY_NONE)
 		|| (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE))
 		return;
-	
+
 	if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
-	
+
 	if ( strcmp(token,"F") ==0 )	{
 		if (getStringFromIndexWithDelim(message, "|", 3, token2,
 			sizeof(token)) == FALSE)	return;
-		
+
 		strcpy( buf, "");
-		j = 0;	
-		
+		j = 0;
+
 		pindex1 = (atoi(token2) - 1)*10 +1;
-		
+
 		for( i=pindex1 ; i< pindex1+10 ; i++  ) {
 			if( i > familyNumTotal )	break;
 			if( getStringFromIndexWithDelim( familyListBuf, "|", i, subbuf,
@@ -1184,17 +1185,17 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 			strcat( buf, "|" );
 			strcat( buf, subbuf );
 			j++;
-			
+
 			// print(" |%s| ", subbuf);
 		}
-		
+
 		sprintf( sendbuf, "S|F|%d|%d|%d%s", familyNumTotal, atoi(token2), j, buf );
 		lssproto_FM_send( fd, sendbuf );
-		
-		return;	   	
-		
+
+		return;
+
 	}
-	
+
 	// shan add
 	if (strcmp(token, "P") == 0 ){
 		int  personfame;
@@ -1203,7 +1204,7 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 		personfame = (CHAR_getInt( meindex, CHAR_FAME)/100);
 #else
 		personfame = CHAR_getWorkInt( meindex, CHAR_WORKFMDP);
-#endif       
+#endif
 		sprintf( sendbuf, "你目前的个人声望点数为：%d", personfame);
 		CHAR_talkToCli(meindex, -1, sendbuf, CHAR_COLORYELLOW);
 #ifdef _VIP_SERVER
@@ -1211,18 +1212,18 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 		CHAR_talkToCli(meindex, -1, sendbuf, CHAR_COLORYELLOW);
 #endif
 	}
-	
+
 	if(strcmp(token,"D") == 0){
 		if(getStringFromIndexWithDelim(message, "|", 3, fmname, sizeof(fmname)) == FALSE)	return;
 		if(getStringFromIndexWithDelim(message, "|", 4, token2, sizeof(token2)) == FALSE)	return;
 		fmindex = atoi( token2 );
 		if(getStringFromIndexWithDelim(message, "|", 5, token2, sizeof(token2)) == FALSE)	return;
 		tempindex = atoi( token2 );
-		
+
 		//print(" send_fmname_ac:%s ", fmname);
 		saacproto_ACFMDetail_send( acfd, fmname, fmindex, tempindex, CONNECT_getFdid(fd) );
 	}
-	
+
 	// shan begin
 	else if (strcmp(token, "D2") ==0 ) {
 		char sendbuf[2048], tmpbuf[1024], leadernamebuf[64];
@@ -1230,7 +1231,7 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 		int meindex = CONNECT_getCharaindex(fd);
 		int  fmindex_wk = CHAR_getWorkInt( meindex, CHAR_WORKFMINDEXI);
 		if( fmindex_wk < 0 || fmindex_wk >= FAMILY_MAXNUM) return;
-		
+
 		for( h=0; h<FAMILY_MAXNUM; h++)
 			if( fmdptop.fmtopid[h] == fmindex_wk )
 				break;
@@ -1261,20 +1262,20 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 			}
 			if (strcmp(tmpbuf, "") == 0)
 				sprintf(tmpbuf, "无挑战排程");
-      
+
       getStringFromIndexWithDelim(memberlist[fmindex_wk].numberlistarray[0],
 				"|",2,leadernamebuf,sizeof(leadernamebuf));
       // sendbuf -> 家族名称|人数|族长名称|家族排行|家族声望|个人声望|个人职位|家族精灵|PK
-				sprintf( sendbuf, "%s|%d|%s|%d|%d|%d|%d|%d|%s", 
+				sprintf( sendbuf, "%s|%d|%s|%d|%d|%d|%d|%d|%s",
 				CHAR_getChar(meindex, CHAR_FMNAME),
 				memberlist[fmindex_wk].fmjoinnum,
 				leadernamebuf,
 				h+1,
 #ifdef _FMVER21
 				fmdptop.fmtopdp[h],
-#else                
+#else
 				(CHAR_getWorkInt( meindex, CHAR_WORKFMDP)/100),
-#endif                
+#endif
 #ifdef _PERSONAL_FAME
 				(CHAR_getInt( meindex, CHAR_FAME)/100),
 #else
@@ -1284,7 +1285,7 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 				CHAR_getInt( meindex, CHAR_FMSPRITE ),
 				tmpbuf
 				);
-			
+
 			lssproto_WN_send( fd, WINDOW_MESSAGETYPE_FAMILYDETAIL,
 				WINDOW_BUTTONTYPE_OK,
 				-1,
@@ -1297,35 +1298,35 @@ void FAMILY_Detail(int fd, int meindex, char *message)
 void ACFMDetail(int ret, char *data, int clifd)
 {
 	char sendbuf[1024];
-	
+
 	//print(" Detail:%s ", data);
-	
+
 	if( ret != 1 )
 	{
 		print(" ACFMDetailError!:%d ", clifd );
 		return;
 	}
 	//print(" ACFMDetail:%d:%s ", clifd, data );
-	
-	/*	
+
+	/*
 	len = strlen(data);
 	strcpy( buf, data );
-	
+
 	for( i=0 ; i<len ; i++ )
 	{
 		if( data[i] == '|' )	buf[i] = ' ';
-		else 
+		else
 		if( data[i] == ' ' )    buf[i] = '|';
 	}
 	*/
 	//if (getStringFromIndexWithDelim(message, "|", 10, fmname,
-   	//	sizeof(fmname)) == FALSE)	return;	
+   	//	sizeof(fmname)) == FALSE)	return;
 
 	//makeStringFromEscaped( buf );
 	//buf2 = lssproto_demkstr_string( buf );
 
-	
-	sprintf(sendbuf, "S|D|%s", data); 
+
+	sprintf(sendbuf, "S|D|%s", data);
 	lssproto_FM_send( clifd, sendbuf );
 	//print(" Detail:%s ", sendbuf);
 	/*
@@ -1334,16 +1335,16 @@ void ACFMDetail(int ret, char *data, int clifd)
 		-1, -1,
 		sendbuf );
 	*/
-	
+
 	// from saac data
-	/*	
+	/*
 	sprintf(data, "%d|%d|%s|%s|%d|%s|%s|%d|%d|%s|%d", index, family[index].fmindex,
            family[index].fmname, family[index].fmleadername,
            family[index].fmleadergrano, family[index].petname, family[index].petattr,
            family[index].fmjoinnum, family[index].fmacceptflag,
            family[index].fmrule, family[index].fmsprite );
-        */                           
-	
+        */
+
 }
 
 void FAMILY_CheckMember(int fd, int meindex, char *message)
@@ -1368,7 +1369,7 @@ void FAMILY_CheckMember(int fd, int meindex, char *message)
           && (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_ELDER)))
 #else
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1))
-#endif      
+#endif
    {
 //   	print("leaderflag:%d\n", CHAR_getInt(meindex, CHAR_FMLEADERFLAG));
 	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
@@ -1376,7 +1377,7 @@ void FAMILY_CheckMember(int fd, int meindex, char *message)
 		-1, -1,
 		makeEscapeString( "\n你不是族长，所以没有修改的权力唷！", buf, sizeof(buf)));
       	return;
-   }   
+   }
    if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
    sprintf(charname, "%s", token);
@@ -1414,7 +1415,7 @@ void FAMILY_CheckMember(int fd, int meindex, char *message)
    		CHAR_getInt(meindex, CHAR_FMINDEX), charname, charindex,
    		CHAR_getWorkInt(meindex, CHAR_WORKFMINDEXI), result,
    		CHAR_getWorkInt(meindex, CHAR_WORKFMCHARINDEX),
-   		CONNECT_getFdid(fd));	
+   		CONNECT_getFdid(fd));
    }
 #else
    {
@@ -1449,9 +1450,9 @@ void FAMILY_CheckMember(int fd, int meindex, char *message)
       	 }
       }
 #ifdef _FMVER21
-	  {	  
+	  {
 	  // shan begin
-      char sbuf[1024];	  
+      char sbuf[1024];
 	  sprintf( sbuf, "族长代号:%d -> 人物名称:%s 人物索引:%d (将该人物退出家族)\n", CHAR_getInt(meindex, CHAR_FMLEADERFLAG), charname, charindex);
 	  LogFamily(
 		  CHAR_getChar(meindex, CHAR_FMNAME),
@@ -1461,7 +1462,7 @@ void FAMILY_CheckMember(int fd, int meindex, char *message)
 		  "CheckMember",
 		  sbuf
 		  );
-	  // shan end      
+	  // shan end
 	  saacproto_ACMemberLeaveFM_send(acfd,
       		CHAR_getChar(meindex, CHAR_FMNAME),
       	 	CHAR_getInt(meindex, CHAR_FMINDEX), charname, charindex,
@@ -1499,7 +1500,7 @@ void FAMILY_CheckMember(int fd, int meindex, char *message)
 		  "CheckMember",
 		  sbuf
 		  );
-	  // shan end      
+	  // shan end
    	saacproto_ACMemberJoinFM_send(acfd,
    		CHAR_getChar(meindex, CHAR_FMNAME),
    		CHAR_getInt(meindex, CHAR_FMINDEX), charname, charindex,
@@ -1527,10 +1528,10 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 	char token[128], token2[128];
 	char buf[4096], subbuf[4096], sendbuf[4096];
 	int i, tempindex, fmindexi, channel, nowchannel, num;
-	
+
 	fmindexi = CHAR_getWorkInt( meindex, CHAR_WORKFMINDEXI);
 	nowchannel = CHAR_getWorkInt( meindex, CHAR_WORKFMCHANNEL );
-	
+
 	//   print(" channelFM:%d ", fmindexi);
 	if( fmindexi < 0 ) {
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
@@ -1539,15 +1540,15 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 			makeEscapeString( "\n你还没有加入任何家族！", buf, sizeof(buf)));
 		return;
 	}
-	
+
 	if (getStringFromIndexWithDelim(message, "|", 2, token,
 		sizeof(token)) == FALSE)	return;
-	 
+
 	if (getStringFromIndexWithDelim(message, "|", 3, token2,
 		sizeof(token2)) == FALSE)        return;
-	 
+
 	channel = atoi( token2 );
-	 
+
 	if( strcmp( token, "J") == 0) {
 		if( channel < -1 || channel > FAMILY_MAXCHANNEL )return;
 		if( nowchannel >= 0 && nowchannel < FAMILY_MAXCHANNEL ) {
@@ -1560,7 +1561,7 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 				i++;
 			}
 		}
-		
+
 		if( channel > 0 && channel < FAMILY_MAXCHANNEL ) {
 			i = 0;
 			while( i < FAMILY_MAXCHANNELMEMBER ) {
@@ -1576,7 +1577,7 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 			}
 			sprintf( buf, "加入家族频道 [%d]。", channel );
 			CHAR_talkToCli( meindex, -1, buf, CHAR_COLORWHITE);
-			
+
 			if( nowchannel >=0 && nowchannel < FAMILY_MAXCHANNEL ) {
 				sprintf( buf, "%s 退出频道。", CHAR_getChar( meindex, CHAR_NAME) );
 				for( i=0; i < FAMILY_MAXCHANNELMEMBER; i++ ) {
@@ -1593,7 +1594,7 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 					CHAR_talkToCli( channelMember[fmindexi][channel][i], -1, buf, CHAR_COLORWHITE);
 				}
 			}
-			
+
 		}
 		else if( channel == 0 ) {
 			i = 0;
@@ -1638,7 +1639,7 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 		else {
 			channel = -1;
 			CHAR_talkToCli( meindex, -1, "退出家族频道。", CHAR_COLORWHITE);
-			
+
 			sprintf( buf, "%s 退出频道。", CHAR_getChar( meindex, CHAR_NAME) );
 			for( i=0; i < FAMILY_MAXCHANNELMEMBER; i++ ) {
 				if( CHAR_CHECKINDEX(channelMember[fmindexi][nowchannel][i])
@@ -1647,26 +1648,26 @@ void FAMILY_Channel(int fd, int meindex, char *message)
 				}
 			}
 		}
-		
+
 		CHAR_setWorkInt( meindex, CHAR_WORKFMCHANNEL, channel);
 		if( channel != -1 ) CHAR_setWorkInt( meindex, CHAR_WORKFMCHANNELQUICK, channel);
-		
+
 		sprintf( sendbuf, "C|J|%d", channel);
 		lssproto_FM_send( fd, sendbuf);
-		
+
 	}
 	else if( strcmp( token, "L") == 0) {
-		
+
 		int j, membernum, bFind = 0;
 		if( channel < 0 || channel >= FAMILY_MAXCHANNEL ) return;
-		
+
 		subbuf[0] = '\0';
 		num = 0;
 		if( channel != 0 )
 			membernum = FAMILY_MAXCHANNELMEMBER;
 		else
 			membernum = FAMILY_MAXMEMBER;
-		
+
 		for( j = 0 ; j < FAMILY_MAXMEMBER ; j++ ) {
 			bFind = 0;
 			tempindex = familyMemberIndex[fmindexi][j];
@@ -1710,38 +1711,38 @@ void FAMILY_Bank(int fd, int meindex, char *message)
 		CHAR_talkToCli( meindex, -1, "你必须先加入家族。", CHAR_COLORWHITE);
 		return;
 	}
-	
+
 	if (getStringFromIndexWithDelim(message, "|", 2, token, sizeof(token)) == FALSE)
 	   return;
-	
+
 	if( strcmp(token, "G" )==0 )	{
 		if (getStringFromIndexWithDelim(message, "|", 3, token2, sizeof(token)) == FALSE)
 			return;
-		
+
 		toBank = atoi( token2 );
 		cash = CHAR_getInt( meindex, CHAR_GOLD);
 		bank = CHAR_getInt( meindex, CHAR_BANKGOLD);
 		if( ((cash - toBank) >= 0) && ((cash - toBank) <= MaxGold )
-			&&((bank + toBank) >= 0)&&((bank + toBank) <= CHAR_MAXBANKGOLDHAVE) ) {    
-			// shan add       
+			&&((bank + toBank) >= 0)&&((bank + toBank) <= CHAR_MAXBANKGOLDHAVE) ) {
+			// shan add
 			if( toBank > 0 && CHAR_getInt( meindex, CHAR_FMINDEX ) < 1 ) {
 				sprintf(buf, "抱歉！你没有加入任何家族，所以仅能领取存款");
 				CHAR_talkToCli( meindex, -1, buf, CHAR_COLORWHITE);
 				return;
 			}
-			
+
 			CHAR_setInt( meindex, CHAR_GOLD, cash - toBank);
 			CHAR_setInt( meindex, CHAR_BANKGOLD, bank + toBank);
 			CHAR_send_P_StatusString( meindex , CHAR_P_STRING_GOLD);
-			
+
 			if( toBank >= 0 ) {
 				sprintf(buf, "存入%d到家族银行个人帐户。", toBank);
 				CHAR_talkToCli( meindex, -1, buf, CHAR_COLORWHITE);
 				// Syu ADD 新增家族个人银行存取Log (不含家族银行)
 				LogFamilyBankStone(
-					CHAR_getChar( meindex, CHAR_NAME ), 
+					CHAR_getChar( meindex, CHAR_NAME ),
 					CHAR_getChar( meindex, CHAR_CDKEY ),
-					toBank,                            
+					toBank,
 					CHAR_getInt( meindex, CHAR_GOLD ),
 					"myBank(存款)(家族个人银行)",
 					CHAR_getInt( meindex,CHAR_FLOOR),
@@ -1749,16 +1750,16 @@ void FAMILY_Bank(int fd, int meindex, char *message)
 					CHAR_getInt( meindex,CHAR_Y ),
 					CHAR_getInt( meindex,CHAR_BANKGOLD)
 					);
-				
+
 			}
 			else {
 				sprintf(buf, "从家族银行个人帐户取出%d。", -toBank);
 				CHAR_talkToCli( meindex, -1, buf, CHAR_COLORWHITE);
 				// Syu ADD 新增家族个人银行存取Log (不含家族银行)
 				LogFamilyBankStone(
-					CHAR_getChar( meindex, CHAR_NAME ), 
+					CHAR_getChar( meindex, CHAR_NAME ),
 					CHAR_getChar( meindex, CHAR_CDKEY ),
-					toBank,                            
+					toBank,
 					CHAR_getInt( meindex, CHAR_GOLD ),
 					"myBank(提款)(家族个人银行)",
 					CHAR_getInt( meindex,CHAR_FLOOR),
@@ -1766,7 +1767,7 @@ void FAMILY_Bank(int fd, int meindex, char *message)
 					CHAR_getInt( meindex,CHAR_Y ),
 					CHAR_getInt( meindex,CHAR_BANKGOLD)
 					);
-				
+
 			}
 			// Syu ADD 新增家族个人银行存取Log (不含家族银行)
 			LogStone(
@@ -1780,31 +1781,31 @@ void FAMILY_Bank(int fd, int meindex, char *message)
 				CHAR_getInt( meindex,CHAR_X ),
 				CHAR_getInt( meindex,CHAR_Y )
 				);
-			
+
 		}
 		else
 			print(" bank_error ");
-		
+
 	}
 	if( strcmp(token, "I" )==0 ) {
-		
+
 	}
 	if( strcmp(token, "T" )==0 ) {
 		int toTax;
 		int mygold;
 		int FMindex;
-		
+
 		if (getStringFromIndexWithDelim(message, "|", 3, token2, sizeof(token)) == FALSE)
 			return;
 		toTax = atoi( token2 );
-		
+
 #ifdef _FMVER21
 		if( CHAR_getInt( meindex, CHAR_FMLEADERFLAG ) != FMMEMBER_LEADER &&
 			CHAR_getInt( meindex, CHAR_FMLEADERFLAG ) != FMMEMBER_ELDER && toTax < 0 )
 			return;
 #endif
-		
-		
+
+
 		FMindex = CHAR_getWorkInt( meindex, CHAR_WORKFMINDEXI );
 		mygold = CHAR_getInt( meindex, CHAR_GOLD);
 		if( mygold < 0 || mygold > MaxGold || toTax == 0 )	return;
@@ -1817,17 +1818,17 @@ void FAMILY_Bank(int fd, int meindex, char *message)
 				return;
 			}
 		}
-		
-		
+
+
 		if( toTax>0 ) {	//存款预先扣款
 			CHAR_setInt( meindex, CHAR_GOLD, CHAR_getInt( meindex, CHAR_GOLD)-toTax );
 		}
 		sprintf( buf, "家族银行%s处理中....", (toTax>0)?"存款":"取款");
 		CHAR_talkToCli( meindex , -1, buf, CHAR_COLORYELLOW);
-		
+
 		CHAR_send_P_StatusString( meindex , CHAR_P_STRING_GOLD);
 		sprintf( buf, "%d", toTax );
-		
+
 		saacproto_ACFixFMData_send(acfd,
 			CHAR_getChar(meindex, CHAR_FMNAME),
 			CHAR_getInt(meindex, CHAR_FMINDEX),
@@ -1841,13 +1842,13 @@ void ACFMPointList(int ret, char *data)
 {
 }
 
-#ifdef _ADD_FAMILY_TAX			   // WON ADD 增加庄园税收	
+#ifdef _ADD_FAMILY_TAX			   // WON ADD 增加庄园税收
 // GS 启动及定时向 AC 要求庄园税率
 void GS_ASK_TAX(void)
 {
 	saacproto_GS_ASK_TAX_send(acfd);
 }
-	 
+
 // 庄园族长修改税率
 void FAMILY_FIX_TAX( int fd, int index, char* message)
 {
@@ -1858,10 +1859,10 @@ void FAMILY_FIX_TAX( int fd, int index, char* message)
 //	extern struct  FM_POINTLIST fmpointlist;  // 家族据点
 	// 判断资格
 	if (!CHAR_CHECKINDEX(index))	return;
-   
+
 	if ((CHAR_getInt(index, CHAR_FMINDEX) == -1)
 		|| (strcmp(CHAR_getChar(index, CHAR_FMNAME), "") == 0)
-#ifdef _FMVER21      
+#ifdef _FMVER21
 		|| (CHAR_getInt(index, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER))
 #else
 		|| (CHAR_getInt(index, CHAR_FMLEADERFLAG) != 1))
@@ -1869,10 +1870,10 @@ void FAMILY_FIX_TAX( int fd, int index, char* message)
 	{
 		return;
 	}
-	
+
 	// 家族编号
 	fmindex = CHAR_getInt(index, CHAR_FMINDEX);
-	
+
 	// 检查是否为庄园的家族
 	for( i=0 ; i<FAMILY_MAXHOME ; i++ ) {
 		if( getStringFromIndexWithDelim(fmpointlist.pointlistarray[i], "|", 5, pointbuf, sizeof(pointbuf)) == FALSE )
@@ -1894,15 +1895,15 @@ void FAMILY_SetPoint(int fd, int meindex, char *message)
 {
    int i, fmpointindex, fl, x, y, fmdp, fmlevel = 0;
    char token[128], buf[1024];
-   
+
    if (!CHAR_CHECKINDEX(meindex))	return;
-   
+
    if (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE)
          return;
-   
+
    if ((CHAR_getInt(meindex, CHAR_FMINDEX) == -1)
       || (strcmp(CHAR_getChar(meindex, CHAR_FMNAME), "") == 0)
-#ifdef _FMVER21      
+#ifdef _FMVER21
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER))
 #else
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1))
@@ -1965,9 +1966,9 @@ void ACSetFMPoint(int ret, int r, int clifd)
 {
    int meindex = CONNECT_getCharaindex(clifd);
    char message[256], buf[512];
-   
+
    if (!CHAR_CHECKINDEX(meindex))	return;
-   
+
    if ((CHAR_getWorkInt(meindex, CHAR_WORKPARTYMODE) != CHAR_PARTY_NONE)
       || (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE))
          return;
@@ -1985,7 +1986,7 @@ void ACSetFMPoint(int ret, int r, int clifd)
    }
    else if (ret == 1)
 			sprintf(message, "申请家族据点ＯＫ！");
-   
+
    lssproto_WN_send( clifd, WINDOW_MESSAGETYPE_MESSAGE,
    	WINDOW_BUTTONTYPE_OK,
    	-1, -1,
@@ -2008,14 +2009,14 @@ void ACFMAnnounce(int ret, char *fmname, int fmindex, int index,
          {
             if (kindflag == 1)
             {
-#ifdef _FMVER21            
+#ifdef _FMVER21
                 // shan 2001/12/13
 				//if( CHAR_getInt( chindex, CHAR_FMLEADERFLAG ) == FMMEMBER_MEMBER )
                 if( CHAR_getInt( chindex, CHAR_FMLEADERFLAG ) == FMMEMBER_MEMBER ||
 					CHAR_getInt( chindex, CHAR_FMLEADERFLAG ) == FMMEMBER_ELDER )
 #else
                if( CHAR_getInt( chindex, CHAR_FMLEADERFLAG ) == 2 )
-#endif               
+#endif
                   CHAR_talkToCli( chindex, -1, data, color );
             }
             else if (kindflag == 2)
@@ -2069,19 +2070,19 @@ void ACFMAnnounce(int ret, char *fmname, int fmindex, int index,
 }
 
 void FAMILY_SetAcceptFlag(int fd, int meindex, char *message)
-{	
+{
    int result;
    char token[128], buf[1024];
-   
+
    if (!CHAR_CHECKINDEX(meindex))	return;
-   
+
    if ((CHAR_getWorkInt(meindex, CHAR_WORKPARTYMODE) != CHAR_PARTY_NONE)
       || (CHAR_getWorkInt(meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE))
          return;
-   
+
    if ((CHAR_getInt(meindex, CHAR_FMINDEX) == -1)
       || (strcmp(CHAR_getChar(meindex, CHAR_FMNAME), "") == 0)
-#ifdef _FMVER21      
+#ifdef _FMVER21
 //    || ((CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER)
 //       && (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_ELDER)
 //       && (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_VICELEADER)))
@@ -2089,7 +2090,7 @@ void FAMILY_SetAcceptFlag(int fd, int meindex, char *message)
        && (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_ELDER)))
 #else
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1))
-#endif      
+#endif
    {
 	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 		WINDOW_BUTTONTYPE_OK,
@@ -2097,7 +2098,7 @@ void FAMILY_SetAcceptFlag(int fd, int meindex, char *message)
 		makeEscapeString( "\n你不是族长，所以没有修改的权力唷！", buf, sizeof(buf)));
       	return;
    }
-   
+
    if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
    result = atoi(token);
@@ -2116,16 +2117,16 @@ void FAMILY_FixRule( int fd, int meindex, char* message )
 {
 
    char token[1024], buf[1024];
-      
+
    if (!CHAR_CHECKINDEX(meindex))return;
 
    if ((CHAR_getInt(meindex, CHAR_FMINDEX) == -1)
       || (strcmp(CHAR_getChar(meindex, CHAR_FMNAME), "") == 0)
-#ifdef _FMVER21      
+#ifdef _FMVER21
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER))
 #else
       || (CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1))
-#endif      
+#endif
    {
 	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 		WINDOW_BUTTONTYPE_OK,
@@ -2136,12 +2137,12 @@ void FAMILY_FixRule( int fd, int meindex, char* message )
 
    if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
-   
+
    if( strcmp( token, "R") == 0 )
    {
 	if (getStringFromIndexWithDelim(message, "|", 3, buf,
 		sizeof( buf ) ) == FALSE)return;
- 
+
 	   if (strcmp( buf, "") == 0)
 	   {
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
@@ -2197,9 +2198,9 @@ void FAMILY_FixRule( int fd, int meindex, char* message )
 	   if (getStringFromIndexWithDelim(message, "|", 3, buf,
 		sizeof( buf ) ) == FALSE) return;
 	   havepetindex = atoi( buf );
-	   
+
 	   petindex = CHAR_getCharPet(meindex, havepetindex);
-	   
+
 	   if (!CHAR_CHECKINDEX(petindex))	return;
 
  	   if (strlen(CHAR_getChar(petindex, CHAR_USERPETNAME)) == 0)
@@ -2211,7 +2212,7 @@ void FAMILY_FixRule( int fd, int meindex, char* message )
 	   	CHAR_getWorkInt(petindex, CHAR_WORKATTACKPOWER),
    		CHAR_getWorkInt(petindex, CHAR_WORKDEFENCEPOWER),
 	   	CHAR_getWorkInt(petindex, CHAR_WORKQUICK));
-	   	
+
 	   CHAR_setInt(petindex, CHAR_PETFAMILY, 1);
 	   saacproto_ACFixFMData_send(acfd,
    		CHAR_getChar(meindex, CHAR_FMNAME),
@@ -2220,19 +2221,19 @@ void FAMILY_FixRule( int fd, int meindex, char* message )
    		petname, petattr, CHAR_getWorkInt(meindex, CHAR_WORKFMCHARINDEX),
    		CONNECT_getFdid(fd));
 	   return;
-	   
+
    }
-   
+
 }
 
 void JoinMemberIndex( int meindex, int fmindexi )
 {
 	int i;
-	
+
 	for( i = 0 ; i < FAMILY_MAXMEMBER; i++){
 		if( familyMemberIndex[fmindexi][i] == meindex ) familyMemberIndex[fmindexi][i] = -1;
 	}
-	
+
 	for( i = 0 ; i < FAMILY_MAXMEMBER; i++){
 		if( familyMemberIndex[fmindexi][i] < 0 ){
 			familyMemberIndex[fmindexi][i] = meindex;
@@ -2244,7 +2245,7 @@ void JoinMemberIndex( int meindex, int fmindexi )
 void LeaveMemberIndex( int meindex, int fmindexi )
 {
 	int i;
-   
+
   for( i = 0 ; i < FAMILY_MAXMEMBER; i++){
     if( familyMemberIndex[fmindexi][i] == meindex ) familyMemberIndex[fmindexi][i] = -1;
   }
@@ -2257,76 +2258,76 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 	// Arminius 8.25 recover
 	int i;
 	int big4fm = 0;
-	if (!CHAR_CHECKINDEX(meindex))return 0;
+	if (!CHAR_CHECKINDEX(meindex))return;
 
 	// Robin fix 战斗中不可骑
 	if( CHAR_getWorkInt( meindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE )
 	{
 		CHAR_talkToCli( meindex, -1, "战斗中不可骑宠！", CHAR_COLORYELLOW );
-		return 0;
+		return;
 	}
 	// Robin fix 交易中不可骑
 	if( CHAR_getWorkInt(meindex, CHAR_WORKTRADEMODE) != CHAR_TRADE_FREE){
 		CHAR_talkToCli( meindex, -1, "交易中不可骑宠！", CHAR_COLORYELLOW );
-		return 0;
+		return;
 	}
 #ifdef _PETSKILL_BECOMEPIG
     if( CHAR_getInt( meindex, CHAR_BECOMEPIG) > -1 ){ //处於乌力化状态
 	    CHAR_setInt( meindex, CHAR_RIDEPET, -1 );
-		//宠物选项的状态依然为"骑乘",这里修正过来 
+		//宠物选项的状态依然为"骑乘",这里修正过来
 		CHAR_complianceParameter( meindex );
 		CHAR_send_P_StatusString( meindex, CHAR_P_STRING_RIDEPET);
 		CHAR_talkToCli( meindex, -1, "目前你处于乌力化状态，不能骑乘宠物。", CHAR_COLORYELLOW );
-		return 0;
+		return;
 	}
 #endif
-	if (getStringFromIndexWithDelim(message, "|", 2, token, sizeof(token)) == FALSE)	return 0;
+	if (getStringFromIndexWithDelim(message, "|", 2, token, sizeof(token)) == FALSE)	return;
 	if( strcmp( token, "P") == 0) {
 		if (getStringFromIndexWithDelim(message, "|", 3, token2, sizeof(token2)) == FALSE)
-			return 0;
+			return;
 		if( atoi(token2) != -1 ) {
 			petindex = CHAR_getCharPet( meindex, atoi( token2 ) );
 			if(!CHAR_CHECKINDEX(petindex))return;
-		
-			if( CHAR_getInt( meindex, CHAR_DEFAULTPET ) == atoi( token2 ) )	return 0;
-			if( CHAR_getInt( meindex, CHAR_RIDEPET) != -1 ) return 0;
+
+			if( CHAR_getInt( meindex, CHAR_DEFAULTPET ) == atoi( token2 ) )	return;
+			if( CHAR_getInt( meindex, CHAR_RIDEPET) != -1 ) return;
 			if( CHAR_getInt( meindex, CHAR_LEARNRIDE) < CHAR_getInt( petindex, CHAR_LV )  )
-			{ 
+			{
 				char buff[255];
 				sprintf(buff,"你目前只能骑乘等级小于%d级的宠。",CHAR_getInt( meindex, CHAR_LEARNRIDE));
 				CHAR_talkToCli( meindex, -1, buff, CHAR_COLORYELLOW );
-				return 0;
-			}	
+				return;
+			}
 			if( CHAR_getWorkInt( petindex, CHAR_WORKFIXAI ) < 100 )
 			{
 				CHAR_talkToCli( meindex, -1, "该骑宠的忠小于100", CHAR_COLORYELLOW );
-				return 0;
+				return;
 			}
 			printf("%d\n",__LINE__);
 #ifdef _RIDELEVEL
 			if( CHAR_getInt( meindex, CHAR_LV)+getRideLevel() < CHAR_getInt( petindex, CHAR_LV )  )
-			{ 
+			{
 				char buff[255];
 				sprintf(buff,"你最高只能骑宠等级比你大%d级的宠。",getRideLevel());
 				CHAR_talkToCli( meindex, -1, buff, CHAR_COLORYELLOW );
-				return 0;
-			}	
+				return;
+			}
 #else
-			if( CHAR_getInt( meindex, CHAR_LV)+5 < CHAR_getInt( petindex, CHAR_LV )  ) return 0;
-			{ 
+			if( CHAR_getInt( meindex, CHAR_LV)+5 < CHAR_getInt( petindex, CHAR_LV )  ) return;
+			{
 				char buff[255];
 				sprintf(buff,"你最高只能骑宠等级比你大5级的宠。");
 				CHAR_talkToCli( meindex, -1, buff, CHAR_COLORYELLOW );
 				return;
-			}	
+			}
 #endif
 			printf("%d\n",__LINE__);
 #ifdef _PET_2TRANS
-			if( CHAR_getInt( petindex, CHAR_TRANSMIGRATION) > 2 ) return 0;
+			if( CHAR_getInt( petindex, CHAR_TRANSMIGRATION) > 2 ) return;
 #endif
 			leaderimageNo = 100700
 				+ ((CHAR_getInt( meindex, CHAR_BASEBASEIMAGENUMBER)-100000)/20)*10
-				+ CHAR_getInt( meindex, CHAR_FMSPRITE)*5;	
+				+ CHAR_getInt( meindex, CHAR_FMSPRITE)*5;
 			switch( CHAR_getWorkInt( meindex, CHAR_WORKFMFLOOR) ){
 				case 1041:
 					big4fm = 1;
@@ -2369,7 +2370,7 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 						rideGraNo = ridePetTable[i].rideNo;
 						break;
 				}
-#endif				
+#endif
 			}
 
 #ifdef _NEW_RIDEPETS
@@ -2402,7 +2403,7 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 				CHAR_complianceParameter( meindex );
 				CHAR_sendCToArroundCharacter( CHAR_getWorkInt( meindex, CHAR_WORKOBJINDEX ));
 				CHAR_send_P_StatusString( meindex, CHAR_P_STRING_RIDEPET );
-				return 1;
+				return;
 			}else{
 				printf("%d\n",__LINE__);
 				return;
@@ -2410,7 +2411,7 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 				if( floor !=-1 && CHAR_getInt( meindex, CHAR_FMLEADERFLAG ) != FMMEMBER_NONE
 					&& CHAR_getInt( meindex, CHAR_FMLEADERFLAG ) != FMMEMBER_APPLY){
 #ifdef _FM_LEADER_RIDE
-					if(CHAR_FmLeaderRide( meindex, atoi( token2 )))return 1;
+					if(CHAR_FmLeaderRide( meindex, atoi( token2 )))return;
 #endif
 #ifdef _RIDEMODE_20
 		 		if(getRideMode()>0){
@@ -2419,8 +2420,8 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 					int playerNo = CHAR_getInt( meindex, CHAR_BASEBASEIMAGENUMBER);
 					int petindex = CHAR_getCharPet( meindex, atoi( token2 ));
 					if(getRideMode()==1 || getRideMode()==2 ){
-						if(floor == 1041 || floor == 2031 || floor == 3031 || floor == 4031 
-							|| floor == 5031 || floor == 6031 || floor == 7031 
+						if(floor == 1041 || floor == 2031 || floor == 3031 || floor == 4031
+							|| floor == 5031 || floor == 6031 || floor == 7031
 							|| floor == 8031 || floor == 9031 || floor == 10031){
 							if( CHAR_getInt( meindex, CHAR_FMSPRITE ) == 0){
 								if(petNo==100372){
@@ -2473,7 +2474,7 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 						CHAR_complianceParameter( meindex );
 						CHAR_sendCToArroundCharacter( CHAR_getWorkInt( meindex, CHAR_WORKOBJINDEX ));
 						CHAR_send_P_StatusString( meindex, CHAR_P_STRING_RIDEPET );
-						return 1;
+						return;
 					}
 				}
 #endif
@@ -2481,7 +2482,7 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 #ifdef _ITEM_RIDE
 				{
 					int itemindex = CHAR_getItemIndex( meindex, 0 );
-					if(!ITEM_CHECKINDEX(itemindex)) return 0;
+					if(!ITEM_CHECKINDEX(itemindex)) return;
 					if( !strcmp( ITEM_getChar( itemindex, ITEM_USEFUNC), "ITEM_RIDE") ) {
 						char petmetamo[12],ridemetamo[12];
 						char *itemarg = ITEM_getChar( itemindex, ITEM_ARGUMENT);
@@ -2494,7 +2495,7 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 							CHAR_complianceParameter( meindex );
 							CHAR_sendCToArroundCharacter( CHAR_getWorkInt( meindex, CHAR_WORKOBJINDEX ));
 							CHAR_send_P_StatusString( meindex, CHAR_P_STRING_RIDEPET );
-							return 1;
+							return;
 						}
 					}
 				}
@@ -2508,14 +2509,14 @@ void FAMILY_RidePet( int fd, int meindex, char* message )
 			CHAR_send_P_StatusString( meindex , CHAR_P_STRING_RIDEPET);
 		}
 	}
-	return 0;
+	return;
 }
 
 void ACFixFMPK(int winindex, int loseindex, int data)
 {
    int i = 0, charindex = 0;
    char msg1[256], msg2[256];
-   
+
    sprintf(msg1, "恭喜您！家族声望提高了%8d点！", (data / 100));
    sprintf(msg2, "家族声望减少了%8d点！", (data / 100));
    for (i = 0; i < FAMILY_MAXMEMBER; i++)
@@ -2549,7 +2550,7 @@ void checkFamilyIndex( void )
 {
 	int i, j, k, charaindex, err1=0, err2=0;
 //	print(" checkFamilyIndex! ");
-	
+
 	for( i=0; i<FAMILY_MAXNUM; i++){
 		for( j=0; j<FAMILY_MAXMEMBER; j++){
 			charaindex = familyMemberIndex[i][j];
@@ -2566,7 +2567,7 @@ void checkFamilyIndex( void )
 				continue;
 			}
 		}
-		
+
 		for( j=0; j<FAMILY_MAXCHANNEL; j++ )
 			for( k=0; k<FAMILY_MAXMEMBER; k++)
 			{
@@ -2586,7 +2587,7 @@ void checkFamilyIndex( void )
 				}
 			}
 	}
-	
+
 //	if( err1 )
 //		print("家族索引建立错误:%d\n", err1);
 //	if( err2 )
@@ -2612,14 +2613,14 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 		makeEscapeString( "你还未加入家族，所以不能使用唷！", buf, sizeof(buf) ));
       	return;
    }
-   
+
    if (getStringFromIndexWithDelim(message, "|", 2, token,
    	sizeof(token)) == FALSE)	return;
    if( strcmp( token, "F") == 0 ){
        int  fmindex_wk;
        char sendbuf[1024],buf[1024];
        fmindex_wk = CHAR_getWorkInt( meindex, CHAR_WORKFMINDEXI);
-#ifdef _FMVER21       
+#ifdef _FMVER21
 //     if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER &&
 //         CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_ELDER &&
 //         CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_VICELEADER )  return;
@@ -2627,17 +2628,17 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
          CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_ELDER )  return;
 #else
        if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1)  return;
-#endif       
+#endif
        if( CHAR_getInt(meindex, CHAR_FMINDEX) > 0 ){
            if( fmindex_wk < 0 || fmindex_wk >= FAMILY_MAXNUM){
                print("FamilyNumber Data Error!!");
                return;
            }
        }
-       saacproto_ACShowMemberList_send( acfd, fmindex_wk);           
-	    
+       saacproto_ACShowMemberList_send( acfd, fmindex_wk);
+
        sprintf( sendbuf, "               『族 长 需 知』\n请小心处理族员的资料，一经修改後就无法回复原态，敬请小心。");
-	    
+
        lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 	                 WINDOW_BUTTONTYPE_OK,
 	                 CHAR_WINDOWTYPE_FM_MESSAGE2,
@@ -2656,12 +2657,12 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
    	    CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_ELDER )  return;
 #else
    	if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1)  return;
-#endif   	
-   	
+#endif
+
    	if (getStringFromIndexWithDelim(message, "|", 3, token2,
 	   sizeof(token2)) == FALSE)	return;
 	kind = atoi( token2 );
-	
+
 	for( i=0 ; i<FMPOINTNUM ; i++ ) {
 		getStringFromIndexWithDelim(fmpointlist.pointlistarray[i], "|", 5, subtoken, sizeof(subtoken));
 		if( CHAR_getInt( meindex, CHAR_FMINDEX ) == atoi(subtoken) ) {
@@ -2688,11 +2689,11 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 				letterNo = 19007;	break;
 				case 4:
 				letterNo = 19008;	break;
-				}			
+				}
 			}
-		}	
+		}
 	}
-	
+
 	if( letterNo == 0 ) {
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 			WINDOW_BUTTONTYPE_OK,
@@ -2702,13 +2703,13 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 	}else {
 		int emptyitemindexinchara = CHAR_findEmptyItemBox( meindex );
 		int itemindex = ITEM_makeItemAndRegist( letterNo );
-		
+
 		if( itemindex == -1 )	return;
 		if( emptyitemindexinchara < 0 ) {
 			CHAR_talkToCli( meindex, -1, "道具栏已满。", CHAR_COLORWHITE);
 			return;
 		}
-		
+
 		CHAR_setItemIndex( meindex, emptyitemindexinchara, itemindex );
 		ITEM_setWorkInt( itemindex, ITEM_WORKOBJINDEX,-1);
 		ITEM_setWorkInt( itemindex, ITEM_WORKCHARAINDEX, meindex);
@@ -2720,29 +2721,29 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
    if( strcmp( token, "CHANGE") == 0 ){
    	int fmindexi, j, num=0;
    	char subbuf[2048], sendbuf[2048];
-   	
+
    	if (getStringFromIndexWithDelim(message, "|", 3, token2,
 	   sizeof(token2)) == FALSE)	return;
-	
+
 	fmindexi = CHAR_getWorkInt( meindex, CHAR_WORKFMINDEXI );
 
 	// 要求族长候选人列表
 	if( strcmp( token2, "L") == 0 ){
 		char subsub[128];
-	
+
 #ifdef _FMVER21
 		if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER)  return;
 #else
 		if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1)  return;
-#endif 		
-		
+#endif
+
 		strcpy( subbuf, "");
 		for( j = 0 ; j < FAMILY_MAXMEMBER ; j++ ) {
 			int tempindex = familyMemberIndex[fmindexi][j];
-			
-			// CoolFish: 2001/9/22 
+
+			// CoolFish: 2001/9/22
 			if (!CHAR_CHECKINDEX(tempindex))	continue;
-			
+
 			if (CheckLeaderQ(tempindex) >= 0 && tempindex != meindex )
 			{
 				char	tmpbuf[1024];
@@ -2755,43 +2756,43 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 		}
 		sprintf( sendbuf, "L|CHANGE|L|%d%s", num, subbuf );
 		//lssproto_FM_send( fd, sendbuf);
-		
+
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_LEADERSELECT,
 			WINDOW_BUTTONTYPE_OK,
 			-1, -1,
 			sendbuf );
-		
+
 	}
 	// 询问族长候选人是否愿意接受
-	if( strcmp( token2, "Q") == 0 )	
+	if( strcmp( token2, "Q") == 0 )
 	{
 		char token3[64], token4[64];
 		int toindex;
 
-#ifdef _FMVER21		
+#ifdef _FMVER21
 		if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER)  return;
 #else
 		if( CHAR_getInt(meindex, CHAR_FMLEADERFLAG) != 1)  return;
-#endif 		
+#endif
 		if (getStringFromIndexWithDelim(message, "|", 4, token3,
 			sizeof(token3)) == FALSE)return;
 		if (getStringFromIndexWithDelim(message, "|", 5, token4,
 			sizeof(token4)) == FALSE)return;
 		makeStringFromEscaped( token4 );
-		
+
 		if( atoi(token3) < 0 || atoi(token3) > FAMILY_MAXMEMBER ) return;
 
 		toindex = familyMemberIndex[fmindexi][atoi(token3)];
 		if( !CHAR_CHECKINDEX( toindex ) )	return;
 		if( strcmp( token4, CHAR_getChar( toindex, CHAR_NAME)) != 0 )	return;
 		if( CheckLeaderQ(toindex) < 0 )	return;
-		
+
 		// 双方都决定让位时，CHAR_WORKLEADERCHANGE存放对方的charaindex
 		CHAR_setWorkInt( toindex, CHAR_WORKLEADERCHANGE, meindex);
 		CHAR_setWorkInt( meindex, CHAR_WORKLEADERCHANGE, toindex);
-		
+
 		sprintf( sendbuf, "%s|%d", makeEscapeString( CHAR_getChar( meindex, CHAR_NAME ), buf, sizeof(buf)), meindex );
-		
+
 		lssproto_WN_send( CHAR_getWorkInt( toindex, CHAR_WORKFD ), WINDOW_MESSAGETYPE_LEADERSELECTA,
 			WINDOW_BUTTONTYPE_OK,
 			-1, -1,
@@ -2805,33 +2806,33 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 		char leadername[64], token3[64], token4[64];
 
 //		print( "%s", message );
-		
+
 		if (getStringFromIndexWithDelim(message, "|", 4, token3,
 			sizeof(token3)) == FALSE) return;
 		answerflag = atoi( token3 );
-		
+
 		if (getStringFromIndexWithDelim(message, "|", 5, leadername,
 			sizeof( leadername )) == FALSE)return;
 		makeStringFromEscaped( leadername );
-		
+
 		if (getStringFromIndexWithDelim(message, "|", 6, token4,
 			sizeof(token4)) == FALSE)return;
-		
+
 		//if( atoi(token4) < 0 || atoi(token4) > FAMILY_MAXMEMBER )  return;
-		
+
 		leaderindex = atoi( token4 );
-		
+
 		// 检查双方的CHAR_WORKLEADERCHANGE是否相符
 		if( CHAR_getWorkInt( meindex, CHAR_WORKLEADERCHANGE ) != leaderindex )	return;
 		if( !CHAR_CHECKINDEX(leaderindex) )	return;
 		if( strcmp( leadername, CHAR_getChar( leaderindex, CHAR_NAME) ) != 0 )	return;
 		if( CHAR_getWorkInt( leaderindex, CHAR_WORKLEADERCHANGE ) != meindex )  return;
 		CHAR_setWorkInt( leaderindex, CHAR_WORKLEADERCHANGE, -1 );
-#ifdef _FMVER21		
+#ifdef _FMVER21
 		if( CHAR_getInt(leaderindex, CHAR_FMLEADERFLAG ) != FMMEMBER_LEADER )  return;
 #else
 		if( CHAR_getInt(leaderindex, CHAR_FMLEADERFLAG ) != 1 )  return;
-#endif 		
+#endif
 		if( CHAR_getInt(meindex, CHAR_FMINDEX) != CHAR_getInt(leaderindex, CHAR_FMINDEX) )  return;
 
 		if( answerflag == 0 )
@@ -2844,7 +2845,7 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 				makeEscapeString( "\n对不起！对方不愿意接受！", buf, sizeof(buf)) );
 		   	return;
 		}
-		
+
 		if( answerflag == 1 )
 		{
 			char	tmpbuf[1024];
@@ -2859,38 +2860,38 @@ void FAMILY_LeaderFunc( int fd, int meindex, char *message )
 			   	// "", CHAR_getWorkInt(meindex, CHAR_WORKFMCHARINDEX), CONNECT_getFdid(fd));
 			return;
 		}
-	}	
+	}
    }
 }
 
 void ACFMJob( int fd, int ret, char* data1, char* data2 )
 {
-	
+
 	int charaindex = CONNECT_getCharaindex( fd );
 	if( !CHAR_CHECKINDEX(charaindex) ) return;
-	
-	
+
+
         if( 1 ){
-        	
+
         	int leaderindex = CHAR_getWorkInt( charaindex, CHAR_WORKLEADERCHANGE );
         	char buf[256], buf2[256];
 
         	CHAR_setWorkInt( charaindex, CHAR_WORKLEADERCHANGE, 0 );
         	print("leaderindex:%d:%s\n", leaderindex,CHAR_getChar(leaderindex,CHAR_NAME) );
-        	
+
         	if( !CHAR_CHECKINDEX(leaderindex) ) return;
         	//if( CHAR_getWorkInt( leaderindex, CHAR_WORKLEADERCHANGE ) != charaindex ) return;
         	CHAR_setWorkInt( leaderindex, CHAR_WORKLEADERCHANGE, 0 );
-        	
+
         	if( ret == 0 ){
         		CHAR_talkToCli( charaindex, -1, "族长让位失败！", CHAR_COLORYELLOW );
         		CHAR_talkToCli( leaderindex, -1, "族长让位失败！", CHAR_COLORYELLOW );
 	        	return;
 	        }
-	        
+
 	        // Robin 10/02 debug
         	if( CHAR_getInt( leaderindex, CHAR_FMINDEX) != CHAR_getInt( charaindex, CHAR_FMINDEX)
-#ifdef _FMVER21        	
+#ifdef _FMVER21
 			// || CHAR_getInt( leaderindex, CHAR_FMLEADERFLAG) != FMMEMBER_LEADER )
 #else
 			// || CHAR_getInt( leaderindex, CHAR_FMLEADERFLAG) != 1
@@ -2908,19 +2909,19 @@ void ACFMJob( int fd, int ret, char* data1, char* data2 )
 			);
 			return;
 		}
-		
+
 		//CHAR_setInt( leaderindex, CHAR_FMLEADERFLAG, FMMEMBER_MEMBER);
 		//CHAR_setInt( charaindex, CHAR_FMLEADERFLAG, FMMEMBER_LEADER);
 		SetFMPetVarInit( leaderindex );
 		SetFMPetVarInit( charaindex );
 		CHAR_sendStatusString( leaderindex, "F");
 		CHAR_sendStatusString( charaindex, "F");
-		
+
 		lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 			WINDOW_BUTTONTYPE_OK,
 			-1, -1,
 			makeEscapeString( "\n恭喜你！你已经是新任的族长了。\n请好好的努力吧！\n对了～记得请先到村长家的家族管理员选择\n新的家族守护兽，否则家族将会被解散唷！", buf, sizeof(buf)));
-			
+
 		sprintf( buf2, "\n辛苦你了！你已经将族长的位子交给%s了。", CHAR_getChar( charaindex, CHAR_NAME) );
 		lssproto_WN_send( CHAR_getWorkInt( leaderindex, CHAR_WORKFD) , WINDOW_MESSAGETYPE_MESSAGE,
 			WINDOW_BUTTONTYPE_OK,
@@ -2928,13 +2929,13 @@ void ACFMJob( int fd, int ret, char* data1, char* data2 )
 			makeEscapeString( buf2, buf, sizeof(buf)));
 
 //		print(" LeaderChange!! [%s]->[%s] ", CHAR_getChar(leaderindex, CHAR_CDKEY), CHAR_getChar(charaindex, CHAR_CDKEY) );
-		
+
 		sprintf( buf, "%s\t%s\t%s",
 			CHAR_getChar(leaderindex, CHAR_FMNAME),
 			CHAR_getChar(leaderindex, CHAR_NAME),
 			CHAR_getChar(leaderindex, CHAR_CDKEY)
 		);
-		
+
 		LogFamily(
 			CHAR_getChar(charaindex, CHAR_FMNAME),
 			CHAR_getInt(charaindex, CHAR_FMINDEX),

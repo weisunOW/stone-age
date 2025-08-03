@@ -128,7 +128,7 @@ BOOL MAP_readMapConfFile( char* filename )
         fprint("无法分配地图数据大小=%d\n",MAP_imagedatanum);
         return FALSE;
     }
-    
+
     for( i = 0; i <arraysizeof( MAP_imgfilt) ; i ++ )
         MAP_imgfilt[i] = -1;
     if( fseek( file, 0 , SEEK_SET ) != 0 ){
@@ -350,7 +350,7 @@ BOOL MAP_initMapArray( int num )
     if( MAP_map == NULL )return FALSE;
 
     MAP_mapnum_index = 0;
-    
+
     return TRUE;
 }
 
@@ -601,7 +601,7 @@ unsigned int MAP_getExFloor_XY( int floor, int *map_type)
 	}
 	return 0;
 }
-BOOL CHECKFLOORID( id)
+BOOL CHECKFLOORID( int id )
 {
 	int i;
 

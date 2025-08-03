@@ -6,5 +6,7 @@ void NPC_HealerTalked( int meindex , int talkerindex , char *msg ,
 
 BOOL NPC_HealerInit( int meindex );
 
+void NPC_HealerAllHeal( int talker );
+
 #endif
  /*__NPC_HEALER_H__*/

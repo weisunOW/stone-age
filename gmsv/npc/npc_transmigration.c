@@ -22,9 +22,7 @@ BOOL NPC_TransmigrationAddPet(int meindex, int talker, int petid);
 //楮醒及烂聒
 int NPC_StartpointCheck(int meindex,int talker);
 BOOL NPC_TransmigrationMain(int meindex, int toindex, char *buf);
-int NPC_TransmigrationFlg_CLS(int meindex, int toindex);
 BOOL NPC_TransmigrationDelPet(int meindex, int talker);
-BOOL NPC_TransmigrationStatus(int meindex, int toindex,int *work);
 BOOL NPC_TransmigratiomWarp(int meindex, int toindex, char *buf);
 void s_eventsetend( int charaindex, int shiftbit );
 
@@ -50,14 +48,14 @@ void NPC_TransmigrationTalked( int meindex , int talkerindex , char *szMes ,int 
 {
 #ifdef _PET_TRANS
 	int i,petindex;
-#endif	
+#endif
 	if( CHAR_getInt( talkerindex , CHAR_WHICHTYPE ) != CHAR_TYPEPLAYER )
 	{
-    return;
+    	return;
 	}
 	if(NPC_Util_isFaceToFace( meindex ,talkerindex , 2) == FALSE) {
 		if(NPC_Util_isFaceToChara( talkerindex, meindex, 1) == FALSE) return;
-	}    
+	}
 //	print("savepoot=%d",CHAR_getInt( talkerindex, CHAR_SAVEPOINT));
 //	NPC_StartpointCheck( meindex, talkerindex);
 #ifdef _PET_TRANS
@@ -75,7 +73,7 @@ void NPC_TransmigrationTalked( int meindex , int talkerindex , char *szMes ,int 
 		){
 		  if( CHAR_getInt( talkerindex, CHAR_LV) < 80 )	{
 				CHAR_talkToCli( talkerindex, -1, "由于你的等级小于80,没能力进行转宠！",  CHAR_COLORWHITE);
-				return 0;
+				return;
 		  }else if( CHAR_getInt( petindex, CHAR_LV) > 79 ){
 		 		char szPet[512];
 		    CHAR_setCharPet( talkerindex, i, -1);
@@ -83,12 +81,12 @@ void NPC_TransmigrationTalked( int meindex , int talkerindex , char *szMes ,int 
 		    snprintf( szPet, sizeof( szPet ), "K%d", i);
 		    CHAR_sendStatusString( talkerindex, szPet );
 		    CHAR_talkToCli( talkerindex, -1, "清除你身上非法玛雷菲雅", CHAR_COLORRED);
-		    return 0;
+		    return;
 		  }else	if( CHAR_getInt( petindex, CHAR_LV) == 79 ) {
 				if( strcmp( CHAR_getChar( petindex, CHAR_OWNERCDKEY), CHAR_getChar( talkerindex, CHAR_CDKEY) ) ||
 					strcmp( CHAR_getChar( petindex, CHAR_OWNERCHARANAME), CHAR_getChar( talkerindex, CHAR_NAME) ))	{
 					CHAR_talkToCli( talkerindex, -1, "你身上的玛雷菲雅，并不是你的啊！",  CHAR_COLORWHITE);
-					return 0;
+					return;
 				}
 				{
 					int LevelUpPoint = CHAR_getInt( petindex, CHAR_ALLOCPOINT );
@@ -99,17 +97,17 @@ void NPC_TransmigrationTalked( int meindex , int talkerindex , char *szMes ,int 
 					work[2] = (( LevelUpPoint >> 0 ) & 0xFF);
 					if(work[0]<15 || work[1]<15 || work[2]<15 || work[3]<15){
 						CHAR_talkToCli( talkerindex, petindex, "操，你太不爱惜我了，还要我帮你转宠？没门！",  CHAR_COLORWHITE);
-						return 0;
+						return;
 					}
 				}
 				petNum ++;
 		  }
 		}
 	}
-	
+
 	if( petNum > 1 )	{
 		CHAR_talkToCli( talkerindex, -1, "你怎会有那麽多玛雷菲雅呢？",  CHAR_COLORWHITE);
-		return 0;
+		return;
   }else if( petNum == 1 )	{
     CHAR_setWorkInt(talkerindex,CHAR_WORKSHOPRELEVANT,1);
     NPC_PetTransMan_selectWindow( meindex, talkerindex,0,-1);
@@ -124,7 +122,7 @@ void NPC_TransmigrationTalked( int meindex , int talkerindex , char *szMes ,int 
 	//原转生
 	//CHAR_setWorkInt( talkerindex, CHAR_WORKSHOPRELEVANT,1);
 	//NPC_Transmigration_selectWindow( meindex, talkerindex, 0);
-	
+
 }
 
 
@@ -157,7 +155,7 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 	if(CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT) >= 2){
 		tenseiNo--;
 	}
-	 
+
 	sprintf(s_tensei,"TENSEI:%d",tenseiNo);
 
 	while(getStringFromIndexWithDelim( npcarg,"END",i,buf,sizeof( buf))	!= FALSE){
@@ -172,7 +170,7 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
         //ttom
         CONNECT_set_state_trans(fd,6);
         //ttom end
-         
+
 	switch( num){
 	  case 0:
 	        //ttom
@@ -195,7 +193,7 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 			  	buttontype = WINDOW_BUTTONTYPE_NEXT;
 			  	//ttom
 			  	CONNECT_set_state_trans(fd,0);
-			  	//ttom end			  	                                                                                                                                
+			  	//ttom end
 		}else if(
 #ifdef _TRANS_6
 			ten_no == 6
@@ -221,9 +219,9 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 
 		}
 		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_START;
-		  	 
+
 	 	break;
-	 	
+
 	 	case 1:
 		 	if(NPC_Util_GetStrFromStrWithDelim( buf,"mainmsg", token,sizeof( token) ) == NULL)
 			{
@@ -231,51 +229,51 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 				return;
 			}
 		  	buttontype = WINDOW_BUTTONTYPE_OKCANCEL;
-		  	windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_MAIN; 
+		  	windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_MAIN;
 	 	break;
-	 	
+
 	 	case 2:
       	 	        // Robin 2001/03/05 Tensei Check
 			//if(!CHAR_getWorkInt(toindex,CHAR_TENSEICHECKED))  return;
-	 	       
+
 	 		point = NPC_StartpointCheck( meindex, toindex);
 	 		if(point == -1) {
 	 			return;
 	 		}
-	 		
+
 			NPC_Util_GetStrFromStrWithDelim( npcarg,elder[point],buf2,sizeof( buf2));
-			if(NPC_TransmigrationMain(meindex, toindex, buf2) ==  FALSE) 
+			if(NPC_TransmigrationMain(meindex, toindex, buf2) ==  FALSE)
 			{
 				return;
 			}
 
-	 		
-	 		sprintf( tmp, "yesmsg%d", 
+
+	 		sprintf( tmp, "yesmsg%d",
 	 						CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT));
-	 		
+
 	 		if(NPC_Util_GetStrFromStrWithDelim( buf,tmp, token,sizeof( token) ) == NULL)
 			{
 				print("yesmsgErr");
 				return;
 			}
 
-			CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 
+			CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT,
 					CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT) +1
 			);
-	 		sprintf( tmp, "yesmsg%d", 
+	 		sprintf( tmp, "yesmsg%d",
 	 						CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT));
-			
+
 	 		if(strstr(buf, tmp) == NULL)	{
 				buttontype = WINDOW_BUTTONTYPE_OK;
-		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END; 
+		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END;
 			}else	{
 				buttontype = WINDOW_BUTTONTYPE_NEXT;
-		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END; 
+		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END;
 			}
 	 	break;
-	
+
 	 	case 3:
-	 		
+
 			/*--平□伐□玉及民尼永弁毛垫丹--*/
 			if(NPC_Util_GetStrFromStrWithDelim( buf,"nomsg", token,sizeof( token) ) == NULL)
 			{
@@ -283,12 +281,12 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 				return;
 			}
 		  	buttontype = WINDOW_BUTTONTYPE_OK;
-	  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_NONE; 
-	 		
+	  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_NONE;
+
 	 	break;
 
 	 	case 4:
-	 		sprintf( tmp, "yesmsg%d", 
+	 		sprintf( tmp, "yesmsg%d",
 	 						CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT));
 	 		if(NPC_Util_GetStrFromStrWithDelim( buf,tmp, token,sizeof( token) ) == NULL)
 			{
@@ -296,22 +294,22 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 				return;
 			}
 
-			CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 
+			CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT,
 					CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT) +1
 			);
-	 		sprintf( tmp, "yesmsg%d", 
+	 		sprintf( tmp, "yesmsg%d",
 	 						CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT));
-			
+
 	 		if(strstr(buf, tmp) == NULL)
 			{
 				buttontype = WINDOW_BUTTONTYPE_OK;
-		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END; 
+		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END;
 			}else{
 				buttontype = WINDOW_BUTTONTYPE_NEXT;
-		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END; 
+		  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END;
 			}
-			
-	 	
+
+
 		break;
 		case 5:
 
@@ -322,23 +320,23 @@ static void NPC_Transmigration_selectWindow( int meindex, int toindex, int num)
 			NPC_Util_GetStrFromStrWithDelim( npcarg,elder[point],buf2,sizeof( buf2));
 			NPC_TransmigratiomWarp(meindex, toindex, buf2);
 //			buttontype = WINDOW_BUTTONTYPE_OK;
-//	  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END; 
+//	  		windowno = CHAR_WINDOWTYPE_TRANSMIGRATION_END;
 			return;
 		break;
 
-	 	
+
 	}
 //	makeEscapeString( token, escapedname, sizeof(escapedname));
 	/*-仇仇匹霜耨允月--*/
-	lssproto_WN_send( fd, windowtype, 
-					buttontype, 
+	lssproto_WN_send( fd, windowtype,
+					buttontype,
 					windowno,
 					CHAR_getWorkInt( meindex, CHAR_WORKOBJINDEX),
 					token);
 }
 /*-----------------------------------------
 -------------------------------------------*/
-void NPC_TransmigrationWindowTalked( int meindex, int talkerindex, 
+void NPC_TransmigrationWindowTalked( int meindex, int talkerindex,
 								int seqno, int select, char *data)
 {
 
@@ -362,10 +360,10 @@ void NPC_TransmigrationWindowTalked( int meindex, int talkerindex,
 			//ttom
 			CONNECT_set_state_trans(fd,1);
 			//ttom end
-			         
+
 		}
 	  	break;
-		
+
 	  case CHAR_WINDOWTYPE_TRANSMIGRATION_MAIN:
 	 	if( select == WINDOW_BUTTONTYPE_OK) {
 	 	        //ttom
@@ -396,18 +394,18 @@ void NPC_TransmigrationWindowTalked( int meindex, int talkerindex,
 	 	        NPC_Transmigration_selectWindow( meindex, talkerindex, 5);
 		}
 		break;
-		
+
 //ANDY_ADD 10/19
 #ifdef _PET_TRANS
 
 	case CHAR_WINDOWTYPE_PETTRANS_START:	//开始对话
 		if( select == WINDOW_BUTTONTYPE_NEXT) {
 			NPC_PetTransMan_selectWindow( meindex, talkerindex, 1, 0);
-		}	
+		}
 	break;
 
 	case CHAR_WINDOWTYPE_PETTRANS_SELECT:	//是否让宠物转生
-		if( select == WINDOW_BUTTONTYPE_YES) {	
+		if( select == WINDOW_BUTTONTYPE_YES) {
 			NPC_PetTransMan_selectWindow( meindex, talkerindex, 2, 0);
 		}else	{
 			NPC_PetTransMan_selectWindow( meindex, talkerindex, 5, 0);
@@ -418,7 +416,7 @@ void NPC_TransmigrationWindowTalked( int meindex, int talkerindex,
 		if(select==WINDOW_BUTTONTYPE_CANCEL)	{
 			NPC_PetTransMan_selectWindow( meindex, talkerindex, 5,-1 );
 		}else	{
-			Pet_Select = datanum;	
+			Pet_Select = datanum;
 			NPC_PetTransMan_selectWindow( meindex, talkerindex, 3, datanum );
 		}
 	break;
@@ -430,11 +428,11 @@ void NPC_TransmigrationWindowTalked( int meindex, int talkerindex,
 			NPC_PetTransMan_selectWindow( meindex, talkerindex, 5, -1);
 		}
 	break;
-       
+
 	case CHAR_WINDOWTYPE_PETTRANS_END:	//宠物转生结束结束
 		CHAR_setWorkInt( talkerindex, CHAR_WORKSHOPRELEVANT, 0);
 	break;
-	
+
 #endif
 
 	}
@@ -452,7 +450,7 @@ BOOL NPC_TransmigratiomWarp(int meindex, int toindex, char *buf)
 	int floor=0 , x = 0, y = 0;
 	int i = 1;
 	int ret;
-	
+
 	while(getStringFromIndexWithDelim( buf,",",i,buf2,sizeof( buf2))
 	!= FALSE)
 	{
@@ -473,8 +471,8 @@ BOOL NPC_TransmigratiomWarp(int meindex, int toindex, char *buf)
 
 		}
 	}
-    
-    
+
+
 	//伐□皿燮及民尼永弁
     if( MAP_IsValidCoordinate( floor, x, y )== FALSE ){
 		return FALSE;
@@ -491,7 +489,7 @@ BOOL NPC_TransmigratiomWarp(int meindex, int toindex, char *buf)
         }
         */
         //ttom
-                                                   
+
 	//伐□皿今六月
 	 CHAR_warpToSpecificPoint(toindex, floor, x, y);
 
@@ -611,12 +609,12 @@ static int NPC_TransmigrationCheck(int meindex, int talker)
 		for(i=0 ; i < CHAR_MAXPETHAVE ; i++){
 			petindex = CHAR_getCharPet( talker, i);
 			if( petindex == -1  )  continue;
-			if( CHAR_getInt( petindex, CHAR_TRANSMIGRATION) == 2 
-				&& ( CHAR_getInt( petindex, CHAR_PETID) == 2 
+			if( CHAR_getInt( petindex, CHAR_TRANSMIGRATION) == 2
+				&& ( CHAR_getInt( petindex, CHAR_PETID) == 2
 				|| CHAR_getInt( petindex, CHAR_PETID) == 112
 				|| CHAR_getInt( petindex, CHAR_PETID) == 102
 				|| CHAR_getInt( petindex, CHAR_PETID) == 34 ) ) break;
-			//if(CHAR_getInt( petindex, CHAR_TRANSMIGRATION) != 2 || CHAR_getInt( petindex, CHAR_PETID) != lasttalkelder ) continue;		
+			//if(CHAR_getInt( petindex, CHAR_TRANSMIGRATION) != 2 || CHAR_getInt( petindex, CHAR_PETID) != lasttalkelder ) continue;
 		}
 		if(i == CHAR_MAXPETHAVE){
 			CHAR_talkToCli( talker,-1,"你没有带2转的出生宠哦!",CHAR_COLORWHITE);
@@ -664,14 +662,14 @@ BOOL NPC_TransmigrationMain(int meindex, int toindex, char *buf)
 	int work[10];
 	int fd = getfdFromCharaIndex( toindex );
 
-#ifdef _ADD_POOL_ITEM			   // WON ADD 增加可寄放的道具	
+#ifdef _ADD_POOL_ITEM			   // WON ADD 增加可寄放的道具
 	int tran_pool_item[5] = { 4, 4, 4, 4, 4 };		// 增加的道具寄放数
 	int tran_pool_pet[5] = { 2, 2, 2, 2, 2};		// 增加的宠物寄放数
 	int j,item_sum=0, pet_sum=0;
 
 	for(j=0; j<5 ;j++){
-		item_sum += tran_pool_item[j] ;			
-		pet_sum += tran_pool_pet[j];		
+		item_sum += tran_pool_item[j] ;
+		pet_sum += tran_pool_pet[j];
 	}
 
 	item_sum += 10;								// 限制最大的寄道具数
@@ -735,7 +733,7 @@ BOOL NPC_TransmigrationMain(int meindex, int toindex, char *buf)
             //CHAR_setInt( toindex,CHAR_LEARNRIDE, 0);
             CHAR_setInt( toindex,CHAR_RIDEPET, -1 );
             CHAR_setInt( toindex , CHAR_BASEIMAGENUMBER , CHAR_getInt( toindex , CHAR_BASEBASEIMAGENUMBER) );
-            
+
             //CHAR_sendStatusString( toindex , "P");
         }
 	lssproto_WO_send(fd ,0 );
@@ -774,7 +772,7 @@ BOOL NPC_TransmigrationMain(int meindex, int toindex, char *buf)
 								  CHAR_P_STRING_TOUGH|
 								  CHAR_P_STRING_DUELPOINT //ttom
 								  );
-	*/			
+	*/
 	return TRUE;
 }
 
@@ -789,13 +787,13 @@ int NPC_TransmigrationQuestCheck(int toindex)
 {
 	int i;
 	int num = 0;
-	
+
 	for(i = 0 ; i < 20; i++){
 		if(NPC_EventCheckFlg(toindex ,questTbl[i]) == TRUE){
 			num++;
 		}
 	}
-	
+
 	return num;
 }
 
@@ -827,11 +825,11 @@ float Rounding(float work,int num)
 {
 
 	float p;
-	
+
 	if(num  <0 ) return work;
 	num--;
 	p = (float)pow(10,num);
-	
+
 	return ( (work * p + 0.5) /p);
 
 
@@ -848,7 +846,7 @@ BOOL NPC_TransmigrationStatus(int meindex, int toindex,int work[10])
 	int t_quest, t_level;
 	int total,ans;
 	float tmp,lvup;
-	
+
 	vital = CHAR_getInt(toindex,CHAR_VITAL);
 	str = CHAR_getInt(toindex,CHAR_STR);
 	tgh = CHAR_getInt(toindex,CHAR_TOUGH);
@@ -859,15 +857,15 @@ BOOL NPC_TransmigrationStatus(int meindex, int toindex,int work[10])
 	quest = NPC_TransmigrationQuestCheck( toindex);
 	//伊矛伙
 	level = CHAR_getInt(toindex,CHAR_LV);
-	
+
 	work[0] = level;
 	work[1] = quest;
-	
+
 	equ = CHAR_getInt(toindex, CHAR_TRANSEQUATION);
 
 	t_quest = (float)(( equ >> 16 ) & 0xFFFF);
 	t_level = (float)(( equ >> 0 ) & 0xFFFF);
-	
+
 	if( level > 130 ) level = 130;
 	t_quest = t_quest + quest;
 	t_level = t_level + level;
@@ -890,7 +888,7 @@ BOOL NPC_TransmigrationStatus(int meindex, int toindex,int work[10])
 	work[6] = tgh;
 	tmp = (float)tgh/total * ans;
 	work[7] = Rounding(tmp,1) * 100;
-	
+
 	work[8] = dex;
 	tmp = (float)dex/total * ans;
 	work[9] = Rounding(tmp,1) * 100;
@@ -905,13 +903,13 @@ BOOL NPC_TransmigrationStatus(int meindex, int toindex,int work[10])
 	//tghr本永玄
 	if(work[7] < 0) work[7] = 0;
 	CHAR_setInt(toindex, CHAR_TOUGH, work[7]);
-	
+
 	//dex本永玄
 	if(work[9] < 0) work[9] = 0;
 	CHAR_setInt(toindex, CHAR_DEX, work[9]);
-	
-	
-	
+
+
+
 	lvup = CHAR_getInt(toindex, CHAR_SKILLUPPOINT );
 /*#ifdef _TRANS_6
 	if( CHAR_getInt(toindex, CHAR_TRANSMIGRATION) == 6)
@@ -921,12 +919,12 @@ BOOL NPC_TransmigrationStatus(int meindex, int toindex,int work[10])
 	lvup =  Rounding(lvup, 1);
 	if(lvup < 0) lvup = 0;
 	CHAR_setInt(toindex, CHAR_SKILLUPPOINT, (int)lvup);
-	
+
 	/*  旦平伙失永皿匹五凶日仇木毛霜月  */
 	if( CHAR_getInt( toindex,CHAR_SKILLUPPOINT ) >=1 )
 		CHAR_Skillupsend(toindex);
 
-	
+
 	return TRUE;
 
 
@@ -1050,7 +1048,7 @@ int NPC_TransmigrationFlg_CLS(int meindex, int toindex)
 	while( endevflg[i] != -1 )	{
 		if( endevflg[i] > 0 )	{
 			// shan Begin
-			//NPC_EventSetFlg( toindex, endevflg[i]);			
+			//NPC_EventSetFlg( toindex, endevflg[i]);
 			s_eventsetend(toindex, endevflg[i]);
 			// End
 		}
@@ -1094,11 +1092,11 @@ BOOL NPC_TransmigrationDelPetDel(int meindex,int talker,int petsel)
 	char msgbuf[64];
 	char szPet[128];
 	int defpet;
-	
+
 	petindex = CHAR_getCharPet( talker, petsel);
 
     if( !CHAR_CHECKINDEX(petindex) ) return FALSE;
-	
+
 	if( CHAR_getWorkInt( CONNECT_getCharaindex( fd),
    	                     CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE) return FALSE;
 	/*--公及矢永玄互田玄伙井升丹井及民尼永弁--*/
@@ -1141,7 +1139,7 @@ BOOL NPC_TransmigrationDelPet(int meindex, int talker)
 //	int petidfinal[4] = {11, 12, 13, 14}; //矢永玄及    毛隙烂
 	int petidfinal[4] = {693, 694, 695, 696}; //矢永玄及    毛隙烂
 	int petwork[4] ={ -1, -1, -1, -1};
-	
+
 	num = CHAR_getInt(talker, CHAR_TRANSMIGRATION);
 	num--;
 	if(num  < 4 ){
@@ -1149,14 +1147,14 @@ BOOL NPC_TransmigrationDelPet(int meindex, int talker)
 		for(petsel=0 ; petsel < CHAR_MAXPETHAVE ; petsel++){
 			petindex = CHAR_getCharPet( talker, petsel);
 			if( petindex == -1  )  continue;
-			
+
 			if(CHAR_getInt( petindex, CHAR_PETID) != petid[num]) continue;
 			break;
 		}
-	
+
 		if(petsel  == CHAR_MAXPETHAVE) return FALSE;
 		if(NPC_TransmigrationDelPetDel(meindex, talker, petsel) == FALSE) return FALSE;
-	
+
 	}
 #ifdef _TRANS_6
 	else if( num == 4 )
@@ -1169,9 +1167,9 @@ BOOL NPC_TransmigrationDelPet(int meindex, int talker)
 			for(petsel=0 ; petsel < CHAR_MAXPETHAVE ; petsel++){
 				petindex = CHAR_getCharPet( talker, petsel);
 				if( petindex == -1  )  continue;
-				
+
 				if(CHAR_getInt( petindex, CHAR_PETID) != petidfinal[j]) continue;
-				
+
 				petwork[j] = petsel;
 				break;
 			}
@@ -1200,7 +1198,7 @@ BOOL NPC_TransmigrationDelPet(int meindex, int talker)
 			int petid;
 			petindex = CHAR_getCharPet( talker, petsel);
 			if( petindex == -1  )  continue;
-			
+
 			if(CHAR_getInt( petindex, CHAR_TRANSMIGRATION) != 2) continue;
 			petid=CHAR_getInt( petindex, CHAR_PETID );
 			if (petid == 2) break;
@@ -1217,7 +1215,7 @@ BOOL NPC_TransmigrationDelPet(int meindex, int talker)
 
 #ifdef _PET_TRANS
 void NPC_PetTransMan_selectWindow(int meindex,int toindex,int num,int select)
-{ 
+{
 	char token[1024],buf[1024],buf1[256];
 	char npcarg[NPC_UTIL_GETARGSTR_BUFSIZE];
 	char s_tensei[128];
@@ -1249,12 +1247,12 @@ void NPC_PetTransMan_selectWindow(int meindex,int toindex,int num,int select)
 			break;
   		}
 	}
-  
+
 	if( CHAR_getWorkInt( toindex, CHAR_WORKSHOPRELEVANT) < 0 )
 		CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 0);
-  
-	token[0] = '0';		
- 
+
+	token[0] = '0';
+
 	switch(num)	{
 		case 0:		//对话
 			if( NPC_Util_GetStrFromStrWithDelim( buf,"mainmsg", token,sizeof( token)) == NULL )	{
@@ -1264,13 +1262,13 @@ void NPC_PetTransMan_selectWindow(int meindex,int toindex,int num,int select)
 			buttontype = WINDOW_BUTTONTYPE_NEXT;
 			windowno = CHAR_WINDOWTYPE_PETTRANS_START;
 			break;
-		
-		case 1:	//是否让宠物转生				
+
+		case 1:	//是否让宠物转生
 			//转生需要物品或宠物检查
 			errtype = NPC_PetTransManCheck( meindex, toindex, 0);
 			if( errtype >= 0 )
 				errtype = 3;
-	
+
 			if( errtype >= 0 )	{
 				if( NPC_Util_GetStrFromStrWithDelim( buf,errchar[ errtype], token,sizeof( token)) == NULL )	{
 					print("\n ERROR str errchar !!");
@@ -1279,7 +1277,7 @@ void NPC_PetTransMan_selectWindow(int meindex,int toindex,int num,int select)
 				buttontype = WINDOW_BUTTONTYPE_OK;
 				windowtype = WINDOW_MESSAGETYPE_MESSAGE;
 				windowno =  CHAR_WINDOWTYPE_PETTRANS_END;
-				break;                                                
+				break;
 			}
 			if( NPC_Util_GetStrFromStrWithDelim( buf,"selectmsg", token,sizeof( token)) == NULL )	{
 				print("\n ERROR selectmsg !!");
@@ -1324,25 +1322,25 @@ void NPC_PetTransMan_selectWindow(int meindex,int toindex,int num,int select)
 			}
 #ifdef _PET_2TRANS
 			if( CHAR_getInt( toindex, CHAR_RIDEPET ) == select-1 /*&& CHAR_getInt( petindex, CHAR_TRANSMIGRATION ) > 0*/ ){//骑乘中的宠物不能转生
-				sprintf(token, "\n\n骑乘中的宠物不能转生喔！"); 	
+				sprintf(token, "\n\n骑乘中的宠物不能转生喔！");
 			}else
 #endif
 			if( CHAR_getInt( petindex, CHAR_LV) < 80 )	{
-				sprintf(token, "\n\n接受转生祝福的宠物必需要等级80以上喔！"); 
+				sprintf(token, "\n\n接受转生祝福的宠物必需要等级80以上喔！");
 				CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 0);
-			}else if( CHAR_getInt( petindex, CHAR_PETID) == 718 
+			}else if( CHAR_getInt( petindex, CHAR_PETID) == 718
 #ifdef _PET_2TRANS
-					  || CHAR_getInt( petindex, CHAR_PETID) == 401 
+					  || CHAR_getInt( petindex, CHAR_PETID) == 401
 #endif
 			){
-				sprintf(token, "\n\n这只宠物不能转生喔！"); 
+				sprintf(token, "\n\n这只宠物不能转生喔！");
 				CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 0);
 #ifdef _PET_2TRANS
 			}else if( CHAR_getInt( petindex, CHAR_TRANSMIGRATION ) > 1 )	{
 #else
 			}else if( CHAR_getInt( petindex, CHAR_TRANSMIGRATION ) > 0 )	{
 #endif
-				sprintf(token, "\n\n这只宠物已经接受过祝福了喔！"); 
+				sprintf(token, "\n\n这只宠物已经接受过祝福了喔！");
 				CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 0);
 				//检查宠物是否重复转生
 			}else	{	//	转生ＯＫ
@@ -1357,16 +1355,16 @@ void NPC_PetTransMan_selectWindow(int meindex,int toindex,int num,int select)
 			windowtype = WINDOW_MESSAGETYPE_MESSAGE;
 			windowno =  CHAR_WINDOWTYPE_PETTRANS_END;	//结束
 			break;
-  
-		case 5:		//宠物转生取消	
+
+		case 5:		//宠物转生取消
 			if( NPC_Util_GetStrFromStrWithDelim( buf,"cancelmsg", token,sizeof( token)) == NULL )
 				return;
 			CHAR_setWorkInt( toindex, CHAR_WORKSHOPRELEVANT, 0);
 			buttontype = WINDOW_BUTTONTYPE_OK;
 			windowtype = WINDOW_MESSAGETYPE_MESSAGE;
 			windowno =  CHAR_WINDOWTYPE_PETTRANS_END;	//结束
-			break;	
-	
+			break;
+
 		default:
 			break;
 	}
@@ -1506,12 +1504,12 @@ BOOL NPC_PetTransManStatus( int meindex, int toindex, int petNo)
 		BOOL FINDs = FALSE;
 #ifdef _PET_2TRANS
 		tpetidx1 = CHAR_getInt( petindex, CHAR_PETID);
-#endif		
+#endif
 		//删除身上所有玛宠
 		for(j=0 ; j < CHAR_MAXPETHAVE ; j++){
 			int pet_index = CHAR_getCharPet( toindex, j);
 			if( pet_index == -1  )  continue;
-			if( 
+			if(
 #ifdef _PET_2TRANS
 				CHAR_getInt( pet_index, CHAR_PETID) == tpetidx1
 #else
@@ -1533,21 +1531,21 @@ BOOL NPC_PetTransManStatus( int meindex, int toindex, int petNo)
 	if( ret < 0 )
 		return FALSE;
 	for(count=0;count<CHAR_MAXPETHAVE;count++)	{
-		if(CHAR_getCharPet(toindex,count) == ret)	{	
+		if(CHAR_getCharPet(toindex,count) == ret)	{
 			CHAR_send_K_StatusString(toindex,count,CHAR_K_STRING_HP|CHAR_K_STRING_AI);
 		}
 	}
 	CHAR_setInt( petNo, CHAR_LIMITLEVEL, -1);
 	{
-		
-			LogPetTrans( 
+
+			LogPetTrans(
 				CHAR_getChar( toindex, CHAR_CDKEY ),
 				CHAR_getChar( petNo, CHAR_UNIQUECODE),
 				CHAR_getChar( petindex, CHAR_UNIQUECODE),//玛蕾
 				CHAR_getChar( toindex, CHAR_NAME),
 				CHAR_getInt( toindex, CHAR_FLOOR),
-				CHAR_getInt( toindex, CHAR_X), 
-				CHAR_getInt( toindex, CHAR_Y), 
+				CHAR_getInt( toindex, CHAR_X),
+				CHAR_getInt( toindex, CHAR_Y),
 				CHAR_getInt( petNo, CHAR_PETID),
 				CHAR_getChar( petNo, CHAR_NAME),
 				petLV, petrank,
@@ -1561,7 +1559,7 @@ BOOL NPC_PetTransManStatus( int meindex, int toindex, int petNo)
 	CHAR_talkToCli( toindex, -1,token,CHAR_COLORWHITE);
 	sprintf( token, "K%d", i );
 	CHAR_sendStatusString( toindex , token );
- 
+
 //--------------------------------------------------------------------------
 	//删除物品	itemindex,itemID;
 	for( i =0 ; i < CHAR_MAXITEMHAVE ; i++ ){
@@ -1604,15 +1602,15 @@ BOOL NPC_PetTransManStatus( int meindex, int toindex, int petNo)
 void s_eventsetend( int charaindex, int shiftbit )
 {
 	int event_num = 6;
-	int point;	
+	int point;
 	int array;
 	int shift;
 
 	array = shiftbit / 32;
 	shift = shiftbit % 32;
-		
+
 	if( array>=event_num ){
-		//print("错误！！所设的任务旗标编号已超过范围(0~%d)。",32*event_num-1);			
+		//print("错误！！所设的任务旗标编号已超过范围(0~%d)。",32*event_num-1);
 		return;
 	}
 	point = CHAR_getInt( charaindex, CHAR_ENDEVENT+array);

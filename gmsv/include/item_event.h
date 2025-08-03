@@ -153,7 +153,7 @@ void ITEM_useMRecovery( int charaindex, int toindex, int haveitemindex);
 #ifdef _ITEM_USEMAGIC
 void ITEM_useMagic( int charaindex, int toindex, int haveitemindex);
 #endif
- 
+
 #ifdef _PETSKILL_CANNEDFOOD
 void ITEM_usePetSkillCanned_WindowResult( int charaindex, int seqno, int select, char *data);
 #endif
@@ -165,6 +165,7 @@ void ITEM_changePetOwner( int charaindex, int toindex, int haveitemindex);
 
 #ifdef _TIME_TICKET
 void ITEM_timeticket( int charaindex, int toindex, int haveitemindex);
+void ITEM_timeticketEx( int charaindex, int toindex, int haveitemindex, int flag);
 #endif
 #ifdef _ITEM_SETLOVER
 void ITEM_SetLoverUser( int charaindex, int toindex, int haveitemindex);

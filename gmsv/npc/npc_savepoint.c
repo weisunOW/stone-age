@@ -1,3 +1,4 @@
+#include "configfile.h"
 #include "version.h"
 #include <string.h>
 #include "object.h"
@@ -40,7 +41,7 @@ BOOL NPC_SavePointInit( int meindex )
 		print("SavePoint:ID尚未设定 ");
 		return FALSE;
 	}
-		
+
 	oldmanid=atoi(buf2);
 	NPC_Util_GetStrFromStrWithDelim(argstr,"Born",buf2,sizeof( buf2) );
 	getStringFromIndexWithDelim( buf2,",",1,token,sizeof(token));
@@ -118,20 +119,20 @@ void NPC_SavePointTalked( int meindex , int talkerindex , char *msg ,
 			{
 				CHAR_charSaveFromConnectAndChar( fd, chwk ,FALSE );
 			}
-#endif			                                                                                                                                                       
+#endif
 		}
 
 		NPC_Util_GetStrFromStrWithDelim(argstr,"NomalMsg",token,sizeof( token) );
 	    sprintf(buf2,token,CHAR_getChar(talkerindex,CHAR_NAME));
-	    
+
 	    // Robin 0619 display time
 	    {
 	    	time_t new_t;
 	    	int dd,hh,mm,ss;
-	    	
+
 	    	time(&new_t);
 	    	new_t-=initTime;
-		
+
 				dd=(int) new_t / 86400; new_t=new_t % 86400;
     		hh=(int) new_t / 3600;  new_t=new_t % 3600;
 	        mm=(int) new_t / 60;    new_t=new_t % 60;
@@ -176,8 +177,8 @@ void NPC_SavePointTalked( int meindex , int talkerindex , char *msg ,
 						sprintf(temp,"目前线上人数为 %d 人。",abs(StateTable[LOGIN]));
 #else
 					sprintf(temp,"目前线上人数为 %d 人。",abs(StateTable[LOGIN]));
-#endif	
-	       
+#endif
+
 	        strcat(buf2,temp);
 
 	    }
@@ -193,7 +194,7 @@ void NPC_SavePointTalked( int meindex , int talkerindex , char *msg ,
 /*-----------------------------------------
  *
 -------------------------------------------*/
-void NPC_SavePointWindowTalked( int meindex, int talkerindex, 
+void NPC_SavePointWindowTalked( int meindex, int talkerindex,
 								int seqno, int select, char *data)
 {
 
@@ -222,10 +223,10 @@ BOOL NPC_AndReduce(int meindex,int talker,char *buf,int flg)
 	char buf3[256];
 	int itemNo=0;
 	int kosuu;
-	int j=1;	
-	
+	int j=1;
+
 	if(flg==0){
-	
+
 		while(getStringFromIndexWithDelim(buf,"&",j,buf2,sizeof(buf2))!=FALSE)
 		{
 			j++;
@@ -234,8 +235,8 @@ BOOL NPC_AndReduce(int meindex,int talker,char *buf,int flg)
 				itemNo = atoi(buf3);
 				getStringFromIndexWithDelim(buf2,"*",2,buf3,sizeof(buf3));
 				kosuu = atoi(buf3);
-	
-				
+
+
 				/*--民尼永弁乒□玉--*/
 				if(NPC_SavePointItemCheck(meindex,talker,itemNo,kosuu)==FALSE){
 					return FALSE;
@@ -271,12 +272,12 @@ BOOL NPC_AndReduce(int meindex,int talker,char *buf,int flg)
 					return FALSE;
 			}
 		}
-	
+
 	}
 
 
 	return TRUE;
-} 
+}
 
 
 BOOL NPC_AndReduceDelete(int meindex,int talker,char *buf,int flg)
@@ -286,10 +287,10 @@ BOOL NPC_AndReduceDelete(int meindex,int talker,char *buf,int flg)
 	char buf3[256];
 	int itemNo=0;
 	int kosuu;
-	int j=1;	
-	
+	int j=1;
+
 	if(flg==0){
-	
+
 		while(getStringFromIndexWithDelim(buf,"&",j,buf2,sizeof(buf2))!=FALSE)
 		{
 			j++;
@@ -328,18 +329,18 @@ BOOL NPC_AndReduceDelete(int meindex,int talker,char *buf,int flg)
 
 		}else{
 			itemNo = atoi(buf);
-			
+
 			/*--绰轮乒□玉--*/
 			if(NPC_SavePointItemDelete(meindex,talker,itemNo,1)==FALSE){
 				return FALSE;
 			}
 		}
-	
+
 	}
 
 
 	return TRUE;
-} 
+}
 
 
 
@@ -354,8 +355,8 @@ BOOL NPC_UsedCheck(int meindex,int talker,int flg)
 	char buf2[512];
 	int i=1;
 	int checkflg=0;
-				
-	
+
+
 	if(NPC_Util_GetArgStr( meindex, argstr, sizeof(argstr))==NULL){
 		print("NPC_savePoint.c UseCheck: GetArgStrErr");
 		return FALSE;
@@ -368,7 +369,7 @@ BOOL NPC_UsedCheck(int meindex,int talker,int flg)
 		{
 			i++;
 			if(strstr( buf2, "&") != NULL){
-				
+
 				if(NPC_AndReduce( meindex, talker, buf2,0)==TRUE)
 				{
 					checkflg=1;
@@ -394,9 +395,9 @@ BOOL NPC_UsedCheck(int meindex,int talker,int flg)
 			if(NPC_AndReduceDelete(meindex,talker,buf2,1)==FALSE){
 				return FALSE;
 			}
-		}	
+		}
 	}
-	
+
 	return TRUE;
 
 }
@@ -409,7 +410,7 @@ void NPC_MessageDisp(int meindex,int talker,int MesNo)
 	int fd = getfdFromCharaIndex( talker);
 	int buttontype=WINDOW_BUTTONTYPE_OK;
 	int windowtype=WINDOW_MESSAGETYPE_MESSAGE;
-	int windowno=CHAR_WINDOWTYPE_WINDOWSAVEPOINT_START; 
+	int windowno=CHAR_WINDOWTYPE_WINDOWSAVEPOINT_START;
 
 	char token[1024];
    	char argstr[NPC_UTIL_GETARGSTR_BUFSIZE];
@@ -433,7 +434,7 @@ void NPC_MessageDisp(int meindex,int talker,int MesNo)
 		/*--本□皮今六化丐仆月--*/
 		/* 反卅仄井仃凶蛊卞｝愤坌及ID毛筏盛今六月 */
 		CHAR_setInt( talker, CHAR_LASTTALKELDER ,CHAR_getWorkInt( meindex, CHAR_WORKOLDMANID ) );
-	
+
 		/* 本□皮允月 */
 		/*  夫永弁仄化中月反内互卅中及匹失件夫永弁仄卅中    */
 		fd = getfdFromCharaIndex( talker);
@@ -448,15 +449,15 @@ void NPC_MessageDisp(int meindex,int talker,int MesNo)
 		}
 
 		break;
-	
+
 	  case 2:/*--  邰卅失奶  丞毛手匀化中月井及民尼永弁-*/
 		NPC_Util_GetStrFromStrWithDelim(argstr,"RealyMsg",token,sizeof( token) );
 	  	buttontype=WINDOW_BUTTONTYPE_YESNO;
 		break;
 
 	}
-		lssproto_WN_send( fd, windowtype, 
-						buttontype, 
+		lssproto_WN_send( fd, windowtype,
+						buttontype,
 						windowno,
 						CHAR_getWorkInt( meindex, CHAR_WORKOBJINDEX),
 						token);
@@ -470,7 +471,7 @@ BOOL NPC_SavePointItemDelete(int meindex,int talker,int itemNo,int kosuu)
 	int itemindex;
 	int id;
 	int cnt=0;
-	
+
 	for( i=CHAR_STARTITEMARRAY;i<CHAR_MAXITEMHAVE;i++ ){
 
 		itemindex=CHAR_getItemIndex( talker , i );
@@ -518,7 +519,7 @@ BOOL NPC_SavePointItemCheck(int meindex,int talker,int itemno,int kosuu)
 	int itemindex;
 	int id;
 	int cnt=0;
-	
+
 	for( i=CHAR_STARTITEMARRAY;i<CHAR_MAXITEMHAVE;i++ ){
 
 		itemindex=CHAR_getItemIndex( talker , i );

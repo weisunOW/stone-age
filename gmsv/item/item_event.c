@@ -261,7 +261,7 @@ static BOOL ITEM_medicineRaiseEffect(int charaindex, char* cmd,int value)
                     CHAR_setInt(charaindex, ITEM_statusParam[i].element, value);
                     strcpysafe( ansmsg, sizeof(ansmsg), ITEM_statusParam[i].onmessage );
                 }else{
-                    if( CHAR_getInt(charaindex, ITEM_statusParam[i].element ) ){ 
+                    if( CHAR_getInt(charaindex, ITEM_statusParam[i].element ) ){
 						strcpysafe( ansmsg, sizeof(ansmsg), ITEM_statusParam[i].offmessage );
                     }
                     CHAR_setInt(charaindex, ITEM_statusParam[i].element, 0 );
@@ -577,7 +577,7 @@ void ITEM_useEffectTohelos( int charaindex, int to_charaindex, int haveitemindex
 
 	{
 		LogItem(
-			CHAR_getChar( charaindex, CHAR_NAME ), 
+			CHAR_getChar( charaindex, CHAR_NAME ),
 			CHAR_getChar( charaindex, CHAR_CDKEY ),
 #ifdef _add_item_log_name  // WON ADD 在item的log中增加item名称
 			itemindex,
@@ -721,17 +721,17 @@ void ITEM_useRecovery_Field(
             if( (p = strstr( arg, "火" )) != NULL )
 					lvup=0;
 			if( (p = strstr( arg, "风" )) != NULL )
-					lvup=1;		    
+					lvup=1;
 			if( lv%4 != lvup || CHAR_getInt(toindex, CHAR_LIMITLEVEL)-lv >= 1 ){//
 			    CHAR_talkToCli( charaindex,-1,"破除封印失败",CHAR_COLORWHITE);
 			    CHAR_DelItemMess( charaindex, haveitemindex, 0);
 				return;
 			}
-			CHAR_setInt(toindex, CHAR_LIMITLEVEL, CHAR_getInt(toindex, CHAR_LIMITLEVEL)+1);	
-			CHAR_talkToCli( charaindex,-1,"封印魔咒减弱，最高等级提升",CHAR_COLORWHITE);    
+			CHAR_setInt(toindex, CHAR_LIMITLEVEL, CHAR_getInt(toindex, CHAR_LIMITLEVEL)+1);
+			CHAR_talkToCli( charaindex,-1,"封印魔咒减弱，最高等级提升",CHAR_COLORWHITE);
 			if( CHAR_getInt(toindex, CHAR_LIMITLEVEL) == 140 ){
 				CHAR_setInt(toindex, CHAR_LIMITLEVEL, 0);
-			    CHAR_talkToCli( charaindex,-1,"封印魔咒解除了",CHAR_COLORWHITE);    	
+			    CHAR_talkToCli( charaindex,-1,"封印魔咒解除了",CHAR_COLORWHITE);
 			}
 			CHAR_DelItemMess( charaindex, haveitemindex, 0);
 			CHAR_complianceParameter( toindex );
@@ -754,7 +754,7 @@ void ITEM_useRecovery_Field(
 				return;
 			}
 			CHAR_setInt(toindex, CHAR_LIMITLEVEL, 0);
-			CHAR_talkToCli( charaindex,-1,"封印魔咒解除了",CHAR_COLORWHITE);    	
+			CHAR_talkToCli( charaindex,-1,"封印魔咒解除了",CHAR_COLORWHITE);
 			CHAR_DelItemMess( charaindex, haveitemindex, 0);
 			CHAR_complianceParameter( toindex );
 		    CHAR_sendCToArroundCharacter( CHAR_getWorkInt( toindex , CHAR_WORKOBJINDEX ));
@@ -826,7 +826,7 @@ void ITEM_useRecovery_Field(
 					CHAR_P_STRING_EARTH	|
 					CHAR_P_STRING_WATER	|
 					CHAR_P_STRING_FIRE	|
-					CHAR_P_STRING_WIND	
+					CHAR_P_STRING_WIND
 				);
 		return;
 	}
@@ -844,7 +844,7 @@ void ITEM_useRecovery_Field(
 						CHAR_setWorkInt( toindex, CHAR_WORKGETEXP, atoi(msgbuf) );//回存CHAR_WORKGETEXP
 						CHAR_AddMaxExp( toindex, CHAR_getWorkInt( toindex, CHAR_WORKGETEXP ) );
 						sprintf( msgbuf,"这石头里面不知道有什麽样的矿，让我看看。(增加经验%d)", CHAR_getWorkInt( toindex, CHAR_WORKGETEXP ) );
-						CHAR_talkToCli( charaindex,-1,msgbuf,CHAR_COLORWHITE);  
+						CHAR_talkToCli( charaindex,-1,msgbuf,CHAR_COLORWHITE);
 						UpLevel = CHAR_LevelUpCheck( toindex , charaindex);
 						if( UpLevel > 0 ){
 							if( getBattleDebugMsg( ) != 0 ){
@@ -862,7 +862,7 @@ void ITEM_useRecovery_Field(
 						CHAR_complianceParameter( toindex );
 					}
 					else{
-						CHAR_talkToCli( charaindex,-1,"不能使用",CHAR_COLORWHITE);  
+						CHAR_talkToCli( charaindex,-1,"不能使用",CHAR_COLORWHITE);
 					}
 					/*CHAR_send_P_StatusString(  charindex, CHAR_P_STRING_DUELPOINT|
 					CHAR_P_STRING_TRANSMIGRATION| CHAR_P_STRING_RIDEPET|
@@ -871,7 +871,7 @@ void ITEM_useRecovery_Field(
 				*/
 				}
 				else
-					CHAR_talkToCli( charaindex,-1,"这石头....(无法判别，无法增加经验)",CHAR_COLORWHITE);  
+					CHAR_talkToCli( charaindex,-1,"这石头....(无法判别，无法增加经验)",CHAR_COLORWHITE);
 			}
 			CHAR_DelItemMess( charaindex, haveitemindex, 0);
 			CHAR_complianceParameter( toindex );
@@ -879,7 +879,7 @@ void ITEM_useRecovery_Field(
 			return;
 		}
 		else{
-			CHAR_talkToCli( charaindex,-1,"不能使用",CHAR_COLORWHITE);  
+			CHAR_talkToCli( charaindex,-1,"不能使用",CHAR_COLORWHITE);
 		}
 	}
 #endif
@@ -1113,13 +1113,13 @@ void ITEM_useOtherEditBase( int charaindex, int toindex, int haveitemindex)
 	char buf2[][32]={"腕力成长率","耐久力成长率","速度成长率","体力成长率","能力"};
 	char buf3[][32]={"大幅提高","略为提高","略为减少"};
 	if( !CHAR_CHECKINDEX( charaindex ) )  return;
-	if( !CHAR_CHECKINDEX( toindex ) )  return; 
+	if( !CHAR_CHECKINDEX( toindex ) )  return;
 #define RAND(x,y)   ((x-1)+1+ (int)( (double)(y-(x-1))*rand()/(RAND_MAX+1.0)) )
 		itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
 		if( !ITEM_CHECKINDEX(itemindex) )  return;
-		if( CHAR_getInt( toindex, CHAR_PETID) == 718 
+		if( CHAR_getInt( toindex, CHAR_PETID) == 718
 #ifdef _PET_2LIMITLEVEL
-			|| CHAR_getInt( toindex, CHAR_PETID) == 401 
+			|| CHAR_getInt( toindex, CHAR_PETID) == 401
 #endif
 			)	{
 
@@ -1152,14 +1152,14 @@ void ITEM_useOtherEditBase( int charaindex, int toindex, int haveitemindex)
 							else
 								sprintf(buf1,"%s %s %s", buf2[i], buf3[1], "。");
 						}else if( type < 0 ){
-							sprintf(buf1,"%s %s %s", buf2[i], buf3[2], "。");	
+							sprintf(buf1,"%s %s %s", buf2[i], buf3[2], "。");
 						}
 					}
 					if( strcmp( buf1, "\0"))	{
 						CHAR_talkToCli( charaindex, toindex, buf1, CHAR_COLORWHITE);
 					}
 				}
-				
+
 				LevelUpPoint = ( work[3]<< 24) + ( work[0]<< 16) + ( work[1]<< 8) + ( work[2]<< 0);
 				CHAR_setInt( toindex, CHAR_ALLOCPOINT, LevelUpPoint);
 				CHAR_setInt( toindex, CHAR_PETRANK, petrank);
@@ -1175,7 +1175,7 @@ void ITEM_useOtherEditBase( int charaindex, int toindex, int haveitemindex)
 					CHAR_getInt( charaindex, CHAR_Y )
 					);
 			}
-				
+
 		}else	{
 			sprintf(buf1,"？？？");
 		}
@@ -1187,7 +1187,7 @@ void ITEM_useOtherEditBase( int charaindex, int toindex, int haveitemindex)
 void ITEM_useStatusChange( int charaindex, int toindex, int haveitemindex)
 {
 	int battlemode;
-	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return ; //｛撩  
+	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return ; //｛撩
 	battlemode = CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE );
 	if( battlemode == BATTLE_CHARMODE_INIT ){
 	}else
@@ -1201,7 +1201,7 @@ void ITEM_useStatusChange( int charaindex, int toindex, int haveitemindex)
 void ITEM_useStatusRecovery( int charaindex, int toindex, int haveitemindex)
 {
 	int battlemode;
-	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return ; //｛撩  
+	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return ; //｛撩
 	battlemode = CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE );
 	if( battlemode == BATTLE_CHARMODE_INIT ){
 	}else
@@ -1279,7 +1279,7 @@ void ITEM_useMic( int charaindex, int toindex, int haveitemindex)
 void ITEM_useCaptureUp( int charaindex, int toindex, int haveitemindex)
 {
 	int battlemode;
-	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return ; //｛撩  
+	if( CHAR_CHECKINDEX( charaindex ) == FALSE )return ; //｛撩
 
 	battlemode = CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE );
 	if( battlemode == BATTLE_CHARMODE_INIT ){
@@ -1301,7 +1301,7 @@ static void ITEM_usePetSkillCanned_PrintWindow( int charaindex, int flg)
 	if( fd == - 1 ) return;
 
 	sprintf( message, "%d", flg);
-	lssproto_WN_send( fd, WINDOWS_MESSAGETYPE_PETSKILLSHOW, 
+	lssproto_WN_send( fd, WINDOWS_MESSAGETYPE_PETSKILLSHOW,
 					WINDOW_BUTTONTYPE_NONE,
 					ITEM_WINDOWTYPE_SELECTPETSKILL_SELECT,
 					-1,
@@ -1372,11 +1372,11 @@ static void ITEM_useRenameItem_PrintWindow( int charaindex, int page)
 	}
 	fd = getfdFromCharaIndex( charaindex);
 	if( fd == - 1 ) return;
-	
+
 	snprintf( message, sizeof( message),
 				"2\n   要变更那个项目的名称呢\n"
 				"                               Page:%d\n", page +1);
-	
+
 	for( i = page *5; i < page *5 +5; i ++ ) {
 		int itemindex = CHAR_getItemIndex( charaindex, i);
 		BOOL	flg = FALSE;
@@ -1432,7 +1432,7 @@ static void ITEM_useRenameItem_PrintWindow( int charaindex, int page)
 	  	btntype |= WINDOW_BUTTONTYPE_PREV|WINDOW_BUTTONTYPE_NEXT;
 	  	break;
 	}
-	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_SELECT, 
+	lssproto_WN_send( fd, WINDOW_MESSAGETYPE_SELECT,
 					btntype,
 					CHAR_WINDOWTYPE_SELECTRENAMEITEM_PAGE1+page,
 					-1,
@@ -1497,7 +1497,7 @@ void ITEM_useRenameItem_WindowResult( int charaindex, int seqno, int select, cha
 			char	haveitemindex = CHAR_getWorkInt( charaindex, CHAR_WORKRENAMEITEMNUM);
 			int		itemindex;
 			if( haveitemindex == -1 ) {
-				haveitemindex = (seqno - CHAR_WINDOWTYPE_SELECTRENAMEITEM_PAGE1) * 5 + 
+				haveitemindex = (seqno - CHAR_WINDOWTYPE_SELECTRENAMEITEM_PAGE1) * 5 +
 								( atoi(data)-1);
 				CHAR_setWorkInt( charaindex, CHAR_WORKRENAMEITEMNUM, haveitemindex);
 			}
@@ -1508,14 +1508,14 @@ void ITEM_useRenameItem_WindowResult( int charaindex, int seqno, int select, cha
 							"请输入姓名\n"
 							"全形13个字, 半形26个字",
 							ITEM_getChar( itemindex, ITEM_NAME));
-			
-			
-			lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGEANDLINEINPUT, 
+
+
+			lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGEANDLINEINPUT,
 							WINDOW_BUTTONTYPE_OKCANCEL,
 							CHAR_WINDOWTYPE_SELECTRENAMEITEM_RENAME,
 							-1,
 							makeEscapeString( message, buf, sizeof(buf)));
-			
+
 		}
 	}
 	else {
@@ -1553,13 +1553,13 @@ void ITEM_useRenameItem_WindowResult( int charaindex, int seqno, int select, cha
 					break;
 				}
 			}
-	
+
 			break;
 		}
 
 
 		if( !flg ) {
-			lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE, 
+			lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 							WINDOW_BUTTONTYPE_OK,
 							CHAR_WINDOWTYPE_SELECTRENAMEITEM_RENAME_ATTENTION,
 							-1,
@@ -1579,10 +1579,10 @@ void ITEM_useRenameItem_WindowResult( int charaindex, int seqno, int select, cha
 				return;
 			}
 			ITEM_setChar( itemindex, ITEM_SECRETNAME, data);
-			ITEM_setChar( itemindex, ITEM_CDKEY, 
+			ITEM_setChar( itemindex, ITEM_CDKEY,
 						CHAR_getChar( charaindex, CHAR_CDKEY));
 			CHAR_sendItemDataOne( charaindex, haveitemindex);
-			snprintf( msgbuf, sizeof(msgbuf),"把 %s 命名成 %s ", 
+			snprintf( msgbuf, sizeof(msgbuf),"把 %s 命名成 %s ",
 					ITEM_getChar( itemindex, ITEM_NAME), data);
 		    CHAR_talkToCli( charaindex, -1, msgbuf, CHAR_COLORYELLOW);
 			renameitemhaveindex = CHAR_getWorkInt( charaindex, CHAR_WORKRENAMEITEMINDEX);
@@ -1595,7 +1595,7 @@ void ITEM_useRenameItem_WindowResult( int charaindex, int seqno, int select, cha
 			if( remain != 0 ) {
 				remain --;
 				if( remain <= 0 ) {
-					snprintf( msgbuf, sizeof(msgbuf),"%s 消失了", 
+					snprintf( msgbuf, sizeof(msgbuf),"%s 消失了",
 							ITEM_getChar( renameitemindex, ITEM_NAME));
 				    CHAR_talkToCli( charaindex, -1, msgbuf, CHAR_COLORYELLOW);
 				    CHAR_setItemIndex( charaindex, renameitemhaveindex, -1);
@@ -1620,14 +1620,14 @@ void ITEM_dropDice( int charaindex, int itemindex)
 	char *dicename[] = { "一", "二",  "三", "四", "五", "六"};
 	int  diceimagenumber[] = { 24298,24299,24300,24301,24302,24303};
 	int r = RAND( 0,5);
-	
-	//   飓  寞毛谨  
+
+	//   飓  寞毛谨
 	ITEM_setInt( itemindex, ITEM_VAR1, ITEM_getInt( itemindex, ITEM_BASEIMAGENUMBER));
 	//   飓  寞凳蕙
 	ITEM_setInt( itemindex, ITEM_BASEIMAGENUMBER, diceimagenumber[r]);
 	//   蟆凳蕙
 	ITEM_setChar( itemindex, ITEM_SECRETNAME, dicename[r]);
-	
+
 	// 犯□正及弁仿奶失件玄尺及霜耨反晓匏楮醒匹垫丹及匹］仇仇匹反支日卅中［
 }
 //-------------------------------------------------------------------------
@@ -1686,8 +1686,8 @@ enum {
 BOOL ITEM_initLottery(ITEM_Item* itm)
 {
 	int r = RAND( 0, 49999);
-	int hit = ITEM_LOTTERY_NONE;		// 
-	char result[7];		// 请  
+	int hit = ITEM_LOTTERY_NONE;		//
+	char result[7];		// 请
 	int countnum[6];
 	int count;
 	int i;
@@ -1703,7 +1703,7 @@ BOOL ITEM_initLottery(ITEM_Item* itm)
 	else if( r < PRE_2 ) hit = ITEM_LOTTERY_2ND;
 	else if( r < PRE_1 ) hit = ITEM_LOTTERY_1ST;
 	else hit = ITEM_LOTTERY_NONE;
-	
+
 	// 请  毛瑁烂允月［
 	count = 0;
 	if( hit != ITEM_LOTTERY_NONE ) {
@@ -1759,7 +1759,7 @@ BOOL ITEM_initLottery(ITEM_Item* itm)
 	itm->data[ITEM_VAR2] = 0;
 	itm->data[ITEM_VAR3] = 1;
 	memcpy( itm->string[ITEM_ARGUMENT].string, result, sizeof( result));
-	
+
 	return TRUE;
 }
 //-------------------------------------------------------------------------
@@ -1823,7 +1823,7 @@ void ITEM_useLottery( int charaindex, int toindex, int haveitemindex)
 			newitemindex = ITEM_makeItemAndRegist( 2729 + hit);
             CHAR_setItemIndex( charaindex , haveitemindex, newitemindex );
 			// 请  手戊疋□
-			snprintf( strbuff, sizeof( strbuff), "%s                %s", buff, 
+			snprintf( strbuff, sizeof( strbuff), "%s                %s", buff,
 						ITEM_getChar( newitemindex, ITEM_EFFECTSTRING));
 			ITEM_setChar( newitemindex, ITEM_EFFECTSTRING, strbuff);
 			CHAR_sendItemDataOne( charaindex, haveitemindex);
@@ -1890,7 +1890,7 @@ BOOL ITEM_WarpForAny(int charaindex, int haveitemindex, int ff, int fx, int fy,i
 {
 	if( CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE ) != BATTLE_CHARMODE_NONE )
 		return FALSE;
-	if( CHAR_getInt( charaindex, CHAR_FLOOR) == 117 
+	if( CHAR_getInt( charaindex, CHAR_FLOOR) == 117
 		){
 		CHAR_talkToCli(charaindex, -1, "此处无法使用。", CHAR_COLORYELLOW);
 		return FALSE;
@@ -1958,7 +1958,7 @@ void ITEM_useWarpForNum( int charaindex, int toindex, int haveitemindex )
 			"萨伊那斯","加鲁卡","吉鲁岛","沙姆岛","伊甸园区",
 			"伊甸大陆西方","尼克斯城区","伊甸大陆南方","亚伊欧城区","伊甸大陆东方",
 			"伊甸大陆北方","塔耳塔城区"};
-	
+
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
 	if( !ITEM_CHECKINDEX( itemindex) ) return;
 	arg = ITEM_getChar(itemindex, ITEM_ARGUMENT );
@@ -2043,10 +2043,10 @@ void ITEM_petFollow( int charaindex, int toindex, int haveitemindex )
 	{
 		//CHAR_talkToCli( charaindex, -1, "宠物的忠诚度不足！", CHAR_COLORWHITE );
 		//return;
-	}	
-	
-	
-	haveindex = -1;	
+	}
+
+
+	haveindex = -1;
 	for( i = 0; i < 5; i++ )
 	{
 		if( CHAR_getCharPet( charaindex, i) == toindex ) {
@@ -2055,8 +2055,8 @@ void ITEM_petFollow( int charaindex, int toindex, int haveitemindex )
 		}
 	}
 	if( haveindex == -1) return;
-	
-	
+
+
 	if( !PET_dropPetFollow( charaindex, haveindex, -1, -1, -1 ) ) {
 		CHAR_talkToCli( charaindex, -1, "宠物跟随失败！", CHAR_COLORWHITE );
 		return;
@@ -2069,7 +2069,7 @@ void ITEM_useSkup( int charaindex, int toindex, int haveitemindex)
 {
 	int itemindex;
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
-	if(!ITEM_CHECKINDEX(itemindex)) return;	
+	if(!ITEM_CHECKINDEX(itemindex)) return;
 	CHAR_setInt(charaindex,CHAR_SKILLUPPOINT,
 	CHAR_getInt(charaindex,CHAR_SKILLUPPOINT)+1);
 	CHAR_Skillupsend(charaindex);
@@ -2084,7 +2084,7 @@ void ITEM_useNoenemy( int charaindex, int toindex, int haveitemindex)
 {
 	int itemindex,fd;
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
-	if(!ITEM_CHECKINDEX(itemindex)) return;	
+	if(!ITEM_CHECKINDEX(itemindex)) return;
 	fd=CHAR_getWorkInt( charaindex, CHAR_WORKFD);
 	setNoenemy(fd);
 	CHAR_talkToCli(charaindex, -1, "你感受到周边的杀气消失了。", CHAR_COLORWHITE);
@@ -2099,7 +2099,7 @@ void ITEM_equipNoenemy( int charaindex, int itemindex )
   char buf[4096];
   int evadelevel;
   int fl,fd;
-  
+
   if( ITEM_CHECKINDEX(itemindex) == FALSE )return;
 
   if( ITEM_getArgument( ITEM_getChar(itemindex,ITEM_ARGUMENT),"noen", buf, sizeof(buf) )
@@ -2124,7 +2124,7 @@ void ITEM_equipNoenemy( int charaindex, int itemindex )
   } else if (evadelevel>=80) {
     setEqNoenemy(fd, 80);
 	if ( (fl==100)||(fl==200)||(fl==300)||(fl==400) ){
-	
+
       CHAR_talkToCli(charaindex, -1, "一道奇异的光芒隐藏了你的行踪。", CHAR_COLORWHITE);
       return;
     }
@@ -2169,7 +2169,7 @@ void ITEM_randEnemyEquip( int charaindex, int itemindex)
   char buf[4096];
   int RandNum=0;
   int fd;
-  
+
   if( ITEM_CHECKINDEX(itemindex) == FALSE )return;
   if( ITEM_getArgument( ITEM_getChar(itemindex,ITEM_ARGUMENT),"rand", buf, sizeof(buf) )
       == FALSE ){
@@ -2189,7 +2189,7 @@ void ITEM_RerandEnemyEquip( int charaindex, int itemindex)
 {
   int RandNum=0;
   int fd;
-  
+
   if( ITEM_CHECKINDEX(itemindex) == FALSE )return;
 
   fd=CHAR_getWorkInt( charaindex, CHAR_WORKFD);
@@ -2247,7 +2247,7 @@ void ITEM_PutOrnaments( int charaindex, int itemindex)
 	bbnums = atoi( arg);
 	ITEM_setInt( itemindex, ITEM_BASEIMAGENUMBER, bbnums);
 	ITEM_setWorkInt( itemindex, ITEM_CANPICKUP, 1);
-	
+
 	sprintf( itemname,"%s%s%s",CHAR_getChar( charaindex, CHAR_NAME), "的", ITEM_getChar( itemindex, ITEM_SECRETNAME));
 	ITEM_setChar( itemindex, ITEM_SECRETNAME, itemname);
 }
@@ -2269,7 +2269,7 @@ void ITEM_CheckSuitEquip( int charaindex)
 		{"FSTR",CHAR_WORKSUITMODSTR},
 		{"MSTR",CHAR_WORKSUITSTR},
 		{"MTGH",CHAR_WORKSUITTGH},
-		{"MDEX",CHAR_WORKSUITDEX},	
+		{"MDEX",CHAR_WORKSUITDEX},
 		{"HP", CHAR_WORKROUNDHP},
 		{"MP", CHAR_WORKROUNDMP}
 #ifdef _SUIT_ADDENDUM
@@ -2377,7 +2377,7 @@ void ITEM_useEncounter( int charaindex, int toindex, int haveitemindex)
 {
 	int itemindex,fd;
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
-	if(!ITEM_CHECKINDEX(itemindex)) return;	
+	if(!ITEM_CHECKINDEX(itemindex)) return;
 
 	fd=CHAR_getWorkInt( charaindex, CHAR_WORKFD);
 	setStayEncount(fd);
@@ -2425,7 +2425,7 @@ void ITEM_UseDeathCounter( int charaindex, int toindex, int haveitemindex)
 		i++;
 	}
 	if(okfloor != 0){   // 奇怪的石头
-		itemmaxuse = ITEM_getInt( itemindex, ITEM_DAMAGEBREAK);	
+		itemmaxuse = ITEM_getInt( itemindex, ITEM_DAMAGEBREAK);
 		if( itemmaxuse != -1 )	{
 			itemmaxuse--;
 			ITEM_setInt( itemindex, ITEM_DAMAGEBREAK, itemmaxuse);
@@ -2459,7 +2459,7 @@ void ITEM_UseDeathCounter( int charaindex, int toindex, int haveitemindex)
 			}
 			fd = CHAR_getWorkInt( charaindex, CHAR_WORKFD);
 			setStayEncount(fd);
-			CHAR_talkToCli(charaindex, -1, "你身边笼罩阴暗气息！", CHAR_COLORYELLOW);		
+			CHAR_talkToCli(charaindex, -1, "你身边笼罩阴暗气息！", CHAR_COLORYELLOW);
 		}
 	}else{		//恶魔宝石
 #endif
@@ -2612,7 +2612,7 @@ void ITEM_useMaxRedSocksNew( int charaindex, int toindex, int haveitemindex)
 		if( getStringFromIndexWithDelim( itemarg, "|", 2+i, itemnumstr, sizeof( itemnumstr)) )
 		    present[i] = atoi(itemnumstr);
 	}
-	
+
 	//删除
 	CHAR_setItemIndex(charaindex, haveitemindex ,-1);
 	CHAR_sendItemDataOne( charaindex, haveitemindex);
@@ -2675,7 +2675,7 @@ void ITEM_useSkillCanned( int charaindex, int toindex, int itemNo)
 #ifdef _ITEM_METAMO
 void ITEM_metamo( int charaindex, int toindex, int haveitemindex )
 {
-	
+
 	char *arg, msg[128];
 	int itemindex, metamoTime, haveindex, battlemode, i;
 
@@ -2729,10 +2729,10 @@ void ITEM_metamo( int charaindex, int toindex, int haveitemindex )
 		toindex = BATTLE_No2Index(CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEINDEX ), toindex );
 
 	}
-	
+
 	if( CHAR_CHECKINDEX( toindex ) == FALSE )	return;
 
-	haveindex = -1;	
+	haveindex = -1;
 	for( i = 0; i < 5; i++ ){
 		if( CHAR_getCharPet( charaindex, i) == toindex ) {
 			haveindex = i;
@@ -2746,7 +2746,7 @@ void ITEM_metamo( int charaindex, int toindex, int haveitemindex )
 
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
 	if(!ITEM_CHECKINDEX(itemindex)) return;
-	
+
 	arg = ITEM_getChar(itemindex, ITEM_ARGUMENT );
 	if( arg == "\0" )return;
 	if( sscanf( arg, "%d", &metamoTime) != 1 )
@@ -2808,7 +2808,7 @@ void ITEM_Refresh(int charaindex,int toindex,int haveitemindex)
 	int battlemode,itemindex;
 print("\nvincent--ITEM_Refresh");
 		// 检查玩家是否有效
-	if(CHAR_CHECKINDEX(charaindex) == FALSE) 
+	if(CHAR_CHECKINDEX(charaindex) == FALSE)
 	{
 print("\nvincent--(charaindex) == FALSE");
 		return; //失败
@@ -2841,14 +2841,14 @@ void ITEM_firecracker(int charaindex,int toindex,int haveitemindex)
 	if(CHAR_CHECKINDEX(charaindex) == FALSE) return; //失败
 
 	battlemode = CHAR_getWorkInt(charaindex,CHAR_WORKBATTLEMODE);
-	
+
 	if( battlemode // 检查是否在战斗中
 #ifdef _PETSKILL_BECOMEPIG
-	    && CHAR_getInt( charaindex, CHAR_BECOMEPIG) == -1 
+	    && CHAR_getInt( charaindex, CHAR_BECOMEPIG) == -1
 #endif
-		) 
+		)
 		ITEM_useFirecracker_Battle(charaindex,toindex,haveitemindex);
-	else 
+	else
 		CHAR_talkToCli(charaindex,-1,"什麽也没发生。",CHAR_COLORWHITE);
 }
 #endif
@@ -2970,27 +2970,27 @@ void ITEM_MagicEquitReWear( int charaindex, int itemindex){
 			break;
 	}
 
-	return;	
+	return;
 }
 #endif
 
 #ifdef _ITEM_WARP_FIX_BI
 void recoverbi(int index)
 {
-	int eBbi=-1, eArm=-1, eNum=-1, eBi=-1, bi=-1;	
+	int eBbi=-1, eArm=-1, eNum=-1, eBi=-1, bi=-1;
 
-	bi   = CHAR_getInt( index, CHAR_BASEIMAGENUMBER);	
+	bi   = CHAR_getInt( index, CHAR_BASEIMAGENUMBER);
 	eBbi = CHAR_getInt( index, CHAR_BASEBASEIMAGENUMBER);
 	eArm = CHAR_getItemIndex( index, CHAR_ARM);
 	eNum = ITEM_FIST;
 	if(ITEM_CHECKINDEX(eArm))
 		eNum = ITEM_getInt( eArm, ITEM_TYPE);
-	
-	eBi = CHAR_getNewImagenumberFromEquip( eBbi, eNum);	
 
-	if(CHAR_getInt( index, CHAR_RIDEPET)!=-1)	     //骑宠			
+	eBi = CHAR_getNewImagenumberFromEquip( eBbi, eNum);
+
+	if(CHAR_getInt( index, CHAR_RIDEPET)!=-1)	     //骑宠
 		CHAR_complianceParameter(index);
-	else                                             //非骑宠		
+	else                                             //非骑宠
 		if((eBi!=-1)&&(eBi!=bi))
 			CHAR_setInt( index, CHAR_BASEIMAGENUMBER, eBi);
 }
@@ -3025,7 +3025,7 @@ void ITEM_TimeLimit( int charaindex)
 				}
 			}
 		}
-	}	
+	}
 
 }
 #endif
@@ -3060,7 +3060,7 @@ void ITEM_Constitution( int charaindex, int toindex, int haveitemindex)
 				int points = CHAR_getInt( charaindex, CHAR_VITAL+index);
 				//Change Fix
 				//if( points < (FixPoint*100) ) break;
-				if( points < (FixPoint*100) || AllPoint-(FixPoint*100) <= 0 ) 
+				if( points < (FixPoint*100) || AllPoint-(FixPoint*100) <= 0 )
 				{
 					CHAR_talkToCli( charaindex, -1, "物品无效。", CHAR_COLORYELLOW);
 					return;
@@ -3095,7 +3095,7 @@ void ITEM_Constitution( int charaindex, int toindex, int haveitemindex)
 #ifdef _NEW_RIDEPETS
 void ITEM_useLearnRideCode( int charaindex, int toindex, int haveitemindex)
 {//CHAR_LOWRIDEPETS
-	
+
 	if(getRideMode()==2){
 		CHAR_talkToCli( charaindex, -1, "服务端为2.0非骑证模式，所以你无法使用该物品", CHAR_COLORYELLOW);
 		return;
@@ -3121,16 +3121,16 @@ void ITEM_useLearnRideCode( int charaindex, int toindex, int haveitemindex)
 	  { "RIDE_PET24", RIDE_PET24}, { "RIDE_PET25", RIDE_PET25}, { "RIDE_PET26", RIDE_PET26},
 	  { "RIDE_PET27", RIDE_PET27}, { "RIDE_PET28", RIDE_PET28}, { "RIDE_PET29", RIDE_PET29},
 	  { "RIDE_PET30", RIDE_PET30}, { "RIDE_PET31", RIDE_PET31},
-	  { "RIDE_PET32", RIDE_PET0 }, { "RIDE_PET33", RIDE_PET1 }, { "RIDE_PET34", RIDE_PET2 }, 
-	  { "RIDE_PET35", RIDE_PET3 }, { "RIDE_PET36", RIDE_PET4 }, { "RIDE_PET37", RIDE_PET5 }, 
-	  { "RIDE_PET38", RIDE_PET6 }, { "RIDE_PET39", RIDE_PET7 }, { "RIDE_PET40", RIDE_PET8 }, 
-	  { "RIDE_PET41", RIDE_PET9 }, { "RIDE_PET42", RIDE_PET10}, { "RIDE_PET43", RIDE_PET11}, 
-	  { "RIDE_PET44", RIDE_PET12}, { "RIDE_PET45", RIDE_PET13}, { "RIDE_PET46", RIDE_PET14}, 
-	  { "RIDE_PET47", RIDE_PET15}, { "RIDE_PET48", RIDE_PET16}, { "RIDE_PET49", RIDE_PET17}, 
-	  { "RIDE_PET50", RIDE_PET18}, { "RIDE_PET51", RIDE_PET19}, { "RIDE_PET52", RIDE_PET20}, 
-	  { "RIDE_PET53", RIDE_PET21}, { "RIDE_PET54", RIDE_PET22}, { "RIDE_PET55", RIDE_PET23}, 
-	  { "RIDE_PET56", RIDE_PET24}, { "RIDE_PET57", RIDE_PET25}, { "RIDE_PET58", RIDE_PET26}, 
-	  { "RIDE_PET59", RIDE_PET27}, { "RIDE_PET60", RIDE_PET28}, { "RIDE_PET61", RIDE_PET29}, 
+	  { "RIDE_PET32", RIDE_PET0 }, { "RIDE_PET33", RIDE_PET1 }, { "RIDE_PET34", RIDE_PET2 },
+	  { "RIDE_PET35", RIDE_PET3 }, { "RIDE_PET36", RIDE_PET4 }, { "RIDE_PET37", RIDE_PET5 },
+	  { "RIDE_PET38", RIDE_PET6 }, { "RIDE_PET39", RIDE_PET7 }, { "RIDE_PET40", RIDE_PET8 },
+	  { "RIDE_PET41", RIDE_PET9 }, { "RIDE_PET42", RIDE_PET10}, { "RIDE_PET43", RIDE_PET11},
+	  { "RIDE_PET44", RIDE_PET12}, { "RIDE_PET45", RIDE_PET13}, { "RIDE_PET46", RIDE_PET14},
+	  { "RIDE_PET47", RIDE_PET15}, { "RIDE_PET48", RIDE_PET16}, { "RIDE_PET49", RIDE_PET17},
+	  { "RIDE_PET50", RIDE_PET18}, { "RIDE_PET51", RIDE_PET19}, { "RIDE_PET52", RIDE_PET20},
+	  { "RIDE_PET53", RIDE_PET21}, { "RIDE_PET54", RIDE_PET22}, { "RIDE_PET55", RIDE_PET23},
+	  { "RIDE_PET56", RIDE_PET24}, { "RIDE_PET57", RIDE_PET25}, { "RIDE_PET58", RIDE_PET26},
+	  { "RIDE_PET59", RIDE_PET27}, { "RIDE_PET60", RIDE_PET28}, { "RIDE_PET61", RIDE_PET29},
 	  { "RIDE_PET62", RIDE_PET30}, { "RIDE_PET63", RIDE_PET31}
 #endif
 	};
@@ -3319,7 +3319,7 @@ void ITEM_LoverSelectUser( int charaindex, int toindex, int haveitemindex)
 		//CHAR_getInt( charaindex, CHAR_FLOOR) == 3032 || CHAR_getInt( charaindex, CHAR_FLOOR) == 4032 ||
 		//CHAR_getInt( charaindex, CHAR_FLOOR) == 5032 || CHAR_getInt( charaindex, CHAR_FLOOR) == 6032 ||
 		//CHAR_getInt( charaindex, CHAR_FLOOR) == 7032 || CHAR_getInt( charaindex, CHAR_FLOOR) == 8032 ||
-		//CHAR_getInt( charaindex, CHAR_FLOOR) == 9032 ){ 
+		//CHAR_getInt( charaindex, CHAR_FLOOR) == 9032 ){
 		if( checkUnlawWarpFloor( CHAR_getInt( charaindex, CHAR_FLOOR) ) ) {
 			CHAR_talkToCli( charaindex, -1, "你的所在位置无法传送。", CHAR_COLORYELLOW );
 			return;
@@ -3338,7 +3338,7 @@ void ITEM_LoverSelectUser( int charaindex, int toindex, int haveitemindex)
 
 			//if( floor == 887 || floor == 117 ||
 			//	floor == 1042 || floor == 2032 || floor == 3032 || floor == 4032 ||
-			//	floor == 5032 || floor == 6032 ||floor == 7032 || floor == 8032 || floor == 9032 ){ 
+			//	floor == 5032 || floor == 6032 ||floor == 7032 || floor == 8032 || floor == 9032 ){
 				if( checkUnlawWarpFloor( floor) ) {
 					CHAR_talkToCli( charaindex, -1, "对象所在地方无法传送。", CHAR_COLORYELLOW );
 					return;
@@ -3395,7 +3395,7 @@ void ITEM_MapEffect(int charaindex,int toindex,int haveitemindex)
 
 	itemindex = CHAR_getItemIndex(charaindex,haveitemindex);
 	if(!ITEM_CHECKINDEX(itemindex)) return;
-	
+
 	// 找出玩家所在的地图编号
 	floor = CHAR_getInt(charaindex,CHAR_FLOOR);
 	// 找出道具要放的特效的编号
@@ -3417,20 +3417,20 @@ void ITEM_changePetOwner( int charaindex, int toindex, int haveitemindex)
 
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
 	if( !ITEM_CHECKINDEX(itemindex) ) return;
-	
+
 	if( CHAR_getInt( toindex, CHAR_WHICHTYPE) != CHAR_TYPEPET ) {
 		CHAR_talkToCli( charaindex, -1, "这只能用在宠物身上喔。", CHAR_COLORYELLOW );
 		return;
 	}
 
-	if( !strcmp( CHAR_getChar( toindex, CHAR_NPCARGUMENT), "") || 
+	if( !strcmp( CHAR_getChar( toindex, CHAR_NPCARGUMENT), "") ||
 		!strcmp( CHAR_getChar( toindex, CHAR_NPCARGUMENT), CHAR_getChar( charaindex, CHAR_CDKEY))) {
 		CHAR_talkToCli( charaindex, -1, "这只宠物本来就是你的，并不需要使用这个呀。", CHAR_COLORYELLOW);
 		return;
 	}
 
 	CHAR_setChar( toindex, CHAR_NPCARGUMENT, "");
-	
+
 	for( i =0; i < CHAR_MAXPETHAVE; i++)
 		if( CHAR_getCharPet( charaindex, i) == toindex )
 			CHAR_send_K_StatusString( charaindex, i,CHAR_K_STRING_NAME|CHAR_K_STRING_CHANGENAMEFLG);
@@ -3447,17 +3447,17 @@ void GOLD_DeleteTimeCheckLoop( void)
 	int amount;
 	int objindex;
 	int objmaxnum;
-	
+
 	objmaxnum = OBJECT_getNum();
 	for( objindex=0; objindex<objmaxnum; objindex++)	{
 		if( CHECKOBJECT( objindex ) == FALSE ) continue;
 		if( OBJECT_getType( objindex) != OBJTYPE_GOLD) continue;
-		
+
 		amount = OBJECT_getIndex( objindex);
 		if( amount >= 10000) continue;
-		
+
 		if( (int)NowTime.tv_sec > (int)( OBJECT_getTime( objindex) + getItemdeletetime() ) ) {
-			
+
 			LogStone(
 				-1,
 				"NULL",
@@ -3469,7 +3469,7 @@ void GOLD_DeleteTimeCheckLoop( void)
 				OBJECT_getX( objindex ),
 				OBJECT_getY( objindex )
 				);
-			
+
 			CHAR_ObjectDelete(objindex);
 		}
 	}
@@ -3478,15 +3478,15 @@ void GOLD_DeleteTimeCheckLoop( void)
 void GOLD_DeleteTimeCheckOne( int objindex)
 {
 	int amount;
-	
+
 	if( CHECKOBJECT( objindex ) == FALSE ) return;
 	if( OBJECT_getType( objindex) != OBJTYPE_GOLD) return;
-	
+
 	amount = OBJECT_getIndex( objindex);
 	if( amount >= 10000) return;
-	
+
 	if( (int)NowTime.tv_sec > (int)( OBJECT_getTime( objindex) + getItemdeletetime() ) ) {
-		
+
 		LogStone(
 			-1,
 			"NULL",
@@ -3498,7 +3498,7 @@ void GOLD_DeleteTimeCheckOne( int objindex)
 			OBJECT_getX( objindex ),
 			OBJECT_getY( objindex )
 			);
-		
+
 		CHAR_ObjectDelete(objindex);
 	}
 
@@ -3507,7 +3507,6 @@ void GOLD_DeleteTimeCheckOne( int objindex)
 #endif
 
 #ifdef _TIME_TICKET
-void ITEM_timeticketEx( int charaindex, int toindex, int haveitemindex, int flag);
 void ITEM_timeticket( int charaindex, int toindex, int haveitemindex)
 {
 	ITEM_timeticketEx( charaindex, toindex, haveitemindex, 0);
@@ -3521,15 +3520,15 @@ void ITEM_timeticketEx( int charaindex, int toindex, int haveitemindex, int flag
 	int tickettime;
 	int lefttime;
 	char msg[1024];
-	
+
 	if( !CHAR_CHECKINDEX( charaindex ) )  return;
 
-	if( check_TimeTicketMap( CHAR_getInt( charaindex, CHAR_FLOOR)) == FALSE 
+	if( check_TimeTicketMap( CHAR_getInt( charaindex, CHAR_FLOOR)) == FALSE
 		&& flag == 0 ) {
 		CHAR_talkToCli( charaindex, -1, "这个地点不可使用。", CHAR_COLORYELLOW);
 		return;
 	}
-	
+
 	itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
 	if( !ITEM_CHECKINDEX(itemindex) )  return;
 
@@ -3544,7 +3543,7 @@ void ITEM_timeticketEx( int charaindex, int toindex, int haveitemindex, int flag
 		CHAR_setWorkInt( charaindex, CHAR_WORKTICKETTIMESTART, nowtime);
 	}
 	// 战斗中且超过时限时使用
-	//if( CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE 
+	//if( CHAR_getWorkInt( charaindex, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE
 	//		&& tickettime < nowtime ) {
 		//tickettime = nowtime;
 	//	sprintf(msg, "时间不足%d秒。", nowtime - tickettime );
@@ -3596,7 +3595,7 @@ void ITEM_SetLoverUser( int charaindex, int toindex, int haveitemindex)
    if ( IsMale(charaindex)==IsMale(toindex))
    {
        CHAR_talkToCli( charaindex, -1, "同性怎么结婚呢？", CHAR_COLORYELLOW);
-       return;    
+       return;
    }
    if( !ITEM_CHECKINDEX(itemindex) ) return;
 			int id = ITEM_getInt( itemindex, ITEM_ID);
@@ -3625,17 +3624,17 @@ void ITEM_SetLoverUser( int charaindex, int toindex, int haveitemindex)
 		        CHAR_CHAT_DEBUG_effect(charaindex,szMsg);
 		        CHAR_DelItem( charaindex, haveitemindex);
          		for(i=0;i<playernum;i++)
-            {    
+            {
 		           if(CHAR_CHECKINDEX(i) == FALSE) continue;
-		           sprintf( token, "恭喜%s和%s新婚之喜，恭祝他们百年好合.白头到老.", 
+		           sprintf( token, "恭喜%s和%s新婚之喜，恭祝他们百年好合.白头到老.",
 														           CHAR_getChar( charaindex, CHAR_NAME),
 														           CHAR_getChar( toindex, CHAR_NAME));
 														           CHAR_talkToCli( i, -1, token, CHAR_COLORRED);
-		        } 
+		        }
 		        return;
 		     }else{
 					 	int emptyitemindexinchara = CHAR_findEmptyItemBox( toindex );
-								
+
 						if( emptyitemindexinchara < 0 ){
 								sprintf( token, "%s物品栏已满。求婚失败" , CHAR_getChar( toindex, CHAR_NAME));
 								CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW);
@@ -3643,20 +3642,20 @@ void ITEM_SetLoverUser( int charaindex, int toindex, int haveitemindex)
 								CHAR_talkToCli( toindex, -1, token, CHAR_COLORYELLOW);}
 						else{
 						 		CHAR_setItemIndex( toindex, emptyitemindexinchara, itemindex);
-						   	sprintf( token, "%s向%s求婚的戒指!同意求婚请使用!", CHAR_getChar( charaindex, CHAR_NAME) 
+						   	sprintf( token, "%s向%s求婚的戒指!同意求婚请使用!", CHAR_getChar( charaindex, CHAR_NAME)
 																																							,CHAR_getChar( toindex, CHAR_NAME));
 						    ITEM_setChar( itemindex, ITEM_EFFECTSTRING, token);
 						   	CHAR_sendItemDataOne( toindex, emptyitemindexinchara);
 						   	ITEM_endExistItemsOne(itemindex);
 					  }
-				
+
 						sprintf( token, "%s向您求婚，获得对方的%s", CHAR_getChar( charaindex, CHAR_NAME),ITEM_getChar( itemindex, ITEM_NAME));
 						CHAR_talkToCli( toindex, -1, token, CHAR_COLORYELLOW);
 						sprintf( token, "已经向%s发起求婚", CHAR_getChar( toindex, CHAR_NAME));
 						CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW);
 						CHAR_DelItem( charaindex, haveitemindex);
 				}
-				CHAR_talkToCli( charaindex, -1, "请耐心等待对方回应！", CHAR_COLORYELLOW );    
+				CHAR_talkToCli( charaindex, -1, "请耐心等待对方回应！", CHAR_COLORYELLOW );
 			}else{
 					sprintf( token, "求婚失败，戒指无法创建!" );
 					CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW);
@@ -3671,7 +3670,7 @@ void ITEM_LoverWarp( int charaindex, int toindex, int haveitemindex)
   int playernum = CHAR_getPlayerMaxNum();
   //检查是否结婚
   if( !strcmp( CHAR_getChar( charaindex, CHAR_LOVE), "YES"))
-  {   
+  {
     for(i=0;i<playernum;i++)
     {
         if(CHAR_CHECKINDEX(i) == FALSE) continue;
@@ -3684,16 +3683,16 @@ void ITEM_LoverWarp( int charaindex, int toindex, int haveitemindex)
     }//从index中对比LOVERNAME
         if (i>=playernum)
           {
-            CHAR_talkToCli( charaindex, -1, "很抱歉，您的爱人不在线哦~", CHAR_COLORYELLOW );   
+            CHAR_talkToCli( charaindex, -1, "很抱歉，您的爱人不在线哦~", CHAR_COLORYELLOW );
             return;
           }
 
   if( !CHAR_CHECKINDEX( charaindex ) ) return;
   if( !CHAR_CHECKINDEX( i ) ) return;
-  
+
   itemindex = CHAR_getItemIndex( charaindex, haveitemindex);
   if( !ITEM_CHECKINDEX(itemindex) ) return;
-  
+
     if( checkUnlawWarpFloor( CHAR_getInt( charaindex, CHAR_FLOOR) ) ) {
         CHAR_talkToCli( charaindex, -1, "很抱歉，您的爱人在神秘遥远地方，无法传送。", CHAR_COLORYELLOW );
         return;
@@ -3732,7 +3731,7 @@ void ITEM_LoverUnmarry( int charaindex, int toindex, int haveitemindex)
   int playernum = CHAR_getPlayerMaxNum();
   //检查是否结婚
   if( !strcmp( CHAR_getChar( charaindex, CHAR_LOVE), "YES"))
-  {   
+  {
     for(i=0;i<playernum;i++)
     {
         if(CHAR_CHECKINDEX(i) == FALSE) continue;
@@ -3745,22 +3744,22 @@ void ITEM_LoverUnmarry( int charaindex, int toindex, int haveitemindex)
     }//从index中对比LOVERNAME
         if (i>=playernum)
           {
-            CHAR_talkToCli( charaindex, -1, "很抱歉，您的爱人不在线哦~", CHAR_COLORYELLOW );   
+            CHAR_talkToCli( charaindex, -1, "很抱歉，您的爱人不在线哦~", CHAR_COLORYELLOW );
             return;
           }
 
   if( !CHAR_CHECKINDEX( charaindex ) ) return;
   if( !CHAR_CHECKINDEX( i ) ) return;
   if( !ITEM_CHECKINDEX(itemindex) ) return;
-  	
+
   	 if(strcmp(ITEM_getChar( itemindex, ITEM_SECRETNAME), "同意离婚戒指")){
 				int id = ITEM_getInt( itemindex, ITEM_ID);
 				itemindex = ITEM_makeItemAndRegist( id );
-	
+
 		    if( itemindex != -1 ){
-		    	
+
 		   			int emptyitemindexinchara = CHAR_findEmptyItemBox( toindex );
-					
+
 						if( emptyitemindexinchara < 0 ){
 								sprintf( token, "%s物品栏已满。离婚失败" , CHAR_getChar( i, CHAR_NAME));
 								CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW);
@@ -3911,7 +3910,7 @@ void ITEM_ColorMetamo( int charaindex, int toindex, int haveitemindex)
 		if(NewMetamoId==0)return;
 		CHAR_setInt( charaindex , CHAR_BASEIMAGENUMBER , NewMetamoId );
 		CHAR_setInt( charaindex , CHAR_BASEBASEIMAGENUMBER , NewMetamoId );
-	
+
 		CHAR_complianceParameter( charaindex );
 		CHAR_sendCToArroundCharacter( CHAR_getWorkInt( charaindex , CHAR_WORKOBJINDEX ));
 		CHAR_send_P_StatusString( charaindex , CHAR_P_STRING_BASEBASEIMAGENUMBER);
@@ -4015,7 +4014,7 @@ void ITEM_CharaMetamo( int charaindex, int toindex, int haveitemindex)
 					if( ( OldMetamoId - 100700 ) % 10 == 0 )
 						  NewMetamoId=MetamoList[5][5];
 					else if( ( OldMetamoId - 100700 ) % 10 == 5 )
-						  NewMetamoId=MetamoList[5][6];	
+						  NewMetamoId=MetamoList[5][6];
 			}else if( strstr( itemarg, "豆丁囡" ) && OldMetamoId >= 100760 && OldMetamoId < 100820){
 					CHAR_talkToCli( charaindex, -1, "更改造型为豆丁囡", CHAR_COLORYELLOW);
 					if( ( OldMetamoId - 100700 ) % 10 == 0 )
@@ -4027,31 +4026,31 @@ void ITEM_CharaMetamo( int charaindex, int toindex, int haveitemindex)
 								if( ( OldMetamoId - 100700 ) % 10 == 0 )
 						  NewMetamoId=MetamoList[7][5];
 					else if( ( OldMetamoId - 100700 ) % 10 == 5 )
-						  NewMetamoId=MetamoList[7][6];	
+						  NewMetamoId=MetamoList[7][6];
 			}else if( strstr( itemarg, "帽子妹" ) && OldMetamoId >= 100760 && OldMetamoId < 100820){
 					CHAR_talkToCli( charaindex, -1, "更改造型为帽子妹", CHAR_COLORYELLOW);
 								if( ( OldMetamoId - 100700 ) % 10 == 0 )
 						  NewMetamoId=MetamoList[8][5];
 					else if( ( OldMetamoId - 100700 ) % 10 == 5 )
-						  NewMetamoId=MetamoList[8][6];	
+						  NewMetamoId=MetamoList[8][6];
 			}else if( strstr( itemarg, "短发夹妹" ) && OldMetamoId >= 100760 && OldMetamoId < 100820){
 					CHAR_talkToCli( charaindex, -1, "更改造型为短发夹妹", CHAR_COLORYELLOW);
 								if( ( OldMetamoId - 100700 ) % 10 == 0 )
 						  NewMetamoId=MetamoList[9][5];
 					else if( ( OldMetamoId - 100700 ) % 10 == 5 )
-						  NewMetamoId=MetamoList[9][6];	
+						  NewMetamoId=MetamoList[9][6];
 		  }else if( strstr( itemarg, "手套女" ) && OldMetamoId >= 100760 && OldMetamoId < 100820){
 					CHAR_talkToCli( charaindex, -1, "更改造型为手套女", CHAR_COLORYELLOW);
 								if( ( OldMetamoId - 100700 ) % 10 == 0 )
 						  NewMetamoId=MetamoList[10][5];
 					else if( ( OldMetamoId - 100700 ) % 10 == 5 )
-						  NewMetamoId=MetamoList[10][6];	
+						  NewMetamoId=MetamoList[10][6];
 		  }else if( strstr( itemarg, "辣妹" ) && OldMetamoId >= 100760 && OldMetamoId < 100820){
 					CHAR_talkToCli( charaindex, -1, "更改造型为辣妹", CHAR_COLORYELLOW);
 								if( ( OldMetamoId - 100700 ) % 10 == 0 )
 						  NewMetamoId=MetamoList[11][5];
 					else if( ( OldMetamoId - 100700 ) % 10 == 5 )
-						  NewMetamoId=MetamoList[11][6];	
+						  NewMetamoId=MetamoList[11][6];
 			}else if( strstr( itemarg, "随机" ) && OldMetamoId >= 100120 && OldMetamoId < 100240){
 					do
 							if( OldMetamoId >= 100000 && OldMetamoId < 100120 ){
@@ -4081,7 +4080,7 @@ void ITEM_CharaMetamo( int charaindex, int toindex, int haveitemindex)
 			return;}
 		CHAR_setInt( charaindex , CHAR_BASEIMAGENUMBER , NewMetamoId );
 		CHAR_setInt( charaindex , CHAR_BASEBASEIMAGENUMBER , NewMetamoId );
-	
+
 		CHAR_complianceParameter( charaindex );
 		CHAR_sendCToArroundCharacter( CHAR_getWorkInt( charaindex , CHAR_WORKOBJINDEX ));
 		CHAR_send_P_StatusString( charaindex , CHAR_P_STRING_BASEBASEIMAGENUMBER);
@@ -4170,7 +4169,7 @@ void ITEM_SexMetamo( int charaindex, int toindex, int haveitemindex)
 		if(NewMetamoId==0)return;
 		CHAR_setInt( charaindex , CHAR_BASEIMAGENUMBER , NewMetamoId );
 		CHAR_setInt( charaindex , CHAR_BASEBASEIMAGENUMBER , NewMetamoId );
-		
+
 		CHAR_complianceParameter( charaindex );
 		CHAR_sendCToArroundCharacter( CHAR_getWorkInt( charaindex , CHAR_WORKOBJINDEX ));
 		CHAR_send_P_StatusString( charaindex , CHAR_P_STRING_BASEBASEIMAGENUMBER);
@@ -4196,7 +4195,7 @@ void ITEM_GMFUNCTION( int charaindex, int toindex, int haveitemindex)
 		sprintf( token, "获得使用%s权限%d!", gmfunction, atoi(gmtime));
 		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW);
 		sprintf( token, "相关使用请查看[help %s]无需GM密码!",CHAR_getChar( charaindex, CHAR_GMFUNCTION));
-		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );		
+		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
 		CHAR_DelItem( charaindex, haveitemindex);
 }
 #endif
@@ -4213,7 +4212,7 @@ void ITEM_AddMemberPoint( int charaindex, int toindex, int haveitemindex)
 		if( itemarg == "\0" ) return;
 		CHAR_setInt( charaindex , CHAR_AMPOINT, point+atoi(itemarg));
 		sprintf( token, "获得会员点数%d,目前你拥有会员点数为%d!", atoi(itemarg),point+atoi(itemarg));
-		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );		
+		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
 		CHAR_DelItem( charaindex, haveitemindex);
 		CHAR_charSaveFromConnect(fd, FALSE);
 		CHAR_talkToCli( charaindex, -1, "您的数据以保存", CHAR_COLORRED );
@@ -4223,14 +4222,14 @@ void ITEM_AddMemberPoint( int charaindex, int toindex, int haveitemindex)
 #ifdef _VIP_RIDE
 void ITEM_VipRide( int charaindex, int toindex, int haveitemindex)
 {
-		if(CHAR_getInt( charaindex , CHAR_VIPRIDE)!=1 
+		if(CHAR_getInt( charaindex , CHAR_VIPRIDE)!=1
 					|| CHAR_getInt( charaindex , CHAR_LOWRIDEPETS)&RIDE_PET14!=RIDE_PET14){
 			int LRCode = CHAR_getInt( charaindex, CHAR_LOWRIDEPETS);
 			LRCode = LRCode|RIDE_PET14;
 			CHAR_setInt( charaindex, CHAR_LOWRIDEPETS, LRCode);
 			CHAR_sendStatusString( charaindex, "x");
 			CHAR_setInt( charaindex , CHAR_VIPRIDE, 1);
-			CHAR_talkToCli( charaindex, -1, "恭喜你，你已成为正式会员了！", CHAR_COLORYELLOW );		
+			CHAR_talkToCli( charaindex, -1, "恭喜你，你已成为正式会员了！", CHAR_COLORYELLOW );
 			CHAR_DelItem( charaindex, haveitemindex);
 		}else
 			CHAR_talkToCli( charaindex, -1, "你已是会员了，没必要再使用！", CHAR_COLORRED );
@@ -4248,7 +4247,7 @@ void ITEM_AddFame( int charaindex, int toindex, int haveitemindex)
 		if( itemarg == "\0" ) return;
 		CHAR_setInt( charaindex , CHAR_FAME, fame+atoi(itemarg)*100);
 		sprintf( token, "声望点数提升%d,目前你的声望是%d!", atoi(itemarg),fame/100+atoi(itemarg));
-		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );		
+		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
 		CHAR_DelItem( charaindex, haveitemindex);
 }
 #endif
@@ -4268,7 +4267,7 @@ void ITEM_Luck( int charaindex, int toindex, int haveitemindex)
 		if(i==6)i=0;
 		CHAR_setInt( charaindex , CHAR_LUCK, i+1);
 		sprintf( token, "你现在的运气为%s", luck[i]);
-		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );		
+		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
 		CHAR_DelItem( charaindex, haveitemindex);
 }
 #endif
@@ -4364,10 +4363,10 @@ void ITEM_Gold( int charaindex, int toindex, int haveitemindex)
 		if(gold>CHAR_MAXGOLDHAVE)
 			gold=CHAR_MAXGOLDHAVE;
 		CHAR_setInt( charaindex , CHAR_GOLD, gold);
-		CHAR_complianceParameter( charaindex);	
+		CHAR_complianceParameter( charaindex);
 	  CHAR_send_P_StatusString( charaindex, CHAR_P_STRING_GOLD);
 		sprintf( token, "你的石币增加%dS", atoi(itemarg));
-		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );		
+		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
 		CHAR_DelItem( charaindex, haveitemindex);
 }
 #endif
@@ -4402,7 +4401,7 @@ void ITEM_MysteriousGift( int charaindex, int toindex, int haveitemindex)
 		if( getStringFromIndexWithDelim( itemarg, "|", 2+i, petnumstr, sizeof( petnumstr)) )
 		    present[i] = atoi(petnumstr);
 	}
-	
+
 	srand(time(0));
 	si = rand()%petnum;
 
@@ -4415,29 +4414,29 @@ void ITEM_MysteriousGift( int charaindex, int toindex, int haveitemindex)
 		snprintf( token,sizeof( token), "宠物已满！！");
 		CHAR_talkToCli( charaindex, -1, token,  CHAR_COLORYELLOW);
 		return;
-	}	
-	
+	}
+
 	int enemynum = ENEMY_getEnemyNum();
 	for( i = 0; i < enemynum; i ++ ) {
 		if( ENEMY_getInt( i, ENEMY_ID) == present[si]) {
 			break;
 		}
 	}
-	
+
 	if( i == enemynum )return;
-	
+
 	ret = ENEMY_createPetFromEnemyIndex( charaindex, i);
 	if(!CHAR_CHECKINDEX( ret))
 		return;
-	
+
 	sprintf( token,"拿到%s",ENEMY_getChar( i, ENEMY_NAME));
 	CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
-	
+
 	for( i = 0; i < CHAR_MAXPETHAVE; i ++ ){
 		if( CHAR_getCharPet( charaindex, i ) == ret )break;
 	}
 	if( i == CHAR_MAXPETHAVE )i = 0;
-			
+
 	snprintf( token, sizeof( token ), "K%d", i );
 	CHAR_sendStatusString( charaindex, token );
 	snprintf( token, sizeof( token ), "W%d", i );
@@ -4519,7 +4518,7 @@ void ITEM_PetLevelItem( int charaindex, int toindex, int haveitemindex)
 		int nextexp = CHAR_GetLevelExp( toindex, CHAR_getInt(toindex, CHAR_LV));
 		CHAR_setInt( charaindex, CHAR_EXP , nextexp );
 	}
-		
+
 	char token[256];
 	sprintf(token, "宠物%s等级已突破%d级！",CHAR_getChar( toindex, CHAR_NAME), atoi(hight));
 	CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW);
@@ -4709,15 +4708,15 @@ void ITEM_NewName( int charaindex, int toindex, int haveitemindex)
 		if( itemarg == "\0" ) return;
 		CHAR_setChar( charaindex , CHAR_NEWNAME, itemarg);
 		sprintf( token, "恭喜你,你已获得〖%s〗新称号!", itemarg);
-		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );		
+		CHAR_talkToCli( charaindex, -1, token, CHAR_COLORYELLOW );
 		int i;
 		int playernum = CHAR_getPlayerMaxNum();
 		char NameMsg[256];
 		char *MyName = CHAR_getChar( charaindex,CHAR_NAME );
-		for( i = 0 ; i < playernum ; i++) 
+		for( i = 0 ; i < playernum ; i++)
 				{
         	sprintf( NameMsg, "恭喜玩家「%s」获得≮%s≯称号!", MyName, itemarg );
 					CHAR_talkToCli( i, -1, NameMsg, CHAR_COLORBLUE2);
   			}
-		CHAR_DelItem( charaindex, haveitemindex); 
+		CHAR_DelItem( charaindex, haveitemindex);
 }

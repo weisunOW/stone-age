@@ -76,7 +76,7 @@ enum {
 	NPC_WORK_ROUTEPOINT = CHAR_NPCWORKINT3,
 	NPC_WORK_ROUNDTRIP = CHAR_NPCWORKINT4,
 	NPC_WORK_MODE = CHAR_NPCWORKINT5,
-	NPC_WORK_CURRENTROUTE = CHAR_NPCWORKINT6, 
+	NPC_WORK_CURRENTROUTE = CHAR_NPCWORKINT6,
 	NPC_WORK_ROUTEMAX = CHAR_NPCWORKINT7,
 	NPC_WORK_WAITTIME = CHAR_NPCWORKINT8,
 	NPC_WORK_CURRENTTIME = CHAR_NPCWORKINT9,
@@ -104,7 +104,7 @@ BOOL AutoPk_AddPet( int charindex, int index );
 BOOL NPC_AutoPkInit( int meindex )
 {
 	char npcarg[NPC_UTIL_GETARGSTR_BUFSIZE];
-		
+
 	if(NPC_Util_GetArgStr( meindex, npcarg, sizeof(npcarg))==NULL){
 		print("TRANSER_MAN: GetArgStrErr!!");
 		return FALSE;
@@ -417,7 +417,7 @@ BOOL AutoPk_GetHistoryStr( char *token, int page )
 		char name[CHARNAMELEN];
 	}History;
 	History history[5];
-	
+
 	char hstime[5],line[255],buf[255];
 	int i;
 	for(i=0;i<page;i++){
@@ -479,7 +479,7 @@ void AutoPk_SetHistoryStr( void )
 		strcpy(time,"1");
 	else
 		getStringFromIndexWithDelim(line,"|",1,time,sizeof(time));
-	sprintf(token, "%d|%d|%s|%d|%s|%d|%s|%d|%s|%d|%s|\n",atoi(time)+1 
+	sprintf(token, "%d|%d|%s|%d|%s|%d|%s|%d|%s|%d|%s|\n",atoi(time)+1
 									                      ,ship[0].winnum,ship[0].name
 																				,ship[1].winnum,ship[1].name
 																				,ship[2].winnum,ship[2].name
@@ -492,7 +492,7 @@ void AutoPk_SetHistoryStr( void )
 		strcat(token,line);
 	}
 	fclose(fp);
-	
+
 	fp=fopen("./data/autopk/autopkhistory.txt","w");
   fwrite(token, strlen(token), 1, fp);
   fclose(fp);
@@ -684,9 +684,9 @@ void AutoPk_GetChampionShip( void )
 	}
 	sprintf( token, "恭喜%s和%s获得本次PK比赛优胜奖！", ship[3].name,ship[4].name);
 	AutoPk_PKSystemTalk(token,token);
-	
+
 	AutoPk_SetHistoryStr();
-	
+
 	baward = TRUE;
 }
 

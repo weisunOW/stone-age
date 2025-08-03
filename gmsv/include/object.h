@@ -53,6 +53,12 @@ INLINE int OBJECT_getX( int index );
 INLINE int OBJECT_setX( int index, int newvalue );
 INLINE int OBJECT_getY( int index );
 INLINE int OBJECT_setY( int index, int newvalue );
+
+#ifdef _DEL_DROP_GOLD
+INLINE int OBJECT_getTime( int index );
+INLINE int OBJECT_setTime( int index, int newvalue );
+#endif
+
 INLINE int OBJECT_getIndex( int index );
 INLINE int OBJECT_setIndex( int index, int newvalue );
 INLINE int OBJECT_getNum( void );
@@ -62,5 +68,5 @@ INLINE void OBJECT_setchartype( int index, int flg);
 
 int searchObjectFromCharaIndex( int index );
 
-#endif 
+#endif
 /*__OBJECT_h__*/

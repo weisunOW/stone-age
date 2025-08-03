@@ -10,7 +10,7 @@ export SHELL=/bin/sh
 
 INCFLAGS=-I. -I.. -I../include
 
-CFLAGS=-O3 -w $(INCFLAGS)
+CFLAGS=-O3 -w $(INCFLAGS) -D_PLAYER_NUM
 #Pentium 4 (Intel)
 #CFLAGS=-march=pentium4 -O3 -pipe -fomit-frame-pointer $(INCFLAGS)
 #Athlon XP (AMD)
@@ -646,6 +646,7 @@ npc_windowman.o: npc_windowman.c ../include/version.h \
   /usr/include/strings.h /usr/include/unistd.h /usr/include/sys/unistd.h \
   ../include/npc_windowman.h
 npc_savepoint.o: npc_savepoint.c ../include/version.h \
+  ../inlcude/configfile.h \
   ../include/correct_bug.h /usr/include/string.h /usr/include/_ansi.h \
   /usr/include/newlib.h /usr/include/sys/config.h \
   /usr/include/machine/ieeefp.h /usr/include/cygwin/config.h \

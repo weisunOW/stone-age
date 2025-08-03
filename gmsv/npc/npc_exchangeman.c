@@ -7,6 +7,7 @@
 #include "npcutil.h"
 #include "lssproto_serv.h"
 #include "npc_exchangeman.h"
+#include "npc_transmigration.h"
 #include "npc_eventaction.h"
 #include "log.h"
 #include "battle.h"
@@ -15,7 +16,7 @@
 #include "npc_warp.h"
 
 #ifdef _TRANS_7_NPC
-BOOL NPC_EventTRANS(int meindex, int talker, char *buff2,int mode);
+BOOL NPC_EventTRANS(int meindex, int talker, char *buff2, int mode);
 #endif
 static void NPC_ExChangeMan_selectWindow( int meindex, int talker,int num);
 BOOL NPC_TypeCheck(int meindex,int talker,char *szMes);
@@ -44,11 +45,10 @@ BOOL NPC_SavePointCheck(int meindex,int talker,int shiftbit,int flg);
 BOOL NPC_EventReduce(int meindex,int talker,char *buf);
 BOOL NPC_EventDelItem(int meindex,int talker,char *buf,int breakflg);
 BOOL NPC_EventDelItemEVDEL(int meindex,int talker,char *buf,char *nbuf,int breakflg);
-BOOL NPC_EventAddItem(int meindex,int talker,char *buf);
 int NPC_EventFile(int meindex,int talker,char *buf);
 BOOL NPC_EventDelPet(int  meindex,int  talker, int petsel);
 void NPC_PetSkillMakeStr(int meindex,int toindex,int select);
-void NPC_CleanMain(int meindex,int talker,char *buf);	
+void NPC_CleanMain(int meindex,int talker,char *buf);
 void NPC_EventPetSkill( int meindex, int talker, char *data);
 BOOL NPC_ItemFullCheck(int meindex,int talker,char *buf,int mode,int evcnt);
 void NPC_CharmStatus(int meindex,int talker);
@@ -64,7 +64,7 @@ enum {
 };
 
 /*********************************
-* 赓渝质  
+* 赓渝质
 *********************************/
 BOOL NPC_ExChangeManInit( int meindex )
 {
@@ -163,7 +163,7 @@ BOOL NPC_EventWarpNpc(int meindex,char *buf)
 	 !=FALSE ){
 		dcnt++;
 	}
-	
+
 	if(dcnt <= cnt) cnt=1;
 
 
@@ -192,14 +192,14 @@ BOOL NPC_EventWarpNpc(int meindex,char *buf)
         CHAR_warpToSpecificPoint(meindex, floor, x, y);
 		return TRUE;
 	}
-	
+
 	return FALSE;
 
 }
 
 
 /*********************************
-*   仄井仃日木凶凛及质  
+*   仄井仃日木凶凛及质
 *********************************/
 void NPC_ExChangeManTalked( int meindex , int talkerindex , char *szMes ,int color )
 {
@@ -213,7 +213,7 @@ void NPC_ExChangeManTalked( int meindex , int talkerindex , char *szMes ,int col
 		/* ㄠ弘伉永玉动  及心 */
 		if(NPC_Util_isFaceToChara(talkerindex,meindex,1 ) == FALSE) return;
 	}
-	
+
 	/*--皿伊奶乩□及伐□弁    毛赓渝祭--*/
 	CHAR_setWorkInt( talkerindex ,CHAR_WORKSHOPRELEVANT, 0);
 	CHAR_setWorkInt( talkerindex ,CHAR_WORKSHOPRELEVANTSEC, 0);
@@ -236,7 +236,7 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 	int i = 1;
 	int EvNo;
 	int evch;
-	
+
 	/*--涩烂白央奶伙毛  心  心--*/
 	if(NPC_Util_GetArgStr( meindex, argstr, sizeof(argstr)) == NULL) {
 		print("NPC_ExChange.c TypeCheck: GetArgStrErr\n");
@@ -265,7 +265,7 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 		if(NPC_EventCheckFlg( talker, EvNo) == TRUE) continue;
 
 		/*--平□伐□玉及民尼永弁毛垫丹--*/
-		if(NPC_Util_GetStrFromStrWithDelim( buf,"KeyWord", buf2,sizeof( buf2) ) 
+		if(NPC_Util_GetStrFromStrWithDelim( buf,"KeyWord", buf2,sizeof( buf2) )
 		 != NULL){
 			if(strcmp( szMes, buf2) != 0) continue;
 			CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANT, i);
@@ -278,7 +278,7 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 		evch = NPC_ExChangeManEventCheck( meindex, talker, buf);
 		if(evch != -1) {
 			if(NPC_Util_GetStrFromStrWithDelim( buf,"TYPE", buf2, sizeof( buf2)) != NULL){
-				
+
 				if( strstr( buf2, "REQUEST") != NULL) {
 					NPC_RequestMain( meindex, talker, buf);
 					return TRUE;
@@ -286,7 +286,7 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 					/*-匙  毛熬仃午月  --*/
 					NPC_AcceptMain( meindex, talker, buf);
 					return TRUE;
-					
+
 				}else if(strstr( buf2, "MESSAGE") != NULL) {
 					char token[14*100];
 					char token2[14*50];
@@ -306,7 +306,7 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 							int k = 1;
 							if(EvNo != -1) NPC_NowEventSetFlgCls( talker, EvNo);
 							while(getStringFromIndexWithDelim(buf2 , "," ,k, buf3, sizeof(buf3))
-								!=FALSE ){	
+								!=FALSE ){
 								k++;
 								NPC_EventSetFlg( talker, atoi( buf3));
 							}
@@ -316,7 +316,7 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 							char buf3[16];
 							int k = 1;
 							k= 1 ;
-							while(getStringFromIndexWithDelim(buf2 , "," , k, 
+							while(getStringFromIndexWithDelim(buf2 , "," , k,
 								buf3, sizeof(buf3))
 								!= FALSE ){
 								NPC_NowEndEventSetFlgCls( talker, atoi(buf3));
@@ -341,18 +341,18 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 							char token2[14*50];
 							if(NPC_AcceptDel( meindex, talker,0) == FALSE) return FALSE;
 							if( EvNo != -1) NPC_NowEventSetFlg( talker, EvNo);
-							
+
 							if(NPC_Util_GetStrFromStrWithDelim( buf,"NpcWarp",
 								token2,sizeof( token2) ) != NULL){
 								NPC_EventWarpNpc(meindex,token2);
 							}
-							if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg", 
+							if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg",
 								buf2, sizeof( buf2) ) !=NULL){
 								char buf3[16];
 								int k = 1;
 								if(EvNo != -1) NPC_NowEventSetFlgCls( talker, EvNo);
-								while(getStringFromIndexWithDelim(buf2 , "," ,k, 
-									buf3, sizeof(buf3)) !=FALSE ){	
+								while(getStringFromIndexWithDelim(buf2 , "," ,k,
+									buf3, sizeof(buf3)) !=FALSE ){
 									k++;
 									NPC_EventSetFlg( talker, atoi( buf3));
 								}
@@ -362,9 +362,9 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 								buf2, sizeof( buf2)) != NULL) {
 								char buf3[16];
 								int k = 1;
-								
+
 								k= 1 ;
-								while(getStringFromIndexWithDelim(buf2 , "," , k, 
+								while(getStringFromIndexWithDelim(buf2 , "," , k,
 									buf3, sizeof(buf3))	!= FALSE ){
 									NPC_NowEndEventSetFlgCls( talker, atoi(buf3));
 									k++;
@@ -379,9 +379,9 @@ BOOL NPC_TypeCheck(int meindex,int talker,char *szMes)
 						}
 #endif
 					}
-					
+
 					return TRUE;
-					
+
 				}else if(strstr( buf2, "CLEAN") != NULL) {
 					NPC_CleanMain( meindex, talker, buf);
 					return TRUE;
@@ -446,7 +446,7 @@ void NPC_RequestMain(int meindex,int talker,char *buf)
 {
 	int shiftbit;
 	char buf2[128];
-		
+
 	/*--奶矛件玄瓜件田□毛必永玄--*/
 	NPC_Util_GetStrFromStrWithDelim( buf,"EventNo", buf2,sizeof( buf2) );
 	shiftbit = atoi( buf2);
@@ -478,7 +478,7 @@ void NPC_CleanMain(int meindex,int talker,char *buf)
 /*-----------------------------------------
 弁仿奶失件玄井日忒匀化五凶凛卞裟太请今木月［
 -------------------------------------------*/
-void NPC_ExChangeManWindowTalked( int meindex, int talkerindex, 
+void NPC_ExChangeManWindowTalked( int meindex, int talkerindex,
 								int seqno, int select, char *data)
 {
 	/*--       及引歹曰卞中卅中午五反蔽   --*/
@@ -525,7 +525,7 @@ void NPC_ExChangeManWindowTalked( int meindex, int talkerindex,
 				NPC_MsgDisp( meindex, talkerindex, 22);
 			}
 		break;
-		
+
 		/*--失弁本皿玄及丐曰互午丹丢永本□斥--*/
 	  case CHAR_WINDOWTYPE_WINDOWEVENT_ACCTHANK:
 			if(select == WINDOW_BUTTONTYPE_NEXT) {
@@ -547,14 +547,14 @@ void NPC_ExChangeManWindowTalked( int meindex, int talkerindex,
 			NPC_MsgDisp( meindex, talkerindex, 1);
 		}
 		break;
-		
+
 		/*--伉弁巨旦玄及丢奶件它奶件玉它--*/
 	  case CHAR_WINDOWTYPE_WINDOWEVENT_REQMAINMSG:
 		if(select == WINDOW_BUTTONTYPE_YES) {
 			CHAR_setWorkInt(talkerindex,CHAR_WORKSHOPRELEVANTTRD,0);
 			NPC_MsgDisp( meindex, talkerindex, 2);
 		}else if(select == WINDOW_BUTTONTYPE_NO) {
-		
+
 		}else if(select == WINDOW_BUTTONTYPE_NEXT) {
 			 CHAR_setWorkInt(talkerindex,CHAR_WORKSHOPRELEVANTTRD,
 						CHAR_getWorkInt(talkerindex,CHAR_WORKSHOPRELEVANTTRD)+1);
@@ -627,7 +627,7 @@ int NPC_ExChangeManEventCheck( int meindex, int talker, char *buff1)
 	char buf[512];
 	int i = 1,j = 1;
 	int loop = 0;
-	
+
 	NPC_Util_GetStrFromStrWithDelim( buff1, "EVENT", buf, sizeof( buf));
 
 	/*-- EVENt及椭瘀毛赐  卞苇化中仁 --*/
@@ -649,7 +649,7 @@ int NPC_ExChangeManEventCheck( int meindex, int talker, char *buff1)
 					break;
 				}
 			}
-				
+
 			if(loop == 0){
 				i--;
 				return i;
@@ -661,7 +661,7 @@ int NPC_ExChangeManEventCheck( int meindex, int talker, char *buff1)
 				return i;
 			}
 		}
-	
+
 	}
 
 	return -1;
@@ -676,7 +676,7 @@ BOOL NPC_EventBigSmallCheck(int meindex,int talker, char* buf)
 
 	char buff2[128];
 	int kosuu;
-	
+
 	/*--矢永玄及民尼永弁互反中匀化中月桦宁反域绎PET椭瘀毛民尼永弁允月 --*/
 	if(strstr( buf, "PET") != NULL) {
 		if(strstr( buf, "EV") != NULL) {
@@ -713,7 +713,7 @@ BOOL NPC_EventBigSmallCheck(int meindex,int talker, char* buf)
 		if(NPC_EventFreeIfCheck( meindex, talker, buff2, kosuu, 3) == TRUE) {
 			return TRUE;
 		}
-		
+
 	}else if(strstr( buf, "=") != NULL) {
 		getStringFromIndexWithDelim( buf, "=", 2, buff2, sizeof( buff2));
 		kosuu = atoi( buff2);
@@ -729,7 +729,7 @@ BOOL NPC_EventBigSmallCheck(int meindex,int talker, char* buf)
 			return TRUE;
 		}
 	}
-	
+
 	return FALSE;
 
 }
@@ -821,7 +821,7 @@ BOOL NPC_PetLvCheck(int meindex,int talker,char *buf,int mode)
 	char name[512];
 	int cnt = 0;
 	int loop;
-	
+
 
 	/*--隙烂今木凶矢永玄及瓜件田□  ID)毛潸  --*/
 	getStringFromIndexWithDelim( buf, "-", 2, buff2, sizeof( buff2));
@@ -840,10 +840,10 @@ BOOL NPC_PetLvCheck(int meindex,int talker,char *buf,int mode)
 	/*--矢永玄  互钒中化中月井及民尼永弁--*/
 	for(i=0; i < CHAR_MAXPETHAVE ; i++) {
 		if(loop == cnt) return TRUE;
-		
+
 		petindex = CHAR_getCharPet( talker, i);
 		if( petindex == -1  )  continue;
-	
+
 		/*--矢永玄及ID毛潸  仄化中仁--*/
 		baseno = CHAR_getInt( petindex, CHAR_PETID);
 
@@ -872,7 +872,7 @@ BOOL NPC_PetLvCheck(int meindex,int talker,char *buf,int mode)
 				/*--矢永玄及  蟆互涩烂今木化中凶日  蟆及民尼永弁  月--*/
 				if(CHAR_getWorkInt(talker,CHAR_WORKSHOPRELEVANTSEC)==1) {
 					char *usename;
-					
+
 					/*--涩烂白央奶伙及  心  心--*/
 					if(NPC_Util_GetArgStr( meindex, argstr, sizeof(argstr)) == NULL) {
 						print("PetLevel:GetArgStrErr");
@@ -882,7 +882,7 @@ BOOL NPC_PetLvCheck(int meindex,int talker,char *buf,int mode)
 					usename = CHAR_getUseName( petindex);
 					NPC_Util_GetStrFromStrWithDelim( argstr, "Pet_Name",
 													name,sizeof( name));
-	
+
 					if(strcmp( name, usename) == 0)
 					{
 						cnt++;
@@ -896,7 +896,7 @@ BOOL NPC_PetLvCheck(int meindex,int talker,char *buf,int mode)
 			}
 		}
 	}
-	
+
 	if(loop == cnt) return TRUE;
 	if(i == CHAR_MAXPETHAVE) return FALSE;
 
@@ -918,7 +918,7 @@ int NPC_PetLvCheckType2(int petindex,int meindex,int talker,char *buf,int mode)
 	int flg = 0;
 	int mypetlevel = 0;
 	char name[512];
-	
+
 	/*--隙烂今木凶矢永玄及瓜件田□  ID)毛潸  --*/
 	getStringFromIndexWithDelim( buf, "-", 2, buff2, sizeof( buff2));
 	if(strstr(buff2,"*") != NULL) {
@@ -928,7 +928,7 @@ int NPC_PetLvCheckType2(int petindex,int meindex,int talker,char *buf,int mode)
 		petno = atoi( buff2);
 	}
 
-	
+
 	/*--矢永玄及ID毛潸  仄化中仁--*/
 	baseno = CHAR_getInt( petindex, CHAR_PETID);
 
@@ -951,7 +951,7 @@ int NPC_PetLvCheckType2(int petindex,int meindex,int talker,char *buf,int mode)
 			getStringFromIndexWithDelim( buff2, "=", 2, buf3, sizeof(buf3));
 			flg = 0;
 		}
-		
+
 		petlevel = atoi(buf3);
 
 		if(NPC_EventBigSmallLastCheck( petlevel, mypetlevel, flg)
@@ -966,11 +966,11 @@ int NPC_PetLvCheckType2(int petindex,int meindex,int talker,char *buf,int mode)
 					print("PetLevel:GetArgStrErr");
 					return FALSE;
 				}
-				
+
 				usename = CHAR_getUseName( petindex);
 				NPC_Util_GetStrFromStrWithDelim(argstr,"Pet_Name",
 												name, sizeof( name));
-	
+
 				if(strcmp( name, usename) == 0)
 				{
 					return TRUE;
@@ -994,7 +994,7 @@ BOOL NPC_SavePointCheck(int meindex,int talker,int shiftbit,int flg)
 	int point;
 
 	point = CHAR_getInt( talker, CHAR_SAVEPOINT);
-	
+
 	if( (point & ( 1<< shiftbit))  == ( 1<< shiftbit)) {
 		if(flg == 3) return FALSE;
 		return TRUE;
@@ -1012,7 +1012,7 @@ BOOL NPC_ImageCheck(int meindex,int talker,int kosuu,int flg)
 	int image;
 
 	image = CHAR_getInt( talker, CHAR_IMAGETYPE);
-	
+
 	if(NPC_EventBigSmallLastCheck( image, kosuu, flg) == TRUE) {
 		return TRUE;
 	}
@@ -1040,7 +1040,7 @@ BOOL NPC_TiemCheck(int meindex,int talker,int time,int flg)
 }
 
 /*------------------------------
- *--Item毛民尼永弁				
+ *--Item毛民尼永弁
  -------------------------------*/
 BOOL NPC_EventItemCheck(int meindex,int talker,int itemNo,int flg)
 {
@@ -1073,7 +1073,7 @@ BOOL NPC_EventItemCheck(int meindex,int talker,int itemNo,int flg)
 
 
 /*------------------------------
- * level毛民尼永弁				
+ * level毛民尼永弁
  -------------------------------*/
 BOOL NPC_EventLevelCheck(int meindex,int talker,int level,int flg)
 {
@@ -1177,7 +1177,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 	int buttontype = WINDOW_BUTTONTYPE_OK;
 	int windowtype = CHAR_WINDOWTYPE_WINDOWEVENT_STARTMSG;
 	int evch;
-	
+
 
 	if(NPC_Util_GetArgStr( meindex, argstr, sizeof(argstr)) == NULL) {
 		print("MsgDisp:GetArgStrErr");
@@ -1191,7 +1191,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 		pwork = (pwork / 100) -1 ;
 
 		getStringFromIndexWithDelim( argstr, "EventEnd", pwork, buf,sizeof( buf));
-		
+
 	}else{
 		/*涩烂白央奶伙毛坌喃允月*/
 		while(getStringFromIndexWithDelim( argstr, "EventEnd", i, buf, sizeof(buf))
@@ -1199,7 +1199,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 		{
 			i++;
 			CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTSEC, 0);
-			
+
 			/*--奶矛件玄瓜件田□毛必永玄--*/
 			NPC_Util_GetStrFromStrWithDelim( buf, "EventNo", buf2, sizeof( buf2));
 			if(strstr( buf2, "-1") != 0) {
@@ -1213,14 +1213,14 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 			if(NPC_EventCheckFlg( talker, EvNo) == TRUE) continue;
 
 			/*--平□伐□玉及民尼永弁毛垫丹--*/
-			if(NPC_Util_GetStrFromStrWithDelim( buf,"Pet_Name", buf2,sizeof( buf2)) 
+			if(NPC_Util_GetStrFromStrWithDelim( buf,"Pet_Name", buf2,sizeof( buf2))
 			 != NULL )
 			{
 				CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTSEC, 1);
 			}
 
 			/*--平□伐□玉及民尼永弁毛垫丹--*/
-			if(NPC_Util_GetStrFromStrWithDelim( buf,"KeyWord", buf2,sizeof( buf2) ) 
+			if(NPC_Util_GetStrFromStrWithDelim( buf,"KeyWord", buf2,sizeof( buf2) )
 			 != NULL)
 			{
 					if(CHAR_getWorkInt( talker ,CHAR_WORKSHOPRELEVANT) != i) continue;
@@ -1236,13 +1236,13 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 			}
 		}
 	}
-	
+
 	//print(" NPC_MsgDisp:%d ", num);
-	
+
 	switch( num) {
 		  case 0:
 			/*蜇箕及奶矛件玄毛鞅户月井升丹井毛  仁丢永本□斥--*/
-			if( NPC_Util_GetStrFromStrWithDelim( buf, "StopMsg", 
+			if( NPC_Util_GetStrFromStrWithDelim( buf, "StopMsg",
 												buf2, sizeof( buf2) )
 			 != NULL)
 			{
@@ -1251,7 +1251,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				windowtype = CHAR_WINDOWTYPE_WINDOWEVENT_NOWEVENT;
 			}
 		break;
-		
+
 		  case 1:
 		  	/*--支户月井升丹井毛  中凶今中及NO毛蚕尹凶桦宁及丢永本□斥--*/
 			if( NPC_Util_GetStrFromStrWithDelim( buf, "NoStopMsg",
@@ -1262,7 +1262,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 
 			}
 		break;
-		
+
 		  case 7:
 			/*--蜇箕及奶矛件玄毛鞅户凶午五及丢永本□斥--*/
 			if( NPC_Util_GetStrFromStrWithDelim( buf, "EndStopMsg",
@@ -1270,13 +1270,13 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 			 != NULL)
 			{
 				strcpysafe( token, sizeof( buf2), buf2);
-			
+
 				/*--奶矛件玄  毛  匀化中凶桦宁反壅蛔--*/
 				NPC_EventAdd( meindex, talker, 1);
-			
+
 				/*--白仿弘毛壅允--*/
 				NPC_NowEventSetFlgCls( talker, EvNo);
-			
+
 				/*--蝇匀凶及匹｝    毛今仆凶--*/
 				if(CHAR_getInt( talker, CHAR_CHARM) > 0) {
 					CHAR_setInt( talker, CHAR_CHARM, CHAR_getInt(talker,CHAR_CHARM) -1);
@@ -1286,7 +1286,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				}
 			}
 		break;
-		
+
 		  case 2:
 				/*--丐曰互午丹丢永本□斥--*/
 				if( NPC_Util_GetStrFromStrWithDelim( buf, "ThanksMsg",
@@ -1301,33 +1301,33 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					else {
 						return;
 					}
-				
-				
-					if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg", 
+
+
+					if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg",
 													buf2, sizeof( buf2) )
 					!=NULL)
 					{
 						char buf3[16];
 						int k = 1;
 						if(EvNo != -1) NPC_NowEventSetFlgCls( talker, EvNo);
-						
-						while(getStringFromIndexWithDelim(buf2 , "," ,k, 
+
+						while(getStringFromIndexWithDelim(buf2 , "," ,k,
 												buf3, sizeof(buf3))
 						 !=FALSE )
-						{	
+						{
 							k++;
 							NPC_EventSetFlg( talker, atoi( buf3));
 						}
 					}
 
 					if( NPC_Util_GetStrFromStrWithDelim( buf, "CleanFlg",
-													 buf2, sizeof( buf2)) 
+													 buf2, sizeof( buf2))
 					 != NULL) {
 					 	char buf3[16];
 						int k = 1;
 
 					 	k= 1 ;
-						while(getStringFromIndexWithDelim(buf2 , "," , k, 
+						while(getStringFromIndexWithDelim(buf2 , "," , k,
 															buf3, sizeof(buf3))
 						!= FALSE )
 						{
@@ -1336,14 +1336,14 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 						}
 					}
 
-				
-				
+
+
 				}
 				CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD, 1);
 				work = CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD);
 				work = work + ( i * 100);
 				CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD, work);
-				
+
 				if(NPC_Util_GetStrFromStrWithDelim( buf,"NpcWarp",
 										token2,sizeof( token2) )
 				!= NULL){
@@ -1364,7 +1364,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 		break;
 
 		   case 22:
-				
+
 				work = CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD);
 				work = work % 100;
 
@@ -1378,7 +1378,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 
 					/*--戚矢□斥互丐月桦宁反示正件方它奶件玉它及正奶皿毛井尹月--*/
 					if(strstr( buf, "ThanksMsg2") != NULL) {
-					
+
 						/*仇仇匹霜耨允月*/
 						lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 									WINDOW_BUTTONTYPE_NEXT,
@@ -1387,23 +1387,23 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 									token);
 						return;
 					}
-				
+
 				}else{
-					
+
 					sprintf( tmp, "ThanksMsg%d", work);
 					if( NPC_Util_GetStrFromStrWithDelim( buf, tmp,
 														 buf2, sizeof( buf2) )
 					 != NULL) {
 						strcpysafe( token,sizeof( buf2), buf2);
 					}
-	
+
 					work++;
 					sprintf( tmp, "ThanksMsg%d", work);
-	
-	
+
+
 					/*--戚矢□斥互丐月桦宁反示正件方它奶件玉它及正奶皿毛井尹月--*/
 					if(strstr( buf, tmp) != NULL) {
-						
+
 						/*仇仇匹霜耨允月*/
 						lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 									WINDOW_BUTTONTYPE_NEXT,
@@ -1463,15 +1463,15 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 													 buf2, sizeof( buf2) )
 				 != NULL)
 				{
-          
+
           if(strstr(buf2,"%8d") != NULL) {
 						char buf3[64];
 						int cost;
-						
+
 						NPC_Util_GetStrFromStrWithDelim( buf, "DelStone",
 													 buf3, sizeof( buf3) );
 						cost = NPC_EventGetCost( meindex, talker, buf3);
-						
+
 						sprintf(token,buf2,cost);
 
 					}else{
@@ -1499,7 +1499,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 		break;
 
 	   case 55:
-				
+
 				work = CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD);
 				work = work % 100;
 
@@ -1522,19 +1522,19 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 						return;
 					}
 				}else{
-					
+
 					sprintf( tmp, "RequestMsg%d", work);
 					if( NPC_Util_GetStrFromStrWithDelim( buf, tmp,
 														 buf2, sizeof( buf2) )
 					 != NULL){
 						strcpysafe( token,sizeof( buf2), buf2);
-							
+
 					}
 					work++;
 					sprintf( tmp, "RequestMsg%d", work);
 					/*--戚矢□斥互丐月桦宁反示正件方它奶件玉它及正奶皿毛井尹月--*/
 					if(strstr( buf, tmp) != NULL) {
-						
+
 						/*仇仇匹霜耨允月*/
 						lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 									WINDOW_BUTTONTYPE_NEXT,
@@ -1564,11 +1564,11 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				if(strstr(buf2,"%8d") != NULL) {
 					char buf3[64];
 					int cost;
-						
+
 					NPC_Util_GetStrFromStrWithDelim( buf, "DelStone",
 											 buf3, sizeof( buf3) );
 					cost = NPC_EventGetCost( meindex, talker, buf3);
-						
+
 					sprintf( token, buf2, cost);
 				}else{
 					strcpysafe( token, sizeof( buf2), buf2);
@@ -1576,7 +1576,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				buttontype = WINDOW_BUTTONTYPE_YESNO;
 				windowtype = CHAR_WINDOWTYPE_WINDOWEVENT_ACCMAINMSG;
 			}
-	
+
 			CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD, 1);
 			work = CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD);
 			work = work + ( i * 100);
@@ -1619,7 +1619,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					return;
 				}
 			}else{
-			
+
 				sprintf( tmp, "AcceptMsg%d", work);
 				if( NPC_Util_GetStrFromStrWithDelim( buf, tmp,
 													 buf2, sizeof( buf2) )
@@ -1630,7 +1630,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				sprintf( tmp, "AcceptMsg%d", work);
 				/*--戚矢□斥互丐月桦宁反示正件方它奶件玉它及正奶皿毛井尹月--*/
 				if(strstr( buf, tmp) != NULL) {
-					
+
 					/*仇仇匹霜耨允月*/
 					lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 								WINDOW_BUTTONTYPE_NEXT,
@@ -1651,7 +1651,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 
 		case 8:
 				//print(" 8_答应? ");
-			
+
 				if( NPC_Util_GetStrFromStrWithDelim( buf, "ThanksMsg",
 													buf2, sizeof( buf2) )
 				 != NULL)
@@ -1661,24 +1661,24 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					if(NPC_AcceptDel( meindex, talker,0) == FALSE){
 						return ;
 					}
-					
-					if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg", 
+
+					if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg",
 						buf2, sizeof( buf2) )
 						!=NULL)
 					{
 						char buf3[16];
 						int k = 1;
 						if(EvNo != -1) NPC_NowEventSetFlgCls( talker, EvNo);
-						
-						while(getStringFromIndexWithDelim(buf2 , "," ,k, 
+
+						while(getStringFromIndexWithDelim(buf2 , "," ,k,
 							buf3, sizeof(buf3))
 							!=FALSE )
-						{	
+						{
 							k++;
 							NPC_EventSetFlg( talker, atoi( buf3));
 						}
 					}
-					
+
 					if( NPC_Util_GetStrFromStrWithDelim( buf, "Charm",
 						buf2, sizeof( buf2))
 						!=NULL)
@@ -1687,27 +1687,27 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 						if( CHAR_getInt( talker, CHAR_CHARM) < 100 && EvNo > 0 ){
 							if(CHAR_getInt( talker, CHAR_CHARM) + atoi(buf2) > 100){
 								CHAR_setInt( talker, CHAR_CHARM,100);
-								
+
 							}else{
-								CHAR_setInt( talker, CHAR_CHARM, 
+								CHAR_setInt( talker, CHAR_CHARM,
 									CHAR_getInt(talker,CHAR_CHARM) + atoi(buf2));
-								
+
 							}
-							
+
 							CHAR_complianceParameter( talker );
 							CHAR_send_P_StatusString( talker, CHAR_P_STRING_CHARM);
 							NPC_CharmStatus( meindex, talker);
 						}
 					}
-					
+
 					if( NPC_Util_GetStrFromStrWithDelim( buf, "CleanFlg",
-						buf2, sizeof( buf2)) 
+						buf2, sizeof( buf2))
 						!= NULL) {
 						char buf3[16];
 						int k = 1;
-						
+
 						k= 1 ;
-						while(getStringFromIndexWithDelim(buf2 , "," , k, 
+						while(getStringFromIndexWithDelim(buf2 , "," , k,
 							buf3, sizeof(buf3))
 							!= FALSE )
 						{
@@ -1720,7 +1720,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				work = CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD);
 				work = work + ( i * 100 );
 				CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD, work);
-	
+
 				if(NPC_Util_GetStrFromStrWithDelim( buf,"NpcWarp",
 													token2,sizeof( token2) )
 					!= NULL){
@@ -1774,7 +1774,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					strcpysafe( token,sizeof( buf2), buf2);
 				work++;
 				sprintf(tmp, "ThanksMsg%d", work + 1);
-				
+
 				if(strstr(buf, tmp) != NULL)
 				{
 					lssproto_WN_send(fd, WINDOW_MESSAGETYPE_MESSAGE,
@@ -1794,10 +1794,10 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					return;
 				}
 			}
-			
+
 			break;
-#endif	
-	
+#endif
+
 	   case 82:
 			work = CHAR_getWorkInt(talker,CHAR_WORKSHOPRELEVANTTRD);
 			work = work % 100;
@@ -1821,7 +1821,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					return;
 				}
 			}else{
-				
+
 				sprintf( tmp, "ThanksMsg%d", work);
 				if( NPC_Util_GetStrFromStrWithDelim( buf, tmp,
 													 buf2, sizeof( buf2) )
@@ -1829,13 +1829,13 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				{
 					strcpysafe( token,sizeof( buf2), buf2);
 				}
-				
+
 				work++;
 				sprintf( tmp, "ThanksMsg%d", work);
 
 				/*--戚矢□斥互丐月桦宁反示正件方它奶件玉它及正奶皿毛井尹月--*/
 				if(strstr( buf, tmp) != NULL) {
-						
+
 					/*仇仇匹霜耨允月*/
 					lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 								WINDOW_BUTTONTYPE_NEXT,
@@ -1867,20 +1867,20 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				if(NPC_AcceptDel( meindex, talker,1) == FALSE){
 					return ;
 				}
-				
-				if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg", 
+
+				if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg",
 												buf2, sizeof( buf2) )
 				!=NULL)
 				{
 					char buf3[16];
 					int k = 1;
-				
+
 					if(EvNo != -1) NPC_NowEventSetFlgCls( talker, EvNo);
-					
-					while(getStringFromIndexWithDelim(buf2 , "," ,k, 
+
+					while(getStringFromIndexWithDelim(buf2 , "," ,k,
 											buf3, sizeof( buf3))
 					 !=FALSE )
-					{	
+					{
 						k++;
 						NPC_EventSetFlg( talker, atoi( buf3));
 					}
@@ -1895,7 +1895,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 						if(CHAR_getInt( talker, CHAR_CHARM) + atoi(buf2) > 100){
 							CHAR_setInt( talker, CHAR_CHARM,100);
 						}else{
-							CHAR_setInt( talker, CHAR_CHARM, 
+							CHAR_setInt( talker, CHAR_CHARM,
 									CHAR_getInt(talker,CHAR_CHARM) + atoi( buf2));
 						}
 						CHAR_complianceParameter( talker );
@@ -1909,7 +1909,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 
 
 		  case 9:
-			
+
 		  	if( NPC_Util_GetStrFromStrWithDelim( buf, "NomalWindowMsg",
 												buf2, sizeof( buf2) )
 			 != NULL)
@@ -1935,7 +1935,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 			}
 #endif
 		  	break;
-		  	
+
 #ifdef _NEWEVENT
 	  case 99:
 			work = CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANTTRD);
@@ -1958,7 +1958,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					return;
 				}
 			}else{
-			
+
 				sprintf( tmp, "NomalWindowMsg%d", work);
 				if( NPC_Util_GetStrFromStrWithDelim( buf, tmp,
 													 buf2, sizeof( buf2) )
@@ -1969,7 +1969,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				sprintf( tmp, "NomalWindowMsg%d", work);
 				/*--戚矢□斥互丐月桦宁反示正件方它奶件玉它及正奶皿毛井尹月--*/
 				if(strstr( buf, tmp) != NULL) {
-					
+
 					/*仇仇匹霜耨允月*/
 					lssproto_WN_send( fd, WINDOW_MESSAGETYPE_MESSAGE,
 								WINDOW_BUTTONTYPE_NEXT,
@@ -1982,27 +1982,27 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					char token2[14*50];
 					/*--仇仇匹｝失奶  丞卅升及馨笛毛垫丹--*/
 					if(NPC_AcceptDel( meindex, talker,0) == FALSE) return;
-	
+
 					/*白仿弘毛本永玄仄化中木壬｝本永玄允月--*/
 					if( EvNo != -1) NPC_NowEventSetFlg( talker, EvNo);
-						
+
 					if(NPC_Util_GetStrFromStrWithDelim( buf,"NpcWarp",
 										token2,sizeof( token2) )!= NULL){
 								NPC_EventWarpNpc(meindex,token2);
 					}
-					
+
 					//白仿弘毛  化月
-					if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg", 
+					if(NPC_Util_GetStrFromStrWithDelim( buf, "EndSetFlg",
 										buf2, sizeof( buf2) )!=NULL)
 					{
 						char buf3[16];
 						int k = 1;
-				
+
 						if(EvNo != -1) NPC_NowEventSetFlgCls( talker, EvNo);
-				
-						while(getStringFromIndexWithDelim(buf2 , "," ,k, 
+
+						while(getStringFromIndexWithDelim(buf2 , "," ,k,
 								buf3, sizeof(buf3)) !=FALSE )
-						{	
+						{
 							k++;
 							NPC_EventSetFlg( talker, atoi( buf3));
 						}
@@ -2014,7 +2014,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 							int k = 1;
 
 						 	k= 1 ;
-							while(getStringFromIndexWithDelim(buf2 , "," , k, 
+							while(getStringFromIndexWithDelim(buf2 , "," , k,
 																buf3, sizeof(buf3))
 							!= FALSE )
 							{
@@ -2033,7 +2033,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 		  break;
 #endif
 		  case 10:
-			  
+
 			/*--矢永玄互中匀天中及凛及丢永本□斥--*/
 			if( NPC_Util_GetStrFromStrWithDelim( buf, "PetFullMsg",
 												 buf2, sizeof( buf2) )
@@ -2067,7 +2067,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 			{
 				char buf3[64];
 				int loop=1;
-				
+
 				strcpysafe( token, sizeof( buf2), buf2);
 				NPC_Util_GetStrFromStrWithDelim( buf, "CleanFlg",
 												 buf2, sizeof( buf2) );
@@ -2089,7 +2089,7 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 				strcpysafe( token, sizeof( buf2), buf2);
 			}
 		break;
-		
+
 		 case 14:
 			/*--云嗯互凶曰卅中丢永本□斥--*/
 					if( NPC_Util_GetStrFromStrWithDelim( buf, "StoneLessMsg",
@@ -2112,6 +2112,8 @@ void NPC_MsgDisp(int meindex,int talker,int num)
 					token);
 
 }
+
+BOOL NPC_EventAddEgg(int meindex, int talker, char *buff2,int mode);
 
 /*--------------------------------------
  *奶矛件玄迕及失奶  丞毛馨笛允月
@@ -2149,7 +2151,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 	!=NULL)
 	{
 		int stone;
-		
+
 		stone = NPC_EventGetCost( meindex, talker, buff2);
 
 		if( (CHAR_getInt( talker, CHAR_GOLD) - stone) < 0 ){
@@ -2167,28 +2169,28 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 			return TRUE;
 		}
 	}
-	
-	
+
+
 	if(mode == 2) mode = 0;
-	
+
 	/*--矢永玄毛馨笛允月---*/
 	if(NPC_Util_GetStrFromStrWithDelim( buff, "GetPet", buff2, sizeof( buff2) )
 	 !=NULL)
-	{	
+	{
 		if(mode == 0){
 			if(NPC_EventAddPet( meindex, talker, buff2,0) == FALSE) {
 				NPC_MsgDisp( meindex, talker, 10);
 				return FALSE;
 			}
 		}else if(mode == 1){
-		
+
 		}
 	}
 
 	// Robin add 从NPC取宠物蛋
 	if(NPC_Util_GetStrFromStrWithDelim( buff, "GetEgg", buff2, sizeof( buff2) )
 	 !=NULL)
-	{	
+	{
 		if(mode == 0){
 			if(NPC_EventAddEgg( meindex, talker, buff2,0) == FALSE) {
 				print(" AddEgg_Error:%d ", __LINE__);
@@ -2196,7 +2198,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 				return FALSE;
 			}
 		}else if(mode == 1){
-		
+
 		}
 	}
 
@@ -2204,7 +2206,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 		if(strstr(buff2,"EVDEL") != NULL){
 			char work[256];
 			char nbuf[256];
-			
+
 			NPC_Util_GetStrFromStrWithDelim(buf, "EVENT", buff2, sizeof( buff2));
 			getStringFromIndexWithDelim( buff2, ",", evcnt, work, sizeof( work));
 
@@ -2213,13 +2215,13 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 			}else{
 				b_flg=0;
 			}
-			
+
 			if(NPC_Util_GetStrFromStrWithDelim( buff, "NotDel", nbuf, sizeof( nbuf)) !=  NULL) {
 				NPC_EventDelItemEVDEL( meindex, talker, work, nbuf,b_flg);
 			}else{
 				NPC_EventDelItemEVDEL( meindex, talker, work, "-1",b_flg);
 			}
-			
+
 		}else{
 			if(strstr(buff,"Break")!=NULL){
 				b_flg=1;
@@ -2237,7 +2239,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 	{
 		int stone;
 		char token[128];
-		
+
 		stone = NPC_EventGetCost( meindex, talker, buff2);
 
 		CHAR_setInt(talker,CHAR_GOLD,CHAR_getInt( talker, CHAR_GOLD) - stone);
@@ -2268,7 +2270,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 			while(getStringFromIndexWithDelim( buf, "," , j, buff2, sizeof(buff2)) !=FALSE ){
 				j++;
 			}
-			
+
 			j--;
 			for( i = CHAR_STARTITEMARRAY ; i < CHAR_MAXITEMHAVE ; i++ ){
 				itemindex=CHAR_getItemIndex( talker , i );
@@ -2300,7 +2302,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 
 	if( (NPC_Util_GetStrFromStrWithDelim( buff, "GetRandItem", buf, sizeof( buf) )
 		!=NULL) && (rand_flg == 0) && mode == 0 )
-	{	
+	{
 		/*--民尼永弁   癫卞蝈    月井＂-*/
 		for( i = CHAR_STARTITEMARRAY ; i < CHAR_MAXITEMHAVE ; i++ ){
 			itemindex=CHAR_getItemIndex( talker , i );
@@ -2314,10 +2316,10 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 			return FALSE;
 		}
 
-	
+
 		NPC_RandItemGet( meindex, talker, rand_j,buf);
 	}
-	
+
 #ifdef _EXCHANGEMAN_REQUEST_DELPET
 	if( NPC_Util_GetStrFromStrWithDelim( buff, "DelPet", buff2, sizeof( buff2) ) != NULL && mode == 0 ) {
 		char buf4[32];
@@ -2325,12 +2327,12 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 		int i=1;
 		char work[256];
 		int j=1;
-		
+
 		if(strstr(buff2,"EVDEL") != NULL){
 			NPC_Util_GetStrFromStrWithDelim( buf, "EVENT", buf5, sizeof( buf5));
-			getStringFromIndexWithDelim( buf5, ",",evcnt , buff2, sizeof( buff2));	
+			getStringFromIndexWithDelim( buf5, ",",evcnt , buff2, sizeof( buff2));
 			while(getStringFromIndexWithDelim( buff2, "&", j, work, sizeof( work))!=FALSE){
-				j++;			
+				j++;
 				if(strstr( work, "PET") != NULL) {
 					if(strstr( work, "EV") != NULL) {
 						if(NPC_PetLvCheck( meindex, talker, work, 1) == FALSE) return FALSE;
@@ -2339,24 +2341,24 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 					}
 				}
 			}
-			j = 1;		
+			j = 1;
 			while(getStringFromIndexWithDelim( buff2, "&", j, work, sizeof( work)) != FALSE){
 				j++;
 				if(strstr( work, "PET") == NULL ) continue;
-	
+
 				if(strstr(work,"*") != NULL){
 					int cnt=0;
 					int petcnt=0;
 					int petindex;
-					
+
 					getStringFromIndexWithDelim( work, "*", 2, buf4, sizeof( buf4));
 					cnt = atoi(buf4);
-					
+
 					for(i=0 ; i < CHAR_MAXPETHAVE ; i++){
 						petindex = CHAR_getCharPet( talker, i);
-		
+
 						if( petindex == -1  )  continue;
-		
+
 						if(strstr( work, "EV") != NULL) {
 							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 1)
 							== FALSE) {
@@ -2369,7 +2371,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 						}
 
 						if(NPC_EventDelPet( meindex, talker,i) == FALSE) return FALSE;
-						
+
 						petcnt++;
 						/*--隙烂蜊醒坌及矢永玄毛壅仄凶井升丹井＂--*/
 						if(cnt == petcnt) break;
@@ -2394,12 +2396,12 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 								continue;
 							}
 						}
-					
+
 						if(NPC_EventDelPet( meindex, talker, i) == FALSE) return FALSE;
 					}
 				}
 			}
-		
+
 		}else{
 			/*--手丹1蘸｝矢永玄毛  匀化中月井及民尼永弁毛垫丹--*/
 			while(getStringFromIndexWithDelim( buff2, ",", j, work, sizeof( work))
@@ -2416,7 +2418,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 				}
 			}
 			j = 1;
-			
+
 			while(getStringFromIndexWithDelim( buff2, ",", j, work, sizeof( work)) != FALSE)
 			{
 				j++;
@@ -2425,15 +2427,15 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 					int cnt=0;
 					int petcnt=0;
 					int petindex;
-					
+
 					getStringFromIndexWithDelim( work, "*", 2, buf4, sizeof( buf4));
 					cnt = atoi(buf4);
-					
+
 					for(i=0 ; i < CHAR_MAXPETHAVE ; i++){
 						petindex = CHAR_getCharPet( talker, i);
-		
+
 						if( petindex == -1  )  continue;
-		
+
 						if(strstr( work, "EV") != NULL) {
 							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 1) == FALSE) {
 								continue;
@@ -2445,7 +2447,7 @@ BOOL NPC_EventAdd(int meindex,int talker,int mode)
 						}
 
 						if(NPC_EventDelPet( meindex, talker,i) == FALSE) return FALSE;
-						
+
 						petcnt++;
 						/*--隙烂蜊醒坌及矢永玄毛壅仄凶井升丹井＂--*/
 						if(cnt == petcnt) break;
@@ -2496,7 +2498,7 @@ BOOL NPC_RandItemGet(int meidex,int talker,int rand_j,char *buf)
 		print("Event:由於０的介入，出现错误。");
  		return FALSE;
  	}
- 	
+
 	randitem = rand()%rand_j;
 	if(randitem == 0) randitem = rand_j;
 
@@ -2505,7 +2507,7 @@ BOOL NPC_RandItemGet(int meidex,int talker,int rand_j,char *buf)
 	itemindex = ITEM_makeItemAndRegist( atoi( buff2));
 
 	if(itemindex == -1) return FALSE;
-	
+
 	/*失奶  丞及馨笛(  涛失奶  丞  卞中木化仄引丹  */
 	ret = CHAR_addItemSpecificItemIndex( talker, itemindex);
 	if( ret < 0 || ret >= CHAR_MAXITEMHAVE ) {
@@ -2532,7 +2534,7 @@ BOOL NPC_RandItemGet(int meidex,int talker,int rand_j,char *buf)
 			ITEM_getInt( itemindex, ITEM_ID)
 		);
 	}
-					
+
 	sprintf(token,"收下了%s",ITEM_getChar( itemindex, ITEM_NAME));
 	CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
 
@@ -2565,7 +2567,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 		NPC_MsgDisp( meindex, talker, 4);
 		return FALSE;
 	}
-	
+
 	/*--云嗯民尼永弁卞  月--*/
 	if(NPC_Util_GetStrFromStrWithDelim( buf, "DelStone", buff2, sizeof( buff2) )
 	!=NULL)
@@ -2609,18 +2611,18 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 		int i=1;
 		char work[256];
 		int j=1;
-		
+
 		if(strstr(buff2,"EVDEL") != NULL){
 			NPC_Util_GetStrFromStrWithDelim( buf, "EVENT", buf5, sizeof( buf5));
 			getStringFromIndexWithDelim( buf5, ",",evcnt , buff2, sizeof( buff2));
-		
-		
+
+
 			/*--手丹1蘸｝矢永玄毛  匀化中月井及民尼永弁毛垫丹--*/
 			while(getStringFromIndexWithDelim( buff2, "&", j, work, sizeof( work))
 			!=FALSE)
 			{
 				j++;
-				
+
 				/*--矢永玄及民尼永弁互反中匀化中月桦宁反域绎PET椭瘀毛民尼永弁允月 --*/
 				if(strstr( work, "PET") != NULL) {
 					if(strstr( work, "EV") != NULL) {
@@ -2631,42 +2633,42 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 				}
 			}
 			j = 1;
-			
-			
+
+
 			while(getStringFromIndexWithDelim( buff2, "&", j, work, sizeof( work))
 			!= FALSE)
 			{
 				j++;
 				if(strstr( work, "PET") == NULL ) continue;
-	
+
 				if(strstr(work,"*") != NULL)
 				{
 					int cnt=0;
 					int petcnt=0;
 					int petindex;
-					
+
 					getStringFromIndexWithDelim( work, "*", 2, buf4, sizeof( buf4));
 					cnt = atoi(buf4);
-					
+
 					for(i=0 ; i < CHAR_MAXPETHAVE ; i++){
 						petindex = CHAR_getCharPet( talker, i);
-		
+
 						if( petindex == -1  )  continue;
-		
+
 						if(strstr( work, "EV") != NULL) {
 							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 1)
 							== FALSE) {
 								continue;
 							}
 						}else{
-							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 0) 
+							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 0)
 							== FALSE) {
 								continue;
 							}
 						}
 
 						if(NPC_EventDelPet( meindex, talker,i) == FALSE) return FALSE;
-						
+
 						petcnt++;
 						/*--隙烂蜊醒坌及矢永玄毛壅仄凶井升丹井＂--*/
 						if(cnt == petcnt) break;
@@ -2693,14 +2695,14 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 								continue;
 							}
 						}
-					
+
 						if(NPC_EventDelPet( meindex, talker, i) == FALSE) return FALSE;
 					}
 				}
 			}
-		
+
 		}else{
-		
+
 			/*--手丹1蘸｝矢永玄毛  匀化中月井及民尼永弁毛垫丹--*/
 			while(getStringFromIndexWithDelim( buff2, ",", j, work, sizeof( work))
 			!=FALSE)
@@ -2716,8 +2718,8 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 				}
 			}
 			j = 1;
-			
-			
+
+
 			while(getStringFromIndexWithDelim( buff2, ",", j, work, sizeof( work))
 			!= FALSE)
 			{
@@ -2727,29 +2729,29 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 					int cnt=0;
 					int petcnt=0;
 					int petindex;
-					
+
 					getStringFromIndexWithDelim( work, "*", 2, buf4, sizeof( buf4));
 					cnt = atoi(buf4);
-					
+
 					for(i=0 ; i < CHAR_MAXPETHAVE ; i++){
 						petindex = CHAR_getCharPet( talker, i);
-		
+
 						if( petindex == -1  )  continue;
-		
+
 						if(strstr( work, "EV") != NULL) {
 							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 1)
 							== FALSE) {
 								continue;
 							}
 						}else{
-							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 0) 
+							if(NPC_PetLvCheckType2(petindex, meindex, talker, work, 0)
 							== FALSE) {
 								continue;
 							}
 						}
 
 						if(NPC_EventDelPet( meindex, talker,i) == FALSE) return FALSE;
-						
+
 						petcnt++;
 						/*--隙烂蜊醒坌及矢永玄毛壅仄凶井升丹井＂--*/
 						if(cnt == petcnt) break;
@@ -2776,14 +2778,14 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 								continue;
 							}
 						}
-					
+
 						if(NPC_EventDelPet( meindex, talker, i) == FALSE) return FALSE;
 					}
 				}
 			}
 		}
 	}
-	
+
 
 
 	/*--云嗯毛丐仆月---*/
@@ -2797,7 +2799,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 		CHAR_setInt(talker,CHAR_GOLD,CHAR_getInt( talker, CHAR_GOLD) + stone);
 		/*--由仿丢□正霜曰--*/
 		CHAR_send_P_StatusString( talker, CHAR_P_STRING_GOLD);
-	
+
 		sprintf( token,"得到%d的stone", stone);
 		CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
 	}
@@ -2812,7 +2814,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 			return FALSE;
 		}
 	}
-	
+
 #ifdef _TRANS_7_NPC
 	if(NPC_Util_GetStrFromStrWithDelim( buf, "TRANS7", buff2, sizeof( buff2) )
 	!=NULL)
@@ -2822,7 +2824,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 			return FALSE;
 		}
 	}
-#endif	
+#endif
 
 	// Robin add 从NPC取宠物蛋
 	if(NPC_Util_GetStrFromStrWithDelim( buf, "GetEgg", buff2, sizeof( buff2) )
@@ -2840,7 +2842,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 		if(strstr(buff2,"EVDEL") != NULL){
 			char work[256];
 			char nbuf[256];
-		
+
 			NPC_Util_GetStrFromStrWithDelim(buf, "EVENT", buff2, sizeof( buff2));
 			getStringFromIndexWithDelim( buff2, ",", evcnt, work, sizeof( work));
 
@@ -2872,7 +2874,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 	{
 		int stone;
 		char token[128];
-		
+
 		stone = NPC_EventGetCost( meindex, talker, buff2);
 
 		CHAR_setInt(talker,CHAR_GOLD,CHAR_getInt( talker, CHAR_GOLD) - stone);
@@ -2914,7 +2916,7 @@ BOOL NPC_AcceptDel(int meindex,int talker,int mode )
 					CHAR_P_STRING_WATER|CHAR_P_STRING_FIRE|
 					CHAR_P_STRING_WIND|CHAR_P_STRING_EARTH
 				);
-	
+
 	return TRUE;
 
 }
@@ -3027,7 +3029,7 @@ BOOL NPC_EventAddPet(int meindex, int talker, char *buff2,int mode)
 	}else{
 		enemyid = atoi( buff2);
 	}
-	
+
 	enemynum = ENEMY_getEnemyNum();
 	for( i = 0; i < enemynum; i ++ ) {
 		if( ENEMY_getInt( i, ENEMY_ID) == enemyid) {
@@ -3093,16 +3095,16 @@ BOOL NPC_EventTRANS(int meindex, int talker, char *buff2,int mode)
 	if(Trans>7 || CHAR_getInt(talker,CHAR_LV)<80){
 		sprintf( token, "由于你已七转或等级小于80级，所以转生失败!", CHAR_getChar( talker, CHAR_NAME));
 		CHAR_talkToCli( talker, -1, token, CHAR_COLORYELLOW );
-		return;
+		return 0;
 	}
-#ifdef _ADD_POOL_ITEM			   // WON ADD 增加可寄放的道具	
+#ifdef _ADD_POOL_ITEM			   // WON ADD 增加可寄放的道具
 	int tran_pool_item[5] = { 4, 4, 4, 4, 4 };		// 增加的道具寄放数
 	int tran_pool_pet[5] = { 2, 2, 2, 2, 2};		// 增加的宠物寄放数
 	int j,item_sum=0, pet_sum=0;
 
 	for(j=0; j<5 ;j++){
-		item_sum += tran_pool_item[j] ;			
-		pet_sum += tran_pool_pet[j];		
+		item_sum += tran_pool_item[j] ;
+		pet_sum += tran_pool_pet[j];
 	}
 
 	item_sum += 10;								// 限制最大的寄道具数
@@ -3119,10 +3121,10 @@ BOOL NPC_EventTRANS(int meindex, int talker, char *buff2,int mode)
   CHAR_setInt( talker,CHAR_RIDEPET, -1 );
   CHAR_setInt( talker , CHAR_BASEIMAGENUMBER , CHAR_getInt( talker , CHAR_BASEBASEIMAGENUMBER) );
 	CHAR_sendStatusString( talker , "P");
-	
+
 	CHAR_talkToCli( talker, -1, buff2, CHAR_COLORYELLOW );
 }
-#endif	
+#endif
 
 
 // Robin add NPC给宠物蛋
@@ -3272,12 +3274,12 @@ BOOL NPC_EventDelItem(int meindex,int talker,char *buf,int breakflg)
 			int kosuu;
 			int id;
 			int cnt=0;
-				
+
 			getStringFromIndexWithDelim( buff3, "*", 1, buf2, sizeof( buf2));
-			itemno = atoi( buf2); 
+			itemno = atoi( buf2);
 			getStringFromIndexWithDelim( buff3, "*", 2, buf2, sizeof( buf2));
 			kosuu = atoi( buf2);
-	 
+
 			if( breakflg != 1 ){
       }else{
 			    for( i =0 ; i < CHAR_MAXITEMHAVE ; i++ ){
@@ -3287,12 +3289,12 @@ BOOL NPC_EventDelItem(int meindex,int talker,char *buf,int breakflg)
 					    if(itemno == id) {
 						    cnt++;
 						    LogItem(
-							CHAR_getChar( talker, CHAR_NAME ), // 平乓仿   
+							CHAR_getChar( talker, CHAR_NAME ), // 平乓仿
 							CHAR_getChar( talker, CHAR_CDKEY ),
 #ifdef _add_item_log_name  // WON ADD 在item的log中增加item名称
 							itemindex,
 #else
-							ITEM_getInt( itemindex, ITEM_ID),  // 失奶  丞  寞 
+							ITEM_getInt( itemindex, ITEM_ID),  // 失奶  丞  寞
 #endif
 							"EventDelItem(任务需求所收回的道具)",
 							CHAR_getInt( talker, CHAR_FLOOR),
@@ -3302,7 +3304,7 @@ BOOL NPC_EventDelItem(int meindex,int talker,char *buf,int breakflg)
 							ITEM_getChar( itemindex, ITEM_NAME),
 							ITEM_getInt( itemindex, ITEM_ID)
 	     					);
-	 
+
 		    				if(breakflg == 1){
 			    			    sprintf(token,"%s 坏了",ITEM_getChar( itemindex, ITEM_NAME));
 							    CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
@@ -3350,7 +3352,7 @@ BOOL NPC_EventDelItem(int meindex,int talker,char *buf,int breakflg)
 								sprintf(token,"%s 坏了",ITEM_getChar( itemindex, ITEM_NAME));
 							CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
 						}else{
-							sprintf( token, "交出%s。", 
+							sprintf( token, "交出%s。",
 											ITEM_getChar( itemindex, ITEM_NAME));
 							CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
 						}
@@ -3389,7 +3391,7 @@ BOOL NPC_EventDelItemEVDEL(int meindex,int talker,char *buf,char *nbuf,int break
 			char token[256];
 			int i, itemindex, id, cnt;
 			getStringFromIndexWithDelim( buff3, "*", 1, buf2, sizeof( buf2));
-			itemno = atoi( buf2); 
+			itemno = atoi( buf2);
 			getStringFromIndexWithDelim( buff3, "*", 2, buf2, sizeof( buf2));
 			kosuu = atoi( buf2);
 			if(strstr(nbuf,"-1") == NULL){
@@ -3441,7 +3443,7 @@ BOOL NPC_EventDelItemEVDEL(int meindex,int talker,char *buf,char *nbuf,int break
 						}
 					}
 				}
-			}		
+			}
 		}else{
 			int j, itemindex;
 			char token[256];
@@ -3481,7 +3483,7 @@ BOOL NPC_EventDelItemEVDEL(int meindex,int talker,char *buf,char *nbuf,int break
 							sprintf(token,"%s 坏了",ITEM_getChar( itemindex, ITEM_NAME));
 							CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
 						}else{
-							sprintf( token, "交出%s。", 
+							sprintf( token, "交出%s。",
 										ITEM_getChar( itemindex, ITEM_NAME));
 							CHAR_talkToCli( talker, -1, token, CHAR_COLORWHITE);
 						}
@@ -3511,12 +3513,12 @@ BOOL NPC_EventAddItem(int meindex,int talker,char *buf)
 	int ret;
 	char token[256];
 
-	while(getStringFromIndexWithDelim(buf , "," , i, buff3, sizeof( buff3)) 
+	while(getStringFromIndexWithDelim(buf , "," , i, buff3, sizeof( buff3))
 	!= FALSE )
 	{
 		i++;
 		if(strstr( buff3, "*") != NULL) {
-			
+
 			int itemno;
 			int kosuu;
 			int loop = 0;
@@ -3525,12 +3527,12 @@ BOOL NPC_EventAddItem(int meindex,int talker,char *buf)
 			itemno = atoi( buf3);
 			getStringFromIndexWithDelim( buff3, "*", 2, buf3,sizeof( buf3));
 			kosuu = atoi( buf3);
-	
+
 			for(loop = 0 ; loop < kosuu ; loop++) {
 				itemindex = ITEM_makeItemAndRegist( itemno);
-	
+
 				if(itemindex == -1) return FALSE;
-	
+
 				/*失奶  丞及馨笛(  涛失奶  丞  卞中木化仄引丹  */
 				ret = CHAR_addItemSpecificItemIndex( talker, itemindex);
 				if( ret < 0 || ret >= CHAR_MAXITEMHAVE ) {
@@ -3564,7 +3566,7 @@ BOOL NPC_EventAddItem(int meindex,int talker,char *buf)
 			}
 		}else{
 			itemindex = ITEM_makeItemAndRegist( atoi( buff3));
-	
+
 			if(itemindex == -1) return FALSE;
 
 			/*失奶  丞及馨笛(  涛失奶  丞  卞中木化仄引丹  */
@@ -3616,7 +3618,7 @@ int NPC_EventFile(int meindex,int talker,char *arg)
 	int i=1;
 	int EvNo=0;
 	int evch;
-	
+
 	/*--涩烂白央奶伙毛  心  戈--*/
 	if(NPC_Util_GetArgStr( meindex, argstr, sizeof(argstr)) == NULL) {
 
@@ -3638,13 +3640,13 @@ int NPC_EventFile(int meindex,int talker,char *arg)
 		if(NPC_EventCheckFlg( talker, EvNo) == TRUE) continue;
 
 		/*--平□伐□玉及民尼永弁毛垫丹--*/
-		if(NPC_Util_GetStrFromStrWithDelim( buf,"Pet_Name", buff2,sizeof( buff2) ) 
+		if(NPC_Util_GetStrFromStrWithDelim( buf,"Pet_Name", buff2,sizeof( buff2) )
 		 != NULL)
 		{
 			CHAR_setWorkInt( talker, CHAR_WORKSHOPRELEVANTSEC, 1);
 		}
 		/*--平□伐□玉及民尼永弁毛垫丹--*/
-		if(NPC_Util_GetStrFromStrWithDelim( buf,"KeyWord", buff2,sizeof( buff2) ) 
+		if(NPC_Util_GetStrFromStrWithDelim( buf,"KeyWord", buff2,sizeof( buff2) )
 		 != NULL)
 		{
 			if(CHAR_getWorkInt( talker, CHAR_WORKSHOPRELEVANT) != i ) continue;
@@ -3679,13 +3681,13 @@ BOOL NPC_EventReduce(int meindex,int talker,char *buf)
 	int itemno;
 	int kosuu;
 	int cnt = 0;
-	
+
 	getStringFromIndexWithDelim( buf, "=", 2, buf2, sizeof( buf2));
 	getStringFromIndexWithDelim( buf2, "*", 1, buf3, sizeof( buf3));
 	itemno = atoi( buf3);
 	getStringFromIndexWithDelim( buf2, "*", 2, buf3, sizeof( buf3));
 	kosuu = atoi( buf3);
-	
+
 	for( i = 0 ; i < CHAR_MAXITEMHAVE ; i++ ){
 		itemindex = CHAR_getItemIndex( talker , i );
 		if( ITEM_CHECKINDEX( itemindex) ){
@@ -3727,7 +3729,7 @@ void NPC_EventPetSkill( int meindex, int talker, char *data)
 	char msgbuf[128];
 	int fd = getfdFromCharaIndex( talker );
 	int evcnt;
-	
+
 	if( NPC_Util_CharDistance( talker, meindex ) > 2) {
 		return;
 	}
@@ -3740,7 +3742,7 @@ void NPC_EventPetSkill( int meindex, int talker, char *data)
 //	if(NPC_EventFile( meindex, talker, argstr) == FALSE) return ;
 
 	/*弁仿奶失件玄井日忒匀化仁月犯□正--*/
-	/*升及  毛尹日氏分井＂(蓟    寞)  升及矢永玄井＂(蓟    寞)  
+	/*升及  毛尹日氏分井＂(蓟    寞)  升及矢永玄井＂(蓟    寞)
 	升及旦夫永玄井＂(蓟    寞)  袄蟾*/
 	makeStringFromEscaped( data);
 
@@ -3755,8 +3757,8 @@ void NPC_EventPetSkill( int meindex, int talker, char *data)
 	cost = atoi( buf);
 
 	/*--旦平伙    毛必永玄允月--*/
-	if( NPC_Util_GetStrFromStrWithDelim( argstr, "pet_skill", 
-									msg, sizeof( msg)) != NULL) 
+	if( NPC_Util_GetStrFromStrWithDelim( argstr, "pet_skill",
+									msg, sizeof( msg)) != NULL)
 	{
 		getStringFromIndexWithDelim( msg, ",", skill, buf ,sizeof( buf));
 		skillID = atoi( buf);
@@ -3777,7 +3779,7 @@ void NPC_EventPetSkill( int meindex, int talker, char *data)
 
 	/*--矢永玄卞  毛创尹今六月--*/
 	CHAR_setPetSkill( petindex, slot, skillID);
-			
+
 	/*--云嗯毛蛹日允--*/
 	CHAR_setInt( talker, CHAR_GOLD, (CHAR_getInt( talker, CHAR_GOLD) - cost));
 
@@ -3785,7 +3787,7 @@ void NPC_EventPetSkill( int meindex, int talker, char *data)
 
 	// 蕙仄中矢永玄及  犯□正毛霜曰勾仃月
 	CHAR_sendStatusString( talker, msgbuf );
-			
+
 	CHAR_sendStatusString( talker, "P");
 
 }
@@ -3808,16 +3810,16 @@ BOOL NPC_ItemFullCheck(int meindex,int talker,char *buf,int mode,int evcnt)
 	char nbuf[256];
 	char buff6[16];
 	int l = 1;
-	
+
 	if(NPC_Util_GetStrFromStrWithDelim( buf, "DelItem", buff2, sizeof( buff2) )	!= NULL ){
 		if(strstr(buff2,"EVDEL") != NULL){
 			char buff4[64];
 			char buff5[32];
-			
+
 			i = 1;
 			NPC_Util_GetStrFromStrWithDelim( buf, "EVENT", buff2, sizeof( buff2));
 			getStringFromIndexWithDelim(buff2, "," , evcnt, buf3, sizeof(buf3));
-			
+
 			while(getStringFromIndexWithDelim(buf3, "&" , j, buff4, sizeof(buff4))){
 				j++;
 				if(strstr(buff4,"ITEM") != NULL) {
@@ -3828,7 +3830,7 @@ BOOL NPC_ItemFullCheck(int meindex,int talker,char *buf,int mode,int evcnt)
 						getStringFromIndexWithDelim(buff4, "=" , 2, buff5, sizeof(buff5));
 						getStringFromIndexWithDelim(buff5, "*" , 1, buff6, sizeof(buff6));
 						itemno = atoi(buff6);
-						
+
 						if(NPC_Util_GetStrFromStrWithDelim( buf, "NotDel", nbuf, sizeof( nbuf))	!=NULL){
 							while(getStringFromIndexWithDelim(nbuf , "," , l,buff6, sizeof(buff6)))
 							{
@@ -3845,7 +3847,7 @@ BOOL NPC_ItemFullCheck(int meindex,int talker,char *buf,int mode,int evcnt)
 						maxitem -= atoi( buff6);
 					}else{
 						getStringFromIndexWithDelim(buff4, "=" , 2, buff5, sizeof(buff5));
-						l = 1; 
+						l = 1;
 
 						if(NPC_Util_GetStrFromStrWithDelim( buf, "NotDel", nbuf, sizeof( nbuf))
 						!=NULL){
@@ -3945,7 +3947,7 @@ void NPC_CharmStatus(int meindex,int talker)
 {
 	int i = 0;
 	int petindex;
-	char petsend[64];	
+	char petsend[64];
 	for(i = 0 ; i < CHAR_MAXPETHAVE ; i++) {
     	petindex = CHAR_getCharPet( talker, i);
 
