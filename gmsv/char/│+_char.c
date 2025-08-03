@@ -40,9 +40,10 @@
 #include "pet.h"
 #include "family.h"
 #include "correct_bug.h"
+#include "npc_autopk.h"
 
 
-extern int channelMember[FAMILY_MAXNUM][FAMILY_MAXCHANNEL][FAMILY_MAXMEMBER];	
+extern int channelMember[FAMILY_MAXNUM][FAMILY_MAXCHANNEL][FAMILY_MAXMEMBER];
 extern int familyMemberIndex[FAMILY_MAXNUM][FAMILY_MAXMEMBER];
 
 extern  tagRidePetTable ridePetTable[296];
@@ -143,8 +144,8 @@ static BOOL CHAR_makeCharFromOptionAtCreate( Char* ch ,
 	ch->data[CHAR_OLDEXP] = 0;
 #endif
 	ch->data[CHAR_EXP] = 0;
-	
-	
+
+
 #ifdef _NEW_PLAYER_CF	//新手出生配置
 	ch->data[CHAR_TRANSMIGRATION] = getNewplayertrans();
 	ch->data[CHAR_GOLD] = getNewplayergivegold();;
@@ -275,7 +276,7 @@ void CHAR_createNewChar( int clifd, int dataplacenum, char* charname ,
 	ch.data[CHAR_MAXMP] = ch.data[CHAR_MP] = 100;
 	strcpysafe( ch.string[CHAR_CDKEY].string,
                 sizeof( ch.string[CHAR_CDKEY].string), cdkey );
-  
+
         // Robin 0724
         ch.data[CHAR_RIDEPET] = -1;
 #ifdef _NEW_PLAYER_CF
@@ -318,7 +319,7 @@ void CHAR_createNewChar( int clifd, int dataplacenum, char* charname ,
         CONNECT_setState( clifd, NOTLOGIN );
 		return;
 	}
-	
+
 #ifdef _NEW_PLAYER_CF	//新手出生配置
 		int petNum=0;
 		int k=0;
@@ -330,7 +331,7 @@ void CHAR_createNewChar( int clifd, int dataplacenum, char* charname ,
 				setNewplayergivepet(0,3);
 			else if( CHAR_getInt( charaindex, CHAR_LASTTALKELDER) == 3 )//卡鲁它那
 				setNewplayergivepet(0,4);
-			else 
+			else
 				setNewplayergivepet(0,1);
 		}
 #ifdef _NEW_PLAYER_RIDE
@@ -369,7 +370,7 @@ void CHAR_createNewChar( int clifd, int dataplacenum, char* charname ,
 #endif
 
 #ifdef _HELP_NEWHAND
-	CHAR_loginAddItemForNew(charaindex); 
+	CHAR_loginAddItemForNew(charaindex);
 #endif
 
 #if 1
@@ -397,7 +398,7 @@ void CHAR_createNewChar( int clifd, int dataplacenum, char* charname ,
   chwk = CHAR_getCharPointer( charaindex);
 
 	CHAR_charSaveFromConnectAndChar( clifd,chwk ,FALSE );
-	
+
 	CHAR_endCharData(&ch);
 	CHAR_endCharOneArray( charaindex);
 #ifdef _NEW_PLAYER_CF	//新手出生配置
@@ -455,7 +456,7 @@ void CHAR_loginAddItem( int charaindex )
 	{
 		int trn_num=0;
 		trn_num=CHAR_getInt(charaindex,CHAR_TRANSMIGRATION);
-		CHAR_setInt( charaindex, CHAR_MAXPOOLITEMHAVELIMIT, 10 + (trn_num * 4) )	;	
+		CHAR_setInt( charaindex, CHAR_MAXPOOLITEMHAVELIMIT, 10 + (trn_num * 4) )	;
 		CHAR_setInt( charaindex, CHAR_MAXPOOLPETHAVELIMIT , 5 + (trn_num * 2) );
 	}
 	while( 1){
@@ -513,7 +514,7 @@ void CHAR_loginCheckUserItem( int charaindex)
 			CHAR_setItemIndex( charaindex , i, -1);
 			CHAR_setItemIndex( charaindex , ti, itemindex);
 		}
-		
+
 	}
 	for( i = CHAR_STARTITEMARRAY ; i < CHAR_MAXITEMHAVE ; i++ ){ //检查携带道具
 		itemindex = CHAR_getItemIndex( charaindex , i );
@@ -534,7 +535,7 @@ void CHAR_loginCheckUserItem( int charaindex)
 		for (i = 0; i < CHAR_MAXITEMHAVE; i ++) {
 			itemindex = CHAR_getItemIndex(charaindex, i);
 			fix_item_bug(charaindex, itemindex);
-		}	
+		}
 		for (i = 0; i < CHAR_MAXPOOLITEMHAVE; i++) {
 			itemindex = CHAR_getPoolItemIndex(charaindex, i);
 			fix_item_bug(charaindex, itemindex);
@@ -561,7 +562,7 @@ void CHAR_LoginBesideSetWorkInt( int charaindex, int clifd)
 	CHAR_setWorkInt( charaindex, CHAR_WORKFMSETUPFLAG, -1);
 	CHAR_setWorkInt( charaindex, CHAR_WORKFMMANINDEX, -1);
 	CHAR_setWorkInt( charaindex, CHAR_WORKFMCHARINDEX, -1);
-	
+
 	CHAR_setWorkInt( charaindex, CHAR_WORKBATTLEFLAG, -1);
 	CHAR_setWorkInt( charaindex, CHAR_WORK_PET0_STAT, 0);
 	CHAR_setWorkInt( charaindex, CHAR_WORK_PET1_STAT, 0);
@@ -592,7 +593,7 @@ void CHAR_LoginBesideSetWorkInt( int charaindex, int clifd)
     CHAR_setWorkInt( charaindex, CHAR_WORKFOXROUND, -1 );
 #endif
 #ifdef _MAP_TIME
-	CHAR_setWorkInt(charaindex,CHAR_WORK_MAP_TIME,0);	
+	CHAR_setWorkInt(charaindex,CHAR_WORK_MAP_TIME,0);
 #endif
 
 #ifdef _ITEM_ADDEXP2
@@ -632,7 +633,7 @@ BOOL CHAR_CheckProfessionEquit( int toindex)
 
 				}
 			}
-		}	
+		}
 
 		for (i = 0; i < CHAR_MAXPOOLITEMHAVE; i++){
 			int itemindex = CHAR_getPoolItemIndex(toindex, i);
@@ -725,9 +726,9 @@ void CHAR_login( int clifd, char* data, int saveindex )
 #endif
 
 // Nuke 20040420: CHECK MAX POINT
-#if 1 
+#if 1
   {
-  	
+
     int lv,vi,str,tou,dx,skup,trn,teq,quest,level,total,max;
     float table[]={437,490,521,550,578,620,888}; //各转最高点数(减10)
     //float table[]={620,660,700,740,780,820}; //各转最高点数(减10)
@@ -819,7 +820,7 @@ void CHAR_login( int clifd, char* data, int saveindex )
 	{
 		int EQ_BBI=-1, EQ_ARM=-1, EQ_NUM=-1, EQ_BI=-1, CH_BI=-1;
 		CH_BI = CHAR_getInt( charaindex, CHAR_BASEIMAGENUMBER);
-		
+
 		EQ_BBI = CHAR_getInt( charaindex, CHAR_BASEBASEIMAGENUMBER);
 		if(CH_BI != EQ_BBI){
 			EQ_ARM = CHAR_getItemIndex(charaindex,CHAR_ARM);
@@ -827,9 +828,9 @@ void CHAR_login( int clifd, char* data, int saveindex )
 			if ( ITEM_CHECKINDEX( EQ_ARM))	{
 				EQ_NUM=ITEM_getInt(EQ_ARM,ITEM_TYPE);
 			}
-	
+
 			EQ_BI=CHAR_getNewImagenumberFromEquip( EQ_BBI, EQ_NUM);
-	
+
 			if( CHAR_getInt( charaindex, CHAR_RIDEPET) == -1 )	{	//非骑宠
 				if( EQ_BI != CH_BI )	{
 					print("\n 非骑宠形象 %d [%d=>%d]", charaindex,
@@ -852,8 +853,8 @@ void CHAR_login( int clifd, char* data, int saveindex )
 	  }
 	}
 
-#ifdef _FIX_GAMBLENUM		
-	{		
+#ifdef _FIX_GAMBLENUM
+	{
         if( CHAR_getInt(charaindex, CHAR_GAMBLENUM) < 0){
 			CHAR_setInt(charaindex, CHAR_GAMBLENUM, 0);
 		}
@@ -921,20 +922,20 @@ void CHAR_login( int clifd, char* data, int saveindex )
 #endif
 #ifdef _AUTO_PK
 	int exfloor=-1,ex_X=-1,ex_Y=-1;
-	if( CHAR_getInt(charaindex, CHAR_FLOOR) == 20000 ){   
+	if( CHAR_getInt(charaindex, CHAR_FLOOR) == 20000 ){
 		CHAR_getElderPosition(CHAR_getInt(charaindex, CHAR_LASTTALKELDER), &exfloor, &ex_X, &ex_Y);
 		CHAR_setInt(charaindex, CHAR_FLOOR, exfloor);
 		CHAR_setInt(charaindex, CHAR_X, ex_X);
-		CHAR_setInt(charaindex, CHAR_Y, ex_Y);	
+		CHAR_setInt(charaindex, CHAR_Y, ex_Y);
 	}
-	CHAR_setInt(charaindex, CHAR_AUTOPK, 0);	
+	CHAR_setInt(charaindex, CHAR_AUTOPK, 0);
 #endif
-	if( CHAR_getInt(charaindex, CHAR_FLOOR) == 10032 ){   
+	if( CHAR_getInt(charaindex, CHAR_FLOOR) == 10032 ){
 		CHAR_setInt(charaindex, CHAR_FLOOR, 10030);
 		CHAR_setInt(charaindex, CHAR_X, 52);
-		CHAR_setInt(charaindex, CHAR_Y, 36);	
+		CHAR_setInt(charaindex, CHAR_Y, 36);
 	}
-	
+
 	objindex = initObjectFromObjectMember(OBJTYPE_CHARA,charaindex,
 										  CHAR_getInt(charaindex,CHAR_X),
 										  CHAR_getInt(charaindex,CHAR_Y),
@@ -992,7 +993,7 @@ void CHAR_login( int clifd, char* data, int saveindex )
 			};
 			int petrank = CHAR_getInt( petindex, CHAR_PETRANK );
 			if( petrank < 0 || petrank > 5 ) petrank = 0;
-				
+
 			printf("\n.........................\n");
 			printf("名：%s\n",CHAR_getChar( petindex, CHAR_NAME));
 			printf("血：%d\n",vital/15);
@@ -1024,7 +1025,7 @@ void CHAR_login( int clifd, char* data, int saveindex )
 			printf("防：%d\n",work[1]);
 			printf("敏：%d\n",work[2]);
 			printf("成：%f\n",rnd);
-			
+
 			if(rnd>8.5){
 				work[3]*=(8.5/rnd);
 				work[0]*=(8.5/rnd);
@@ -1033,12 +1034,12 @@ void CHAR_login( int clifd, char* data, int saveindex )
 			}
 			LevelUpPoint = ( work[3]<< 24) + ( work[0]<< 16) + ( work[1]<< 8) + ( work[2]<< 0);
 			CHAR_setInt( petindex, CHAR_ALLOCPOINT, LevelUpPoint);
-			
+
 			CHAR_setInt( petindex, CHAR_VITAL, vital);
 			CHAR_setInt( petindex, CHAR_STR, str);
 			CHAR_setInt( petindex, CHAR_TOUGH, tough);
 			CHAR_setInt( petindex, CHAR_DEX, dex);
-			
+
 			CHAR_setInt( petindex, CHAR_FUSIONBEIT, 2 );
 			CHAR_setInt( petindex, CHAR_TRANSMIGRATION,3 );
 			printf("\n.........................\n");
@@ -1054,10 +1055,10 @@ void CHAR_login( int clifd, char* data, int saveindex )
 			printf("防：%d\n",work[1]);
 			printf("敏：%d\n",work[2]);
 		}
-*/	
+*/
 
-#ifdef _UNIQUE_P_I			    
-			    // CoolFish: 2001/10/11 Set Pet Unicode 
+#ifdef _UNIQUE_P_I
+			    // CoolFish: 2001/10/11 Set Pet Unicode
 			    CHAR_setPetUniCode(petindex);
 #endif
 #ifdef _NEWOPEN_MAXEXP
@@ -1114,8 +1115,8 @@ void CHAR_login( int clifd, char* data, int saveindex )
 		for( i = 0; i < CHAR_MAXPOOLPETHAVE; i ++ ) {
 			int petindex = CHAR_getCharPoolPet(charaindex,i);
 			if( CHAR_CHECKINDEX( petindex) ) {
-#ifdef _UNIQUE_P_I			    
-			    // CoolFish: 2001/10/11 Set Pet Unicode 
+#ifdef _UNIQUE_P_I
+			    // CoolFish: 2001/10/11 Set Pet Unicode
 			    CHAR_setPetUniCode(petindex);
 #endif
 #ifdef _NEWOPEN_MAXEXP
@@ -1132,14 +1133,14 @@ void CHAR_login( int clifd, char* data, int saveindex )
 					CHAR_setInt( petindex, CHAR_BASEBASEIMAGENUMBER, 101578);
 				}
 #endif
-/* 
+/*
 			    tran_no=CHAR_getInt( charaindex, CHAR_TRANSMIGRATION);
 			    petstring = CHAR_makePetStringFromPetIndex( petindex);
 				c_ptr_index=strstr(petstring,"name:");
 			    getStringFromIndexWithDelim(c_ptr_index,":",2,c_temp,sizeof(c_temp));
 			    c_ptr_index=c_temp;
 			    getStringFromIndexWithDelim(c_ptr_index,"|",1,c_temp1,sizeof(c_temp1));
-                                                                                                                                                                                                                                                                                                       
+
 			    if(b_find){//ttom
 			          CHAR_setCharPoolPet( charaindex, i, -1);
 			          print("\nKill pool pet  ID=%d name=%s",ID1,c_temp1);
@@ -1148,9 +1149,9 @@ void CHAR_login( int clifd, char* data, int saveindex )
 			                  CHAR_getChar( charaindex, CHAR_CDKEY ),
 			                  c_temp2);
 			    }else{//ttom
-*/			    
+*/
 						CHAR_setWorkInt( petindex, CHAR_WORKPLAYERINDEX, charaindex);
-						CHAR_complianceParameter( petindex );				    
+						CHAR_complianceParameter( petindex );
 //				}//ttom
 			}
 		}
@@ -1292,14 +1293,14 @@ void CHAR_login( int clifd, char* data, int saveindex )
 #ifdef _FMVER21
 	else
 		SetFMVarInit(charaindex);
-#endif	
-	
+#endif
+
 #endif
 
 	AnnounceToPlayerWN( clifd );
 
 	print("\n登陆人物名称:%s ", CHAR_getChar(charaindex, CHAR_NAME ) );
-	
+
 	{
 		unsigned long ip;
 		char ipstr[512];
@@ -1343,11 +1344,11 @@ BOOL CHAR_charSaveFromConnectAndChar( int fd, Char* ch, BOOL unlock )
 {
 	char*  chardata;
   char   cdkey[CDKEYLEN];
-	
+
 	chardata = CHAR_makeStringFromCharData( ch );
 	if( chardata == "\0" )return FALSE;
   CONNECT_getCdkey( fd, cdkey, sizeof(cdkey));
-  
+
   if(strcmp(cdkey,ch->string[CHAR_CDKEY].string)!=0){
   	printf("连接:%s与账号:%s不符合，不给予存档",cdkey,ch->string[CHAR_CDKEY].string);
   }
@@ -1425,7 +1426,7 @@ BOOL _CHAR_logout( char *file, int line, int clifd, BOOL save )
 	int	fmindexi, channel, i;
 	charindex = CONNECT_getCharaindex( clifd );
 	if( !CHAR_CHECKINDEX( charindex)) {
-		print( "logout err : clifd[%d] charaindex[%d] %s:%d from %s:%d \n", 
+		print( "logout err : clifd[%d] charaindex[%d] %s:%d from %s:%d \n",
 				clifd, charindex, __FILE__, __LINE__, file, line);
 		ret = FALSE;
 	}
@@ -1443,7 +1444,7 @@ BOOL _CHAR_logout( char *file, int line, int clifd, BOOL save )
 	if(CHAR_getChar(charindex, CHAR_FMNAME) != NULL )	{
 		if(strlen(CHAR_getChar(charindex, CHAR_FMNAME)) > 0 &&
 			strlen(CHAR_getChar(charindex, CHAR_FMNAME)) < sizeof( STRING32) )
-		if( (CHAR_getInt(charindex, CHAR_FMINDEX) >= 0)	&&                
+		if( (CHAR_getInt(charindex, CHAR_FMINDEX) >= 0)	&&
 				(strcmp(CHAR_getChar(charindex, CHAR_FMNAME), "") != 0) )	{
 	   		saacproto_ACFMCharLogout_send(acfd,
 	   		   CHAR_getChar(charindex, CHAR_FMNAME),
@@ -1456,7 +1457,7 @@ BOOL _CHAR_logout( char *file, int line, int clifd, BOOL save )
 		}
 	}
 
-	// Robin 0606 channel	
+	// Robin 0606 channel
 	fmindexi = CHAR_getWorkInt(charindex, CHAR_WORKFMINDEXI);
 	channel = CHAR_getWorkInt(charindex, CHAR_WORKFMCHANNEL);
 	i = 0;
@@ -1530,7 +1531,7 @@ BOOL _CHAR_logout( char *file, int line, int clifd, BOOL save )
 			strcpy(buf,ctime(&t));
 			buf[strlen(buf)-1]=0;
 
-			for( i = 0 ; i < playernum ; i++) 
+			for( i = 0 ; i < playernum ; i++)
 			{
 				sprintf( VipMsg1, "全国上下,热烈欢呼尊贵的%s会员( %s )登陆%s." , MyGameservername , MyName , MyServerName );
 				CHAR_talkToCli( i, -1, VipMsg1, CHAR_COLORGREEN );
@@ -1566,10 +1567,10 @@ BOOL _CHAR_logout( char *file, int line, int clifd, BOOL save )
 						int fl = 0, x = 0, y = 0;
 						CHAR_getElderPosition(CHAR_getInt(winindex, CHAR_LASTTALKELDER), &fl, &x, &y);
 						CHAR_warpToSpecificPoint(winindex, fl, x, y);
-						AutoPk_ChampionShipSet( CHAR_getChar(winindex,CHAR_CDKEY), 
+						AutoPk_ChampionShipSet( CHAR_getChar(winindex,CHAR_CDKEY),
 															CHAR_getChar(winindex,CHAR_NAME), CHAR_getInt(winindex,CHAR_AUTOPK),1);
-						AutoPk_ChampionShipSet( CHAR_getChar(charindex,CHAR_CDKEY), 
-															CHAR_getChar(charindex,CHAR_NAME), 
+						AutoPk_ChampionShipSet( CHAR_getChar(charindex,CHAR_CDKEY),
+															CHAR_getChar(charindex,CHAR_NAME),
 															CHAR_getInt(charindex,CHAR_AUTOPK),2);
 						AutoPk_GetChampionShip();
 					}
@@ -1598,9 +1599,9 @@ BOOL _CHAR_logout( char *file, int line, int clifd, BOOL save )
  *                                  奶件犯永弁旦
  *	index		int				奶矛件玄毛云仇仄凶平乓仿及奶件犯永弁旦
  *  recvindex   int				奶矛件玄毛熬仃午月平乓仿及index
- *	chac		int				失弁扑亦件及潘  
+ *	chac		int				失弁扑亦件及潘
  * 忒曰袄 		TRUE:	霜匀化中中方
- *				FALSE: 	蛲  
+ *				FALSE: 	蛲
  ------------------------------------------------------------*/
 static BOOL CHAR_sendWatchEvent_sendCheck( int objindex, int index,
 											int recvindex, int chac)
@@ -1829,7 +1830,7 @@ void CHAR_SkillUp(  int charaindex, int skillid )
 	/*韶氏匹中凶日匹五卅中  */
 	if( CHAR_getFlg(charaindex,CHAR_ISDIE) )return;
 
-	{ 
+	{
 		int SkUpTbl[] = { CHAR_VITAL, CHAR_STR, CHAR_TOUGH, CHAR_DEX };
 		int	SendTbl[] = { CHAR_P_STRING_VITAL|CHAR_P_STRING_MAXHP|CHAR_P_STRING_DEF,
 						  CHAR_P_STRING_STR|CHAR_P_STRING_MAXHP|CHAR_P_STRING_ATK,
@@ -2079,18 +2080,18 @@ char* CHAR_makeStatusString( int index, char* category )
 				break;
 			default:
 				big4fm = 0;
-		}	
-#ifdef _FIX_FMNAME_RULE	 // WON ADD 家族未成立，不显示名称			
+		}
+#ifdef _FIX_FMNAME_RULE	 // WON ADD 家族未成立，不显示名称
 		if( CHAR_getWorkInt(index, CHAR_WORKFMSETUPFLAG)==1 ){
 			snprintf( CHAR_statusSendBuffer,
 				sizeof( CHAR_statusSendBuffer ),
-				"F%s|%d|%d|%d|%d",	
+				"F%s|%d|%d|%d|%d",
 				"(待审)",
 				CHAR_getInt( index, CHAR_FMLEADERFLAG),
 				CHAR_getWorkInt( index, CHAR_WORKFMCHANNEL),
-				CHAR_getInt( index, CHAR_FMSPRITE),	big4fm );		
+				CHAR_getInt( index, CHAR_FMSPRITE),	big4fm );
 		}else
-#endif	
+#endif
 
 		snprintf( CHAR_statusSendBuffer,
 			sizeof( CHAR_statusSendBuffer ),
@@ -2100,7 +2101,7 @@ char* CHAR_makeStatusString( int index, char* category )
 			CHAR_getWorkInt( index, CHAR_WORKFMCHANNEL),
 			CHAR_getInt( index, CHAR_FMSPRITE),	big4fm );
 		return CHAR_statusSendBuffer;
-		break;			
+		break;
 	}
 	case 'c':
 	{
@@ -2307,7 +2308,7 @@ char* CHAR_makeStatusString( int index, char* category )
 					}
 				}
 			}
-			
+
 			snprintf(CHAR_statusSendBuffer,sizeof(CHAR_statusSendBuffer),
  				 "K%d|1|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|%d|",
 				 num,
@@ -2332,7 +2333,7 @@ char* CHAR_makeStatusString( int index, char* category )
 				 changenameflg,
 				 CHAR_getInt( pindex,CHAR_TRANSMIGRATION)
 			);
-		
+
 		}
 		strlength = strlen( CHAR_statusSendBuffer );
 		for( i = 0 ; i < arraysizeof( getCharDataArray ) ; i ++ ){
@@ -2531,9 +2532,9 @@ char* CHAR_makeStatusString( int index, char* category )
 				int field = -1, target = -1;
 				//int oblivion = CHAR_getWorkInt( pindex, CHAR_WORKOBLIVION );
 				int p_id = PETSKILL_getInt( petskillindex, PETSKILL_ID);
-			
+
 				//生命大於50%且技能名称若为 浴血狂袭 技能不能选
-				if( ( CHAR_getInt( pindex, CHAR_HP ) > CHAR_getWorkInt( pindex, CHAR_WORKMAXHP )*0.5 
+				if( ( CHAR_getInt( pindex, CHAR_HP ) > CHAR_getWorkInt( pindex, CHAR_WORKMAXHP )*0.5
 					&& strcmp(PETSKILL_getChar( petskillindex, PETSKILL_NAME),"浴血狂袭" ) == 0 )
 					){
 					field = PETSKILL_FIELD_MAP;
@@ -2591,7 +2592,7 @@ char* CHAR_makeStatusString( int index, char* category )
 }
 #endif
 
-#ifdef _PETSKILL_BECOMEFOX		
+#ifdef _PETSKILL_BECOMEFOX
     case 'a':
 {
 	    int getPetSkillDataArray[]= {
@@ -2618,8 +2619,8 @@ char* CHAR_makeStatusString( int index, char* category )
 		strlength += strlen( tmp);
 		if( strlength >= arraysizeof( CHAR_statusSendBuffer) ) {
 			return CHAR_statusSendBuffer;
-		}        
-		
+		}
+
 		for( petskillloop = 0; petskillloop < CHAR_MAXPETSKILLHAVE; petskillloop ++ ) {
 			int skillid = CHAR_getPetSkill( pindex, petskillloop);
 			int petskillindex =  PETSKILL_getPetskillArray( skillid );
@@ -2628,10 +2629,10 @@ char* CHAR_makeStatusString( int index, char* category )
 				int field = -1, target = -1;
 				//int oblivion = CHAR_getWorkInt( pindex, CHAR_WORKOBLIVION );
 				int p_id = PETSKILL_getInt( petskillindex, PETSKILL_ID);
-			
+
 				//技能名称若为 待机 攻击 防御 技能才能选
 				print("\n技能名称:%s",PETSKILL_getChar( petskillindex, PETSKILL_NAME));
-				if( strcmp(PETSKILL_getChar( petskillindex, PETSKILL_NAME),"待机" ) == 0 
+				if( strcmp(PETSKILL_getChar( petskillindex, PETSKILL_NAME),"待机" ) == 0
 					|| strcmp(PETSKILL_getChar( petskillindex, PETSKILL_NAME),"攻击" ) == 0
 					|| strcmp(PETSKILL_getChar( petskillindex, PETSKILL_NAME),"防御" ) == 0){
 					field = PETSKILL_getInt( petskillindex, PETSKILL_FIELD);
@@ -2786,7 +2787,7 @@ void CHAR_deleteTitle( int index, int titleindex )
 	CHAR_send_P_StatusString( index, CHAR_P_STRING_TITLE );
 }
 
-static void CHAR_initcharWorkInt( index )
+static void CHAR_initcharWorkInt( int index )
 {
 	float hp;
 	static struct substitutionTable{
@@ -2904,9 +2905,9 @@ static void CHAR_initcharWorkInt( index )
 				   (CHAR_getInt( index, CHAR_LV)* modai) * 100 ) ;
 			if( ai > 100 ) ai = 100;
 
-			ai += CHAR_getInt( index, CHAR_VARIABLEAI) * 0.01;				
+			ai += CHAR_getInt( index, CHAR_VARIABLEAI) * 0.01;
 			if( CHAR_getInt( hostindex, CHAR_TRANSMIGRATION ) > 0 ){
-				// shan   120 -> 140				
+				// shan   120 -> 140
 				ai += ( CHAR_MAXUPLEVEL - CHAR_getInt( hostindex, CHAR_LV ) ) / 2;
 			}
 			if( ai < 0 ) ai = 0;
@@ -2919,7 +2920,7 @@ static void CHAR_initcharWorkInt( index )
 int _CHAR_complianceParameter( int index, char *FILE, int LINE)
 {
 	//print("\ncompPara:%s:%d", FILE, LINE);
-	
+
 	if( !CHAR_CHECKINDEX( index)) return 0;
 
 	CHAR_initcharWorkInt( index );
@@ -2949,14 +2950,14 @@ int _CHAR_complianceParameter( int index, char *FILE, int LINE)
 			if( !CHAR_CHECKINDEX( petindex) ){
 				CHAR_setWorkInt( index, CHAR_WORKPETFOLLOW, -1);
 			}else{
-				if( CHAR_getInt( petindex, CHAR_WHICHTYPE) == CHAR_TYPEPET && 
+				if( CHAR_getInt( petindex, CHAR_WHICHTYPE) == CHAR_TYPEPET &&
 					!CHAR_CHECKINDEX( CHAR_getWorkInt( petindex, CHAR_WORKPLAYERINDEX)) ){
 						CHAR_setWorkInt( index, CHAR_WORKPETFOLLOW, petindex);
 						CHAR_setWorkInt( petindex, CHAR_WORKPLAYERINDEX, index);
 					}
 			}
 		}
-	
+
 	}
 	if( CHAR_getFlg(index,CHAR_ISDIE) == FALSE ){
 		int oldimagenumber = CHAR_getInt(index,CHAR_BASEIMAGENUMBER);
@@ -2971,7 +2972,7 @@ int _CHAR_complianceParameter( int index, char *FILE, int LINE)
 
 		newimagenumber = CHAR_getNewImagenumberFromEquip( basebaseimagenumber, category);
 #ifdef _ITEM_METAMO
-		if( CHAR_getWorkInt( index, CHAR_WORKITEMMETAMO) > NowTime.tv_sec 
+		if( CHAR_getWorkInt( index, CHAR_WORKITEMMETAMO) > NowTime.tv_sec
 #ifdef _NPCCHANGE_PLAYERIMG
 			|| CHAR_getWorkInt( index, CHAR_WORKNPCMETAMO) > 0
 #endif
@@ -2984,9 +2985,9 @@ int _CHAR_complianceParameter( int index, char *FILE, int LINE)
 #endif
 		// Arminius 8.9 airplane
 		if (oldimagenumber==100259) newimagenumber=100259;
-#ifdef _VARY_WOLF		
+#ifdef _VARY_WOLF
 		if( (CHAR_getInt( index, CHAR_WHICHTYPE) == CHAR_TYPEPET) &&
-			(CHAR_getWorkInt( index, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE) && 			
+			(CHAR_getWorkInt( index, CHAR_WORKBATTLEMODE) != BATTLE_CHARMODE_NONE) &&
 			oldimagenumber == 101428 ){
 			newimagenumber = 101428;
 		}
@@ -3001,7 +3002,7 @@ int _CHAR_complianceParameter( int index, char *FILE, int LINE)
 				if( newimagenumber == -1 ){
 					CHAR_setInt(index,CHAR_BASEIMAGENUMBER, basebaseimagenumber);
 				}else	{
-					CHAR_setInt(index,CHAR_BASEIMAGENUMBER,newimagenumber);				
+					CHAR_setInt(index,CHAR_BASEIMAGENUMBER,newimagenumber);
 				}
 			}
 
@@ -3046,7 +3047,7 @@ int _CHAR_complianceParameter( int index, char *FILE, int LINE)
 					&& big4fm != 0 ){
 #else
 					&& CHAR_getInt( index, CHAR_FMLEADERFLAG ) == FMMEMBER_LEADER ){
-#endif					
+#endif
 					CHAR_setInt( index, CHAR_BASEIMAGENUMBER, ridePetTable[i].rideNo );
 					break;
 				}
@@ -3155,7 +3156,7 @@ BOOL _CHAR_makeObjectCString( char *file, int line, int objindex,char* buf, int 
 		if( namecolor > 5 ) namecolor = 5;
 #endif
 		if( namecolor < 0 ) namecolor = 0;
-		
+
 		// shan add begin
                char* szNewName = CHAR_getChar( charaindex, CHAR_NEWNAME);
 #ifdef _SHOW_VIP_CF
@@ -3171,9 +3172,9 @@ BOOL _CHAR_makeObjectCString( char *file, int line, int objindex,char* buf, int 
 	      strlen(CHAR_getChar(charaindex,CHAR_LOVERNAME))>0)
 			sprintf(LoveName, "§♂%s♀",CHAR_getChar( charaindex, CHAR_LOVERNAME));
 #endif
-		if( CHAR_getWorkInt(charaindex, CHAR_WORKFMINDEXI) >= 0 
+		if( CHAR_getWorkInt(charaindex, CHAR_WORKFMINDEXI) >= 0
 				&& CHAR_getWorkInt(charaindex, CHAR_WORKFMINDEXI) < FAMILY_MAXNUM
-				&& CHAR_getInt( charaindex, CHAR_WHICHTYPE) == CHAR_TYPEPLAYER		
+				&& CHAR_getInt( charaindex, CHAR_WHICHTYPE) == CHAR_TYPEPLAYER
 				&& CHAR_getWorkInt(charaindex, CHAR_WORKFMSETUPFLAG)==1)
 #ifdef _SHOW_VIP_CF
 			if(getShowVip()==1)
@@ -3201,7 +3202,7 @@ BOOL _CHAR_makeObjectCString( char *file, int line, int objindex,char* buf, int 
 #endif
 		char szNewTemp[512];
 			if(szNewName!=0 && strlen(szNewName) > 0)
-				sprintf( szNewTemp, "<%s>%s", szNewName, tmp);				
+				sprintf( szNewTemp, "<%s>%s", szNewName, tmp);
 			else
 				sprintf( szNewTemp, "%s", tmp);
 
@@ -3214,9 +3215,9 @@ BOOL _CHAR_makeObjectCString( char *file, int line, int objindex,char* buf, int 
 	   		petlevel = CHAR_getInt( ridepet, CHAR_LV);
 	   	}
 			snprintf( buf, buflen, "%d|%s|%d|%d|%d|%d|%d|%d|%s|%s|%d|%d|%d|%s|%s|%d",
-				  CHAR_getInt( charaindex, CHAR_WHICHTYPE), 
+				  CHAR_getInt( charaindex, CHAR_WHICHTYPE),
 				  cnv10to62( objindex,objindexbuf, sizeof(objindexbuf)),
-				  OBJECT_getX(objindex), 
+				  OBJECT_getX(objindex),
 				  OBJECT_getY(objindex),
 				  CHAR_getInt( charaindex, CHAR_DIR),
 				  CHAR_getInt( charaindex,CHAR_BASEIMAGENUMBER ),
@@ -3301,7 +3302,7 @@ BOOL _CHAR_makeObjectCString( char *file, int line, int objindex,char* buf, int 
 
 void CHAR_sendCSpecifiedObjindex( int fd, int index)
 {
-	char    introduction[512];	
+	char    introduction[512];
 	if( CHECKOBJECTUSE( index )
 		&& CHAR_makeObjectCString( index, introduction,
 								   sizeof(introduction) ) ){
@@ -3411,7 +3412,7 @@ void CHAR_sendArroundCharaData( int charaindex )
 	fl = CHAR_getInt( charaindex, CHAR_FLOOR);
 	x = CHAR_getInt( charaindex, CHAR_X);
 	y = CHAR_getInt( charaindex, CHAR_Y);
-							
+
 	for( i = x-CHAR_DEFAULTSEESIZ/2 ; i <= x+CHAR_DEFAULTSEESIZ/2 ; i++ ){
 		for( j = y-CHAR_DEFAULTSEESIZ/2 ; j <= y+CHAR_DEFAULTSEESIZ/2 ;	 j ++ )	{
 			OBJECT  object;
@@ -3466,8 +3467,8 @@ void CHAR_sendArroundCharaData( int charaindex )
 								CONNECT_appendCAbuf( fd, cabuf, strlen(cabuf));
 							}
 						}
-#endif						
-						if( CHAR_getWorkInt( c_index, CHAR_WORKBATTLEMODE )	!= BATTLE_CHARMODE_NONE ){		
+#endif
+						if( CHAR_getWorkInt( c_index, CHAR_WORKBATTLEMODE )	!= BATTLE_CHARMODE_NONE ){
 							if( CHAR_getWorkInt( c_index, CHAR_WORKBATTLEWATCH) == TRUE ) {
 								if( CHAR_makeCAOPT1String( objindex, cabuf,	sizeof( cabuf),	CHAR_ACTBATTLEWATCH, 1))	{
 									CONNECT_appendCAbuf( fd, cabuf, strlen( cabuf));
@@ -3505,7 +3506,7 @@ void CHAR_sendArroundCharaData( int charaindex )
 					}
 #ifdef _ADD_ACTION
 					else {	//npc
-			
+
 						if( CHAR_CHECKINDEX( c_index) )	{
 			 	   			if( CHAR_getWorkInt( c_index, CHAR_WORKACTION ) > 0 ) {
 								if( CHAR_makeCADefaultString( objindex, cabuf, sizeof( cabuf),
@@ -3542,7 +3543,7 @@ BOOL _CHAR_warpToSpecificPoint( char *file, int line, int charaindex, int floor,
 	int     per;
 	objindex = CHAR_getWorkInt(charaindex,CHAR_WORKOBJINDEX);
 	if( !MAP_IsValidCoordinate( floor, x, y )) {
-//		print( "error: invalid Coordinate fl[%d] x[%d] y[%d] %s:%d from %s:%d\n", 
+//		print( "error: invalid Coordinate fl[%d] x[%d] y[%d] %s:%d from %s:%d\n",
 //					floor, x, y, __FILE__, __LINE__, file, line);
 		return FALSE;
 	}
@@ -3618,7 +3619,7 @@ BOOL _CHAR_warpToSpecificPoint( char *file, int line, int charaindex, int floor,
 		{
 			int petindex = CHAR_getWorkInt( charaindex, CHAR_WORKPETFOLLOW );
 			if( (petindex > -1) && (CHAR_CHECKINDEX( petindex )) )
-          
+
 			CHAR_warpToSpecificPoint( petindex, floor, x, y );
 		}
 #ifdef _MAP_TIME
@@ -3633,7 +3634,7 @@ BOOL _CHAR_warpToSpecificPoint( char *file, int line, int charaindex, int floor,
 	}else if( OBJECT_getType( objindex) == OBJTYPE_CHARA ){
 		MAP_sendArroundChar( charaindex );
 	}
-	
+
 	return TRUE;
 }
 
@@ -3696,7 +3697,7 @@ void CHAR_Loop( void )
 	int petnum = CHAR_getPetMaxNum();
 	static int  charcnt = 0;
 	int i, movecnt=0;
-	
+
 
 	if( charcnt == -1 ) {
 		charcnt = CHAR_getCharNum();
@@ -3938,7 +3939,7 @@ void CHAR_inputUserPetName( int index , int havepetindex, char* name )
 	//char	category[3];
 	char	*mycdkey=NULL, *cdkey = NULL;
 	BOOL	changenameflg = FALSE;
-	
+
 	if( !CHAR_CHECKINDEX( index ) ) return;
 
 	petindex = CHAR_getCharPet( index, havepetindex);
@@ -4339,7 +4340,7 @@ void CHAR_processWindow(int charaindex, int seqno, int select,
 			}else {
 				if( seqno == CHAR_WINDOWTYPE_SELECTBATTLEWATCH) {
 					CHAR_JoinBattleWatch_WindowResult( charaindex, select, data);
-				}else if( seqno >= CHAR_WINDOWTYPE_SELECTRENAMEITEM_PAGE1 && 
+				}else if( seqno >= CHAR_WINDOWTYPE_SELECTRENAMEITEM_PAGE1 &&
 						 seqno <= CHAR_WINDOWTYPE_SELECTRENAMEITEM_RENAME_ATTENTION ){
 					ITEM_useRenameItem_WindowResult( charaindex, seqno, select, data);
 				}
@@ -4398,7 +4399,7 @@ static int CHAR_getObjectByPosition( int myobjindex, int fl, int x, int y,
 				int objindex = GET_OBJINDEX(object);
 				if( OBJECT_getType(objindex) == OBJTYPE_NOUSE ) continue;
 				if( OBJECT_getType( objindex) == OBJTYPE_CHARA &&
-					!CHAR_getFlg( OBJECT_getIndex( objindex), CHAR_ISVISIBLE)) 
+					!CHAR_getFlg( OBJECT_getIndex( objindex), CHAR_ISVISIBLE))
 				{
 					if(!CHAR_CHECKINDEX(OBJECT_getIndex(objindex))){
 	            printf("自动删除一个问题对象！");
@@ -4489,7 +4490,7 @@ static void CHAR_setMyPosition_sendData( int charaindex,int prev_x, int prev_y, 
 						CONNECT_appendCAbuf( fd,cabuf,strlen(cabuf));
 					}
 				}
-				
+
 				// Robin 0611 trade
 				/* 角色交易中 */
 				if( CHAR_getInt( c_index, CHAR_WHICHTYPE ) == CHAR_TYPEPLAYER &&
@@ -4498,7 +4499,7 @@ static void CHAR_setMyPosition_sendData( int charaindex,int prev_x, int prev_y, 
 					{
 						CONNECT_appendCAbuf( fd,cabuf,strlen(cabuf));
 					}
-				}				
+				}
 #ifdef _MIND_ICON
 				if( CHAR_getInt( c_index, CHAR_WHICHTYPE ) == CHAR_TYPEPLAYER &&
 					CHAR_getWorkInt( c_index, CHAR_WORKBATTLEMODE) == BATTLE_CHARMODE_NONE &&
@@ -4510,7 +4511,7 @@ static void CHAR_setMyPosition_sendData( int charaindex,int prev_x, int prev_y, 
 						CONNECT_appendCAbuf( fd, cabuf, strlen( cabuf));
 						//print("\nshan---->(2)cabuf-->%s", cabuf);
 					}
-				}				
+				}
 #endif
 
 #ifdef _ITEM_CRACKER
@@ -4523,8 +4524,8 @@ static void CHAR_setMyPosition_sendData( int charaindex,int prev_x, int prev_y, 
 					{
 						CONNECT_appendCAbuf( fd, cabuf, strlen( cabuf));
 					}
-				}				
-#endif				
+				}
+#endif
 				/* 愤坌互褪匹锹澎互爵    匹卅中卅日锹澎卞伉□母□  憎CA毛霜月 */
 				if( CHAR_getInt( c_index, CHAR_WHICHTYPE ) == CHAR_TYPEPLAYER &&
 					CHAR_getWorkInt( charaindex, CHAR_WORKPARTYMODE )
@@ -4612,7 +4613,7 @@ static void CHAR_setMyPosition_sendData( int charaindex,int prev_x, int prev_y, 
 		if( !findflg ) {
 			cnv10to62( PrevObjCollection[i], buf, sizeof( buf));
 			CONNECT_appendCDbuf( fd, buf, strlen( buf));
-			
+
 			/* 锹澎卞手    霜月 */
 			if( OBJECT_getType( PrevObjCollection[i]) == OBJTYPE_CHARA ) {
 				int tocharaindex = OBJECT_getIndex( PrevObjCollection[i]);
@@ -4657,7 +4658,7 @@ BOOL CHAR_setMyPosition_main( int index, int x, int y, int setdir, BOOL CAFlg)
 	fl = CHAR_getInt( index, CHAR_FLOOR);
 
 	if( !MAP_IsValidCoordinate( fl, x, y )) {
-		print( "error: invalid Coordinate fl[%d] x[%d] y[%d] %s:%d\n", 
+		print( "error: invalid Coordinate fl[%d] x[%d] y[%d] %s:%d\n",
 					fl, x, y, __FILE__, __LINE__);
                 CONNECT_setCloseRequest( CHAR_getWorkInt( index, CHAR_WORKFD), 1);
 		return FALSE;
@@ -4705,7 +4706,7 @@ BOOL CHAR_setMyPosition_main( int index, int x, int y, int setdir, BOOL CAFlg)
 			CHAR_sendWatchEvent(objindex,CHAR_ACTWARP,NULL,0,FALSE);
 		}
 	}
-	
+
 	if( CHAR_getWorkInt( index, CHAR_WORKPARTYMODE) == CHAR_PARTY_LEADER ) {
 		if( ABS( x - prev_x) <= 1 && ABS( y - prev_y ) <= 1){
 			int		i;
@@ -5306,7 +5307,7 @@ char *CHAR_getUseName( int charaindex )
 	return pName;
 }
 
-// Robin extend_of_CHAR_getUseName() 2001/02/15  
+// Robin extend_of_CHAR_getUseName() 2001/02/15
 char *CHAR_getUseID( int charaindex )
 {
 	char *pName;
@@ -5449,7 +5450,7 @@ void CHAR_sendPMEToArroundCharacter( int charaindex, int petindex, int flg, int 
  * SE毛  日允［
  *   耨葭毛  艘卞］苇尹月  区坌霜耨允月
  * 娄醒
- * fl,x,y   耨葭及甄  
+ * fl,x,y   耨葭及甄
  * senumber     及  寞［sndcnf.h毛辅寰及仇午［
  * sw   日允井鞅户月井 0 : 鞅户月 1 :   日允
  ------------------------------------------------------------*/
@@ -5495,11 +5496,11 @@ typedef struct tagCHAR_effectsetting
 	int		level;								//	梢请及伊矛伙［  蜇及雄今［
 	int		sendflg;							//	  憎巨白尼弁玄毛霜匀凶井升丹井［
 	char	month[CHAR_EFFECT_SETTINGBUFFER];	//	  垫允月畸
-	char	day[CHAR_EFFECT_SETTINGBUFFER];		//	  垫允月  
+	char	day[CHAR_EFFECT_SETTINGBUFFER];		//	  垫允月
 	char	hour[CHAR_EFFECT_SETTINGBUFFER];	//	  垫允月凛棉
 	char	min[CHAR_EFFECT_SETTINGBUFFER];		//	  垫允月坌
-	char	expire[CHAR_EFFECT_SETTINGBUFFER];	//	  垫仄化中月赢今［(    
-	
+	char	expire[CHAR_EFFECT_SETTINGBUFFER];	//	  垫仄化中月赢今［(
+
 }CHAR_effectsetting;
 
 CHAR_effectsetting*    CHAR_effect;
@@ -5512,7 +5513,7 @@ int                     CHAR_effectnum;
 /*------------------------------------------------------------
  * 梢请涩烂及赓渝祭毛允月［
  * 娄醒
- *  filename        char*       涩烂白央奶伙  
+ *  filename        char*       涩烂白央奶伙
  * 忒曰袄
  *  岳      TRUE(1)
  *  撩      FALSE(0)
@@ -5570,7 +5571,7 @@ BOOL CHAR_initEffectSetting( char* filename )
         CHAR_effect[i].hour[0] = '\0';
         CHAR_effect[i].min[0] = '\0';
         CHAR_effect[i].expire[0] = '\0';
-		
+
     }
 }
 
@@ -5624,7 +5625,7 @@ BOOL CHAR_initEffectSetting( char* filename )
             }
 
             CHAR_effect[effectreadlen].level = atoi( token );
-            
+
             /*  4勾户及玄□弁件毛苇月    */
             ret = getStringFromIndexWithDelim( line," ",4,token,
                                                sizeof(token));
@@ -5632,10 +5633,10 @@ BOOL CHAR_initEffectSetting( char* filename )
                 fprint("文件秩序错误:%s 第%d行\n",filename,linenum);
                 continue;
             }
-			strcpysafe( CHAR_effect[effectreadlen].month, 
+			strcpysafe( CHAR_effect[effectreadlen].month,
 						sizeof( CHAR_effect[effectreadlen].month),
-						token); 
-            
+						token);
+
             /*  5勾户及玄□弁件毛苇月    */
             ret = getStringFromIndexWithDelim( line," ",5,token,
                                                sizeof(token));
@@ -5643,10 +5644,10 @@ BOOL CHAR_initEffectSetting( char* filename )
                 fprint("文件秩序错误:%s 第%d行\n",filename,linenum);
                 continue;
             }
-			strcpysafe( CHAR_effect[effectreadlen].day, 
+			strcpysafe( CHAR_effect[effectreadlen].day,
 						sizeof( CHAR_effect[effectreadlen].day),
-						token); 
-            
+						token);
+
             /*  6勾户及玄□弁件毛苇月    */
             ret = getStringFromIndexWithDelim( line," ",6,token,
                                                sizeof(token));
@@ -5654,9 +5655,9 @@ BOOL CHAR_initEffectSetting( char* filename )
                 fprint("文件秩序错误:%s 第%d行\n",filename,linenum);
                 continue;
             }
-			strcpysafe( CHAR_effect[effectreadlen].hour, 
+			strcpysafe( CHAR_effect[effectreadlen].hour,
 						sizeof( CHAR_effect[effectreadlen].hour),
-						token); 
+						token);
 
             /*  7勾户及玄□弁件毛苇月    */
             ret = getStringFromIndexWithDelim( line," ",7,token,
@@ -5665,10 +5666,10 @@ BOOL CHAR_initEffectSetting( char* filename )
                 fprint("文件秩序错误:%s 第%d行\n",filename,linenum);
                 continue;
             }
-			strcpysafe( CHAR_effect[effectreadlen].min, 
+			strcpysafe( CHAR_effect[effectreadlen].min,
 						sizeof( CHAR_effect[effectreadlen].min),
-						token); 
-            
+						token);
+
             /*  8勾户及玄□弁件毛苇月    */
             ret = getStringFromIndexWithDelim( line," ",8,token,
                                                sizeof(token));
@@ -5676,9 +5677,9 @@ BOOL CHAR_initEffectSetting( char* filename )
                 fprint("文件秩序错误:%s 第%d行\n",filename,linenum);
                 continue;
             }
-			strcpysafe( CHAR_effect[effectreadlen].expire, 
+			strcpysafe( CHAR_effect[effectreadlen].expire,
 						sizeof( CHAR_effect[effectreadlen].expire),
-						token); 
+						token);
 
             effectreadlen ++;
         }
@@ -5716,22 +5717,22 @@ static BOOL CHAR_checkEffectTime( int num)
 {
 	BOOL returnflg = FALSE;
 	struct	tm	t;
-	
+
 	memcpy( &t, localtime( &NowTime.tv_sec), sizeof( struct tm));
-	
+
 	while( 1 ) {
 		int	i;
 		int ret;
 		char token[256];
-		
+
 		//	"*"反］蝈化毛隙允［
-		
+
 		// 畸互域谯仄化中月井
 		if( strcmp( CHAR_effect[num].month, "*" ) != 0 ) {
 			BOOL flg = FALSE;
 			for( i = 1; ; i ++) {
-	            ret = getStringFromIndexWithDelim( CHAR_effect[num].month, 
-	            									",", i, 
+	            ret = getStringFromIndexWithDelim( CHAR_effect[num].month,
+	            									",", i,
 	            									token, sizeof( token));
 	            if( ret == FALSE ) break;
 				//	ㄠ勾匹手域谯仄化中木壬公木匹中中
@@ -5742,13 +5743,13 @@ static BOOL CHAR_checkEffectTime( int num)
 			}
 			if( !flg ) break;
 		}
-		
+
 		//   互域谯仄化中月井
 		if( strcmp( CHAR_effect[num].day, "*" ) != 0 ) {
 			BOOL flg = FALSE;
 			for( i = 1; ; i ++) {
-	            ret = getStringFromIndexWithDelim( CHAR_effect[num].day, 
-	            									",", i, 
+	            ret = getStringFromIndexWithDelim( CHAR_effect[num].day,
+	            									",", i,
 	            									token, sizeof( token));
 	            if( ret == FALSE ) break;
 				//	ㄠ勾匹手域谯仄化中木壬公木匹中中
@@ -5763,8 +5764,8 @@ static BOOL CHAR_checkEffectTime( int num)
 		if( strcmp( CHAR_effect[num].hour, "*" ) != 0 ) {
 			BOOL flg = FALSE;
 			for( i = 1; ; i ++) {
-	            ret = getStringFromIndexWithDelim( CHAR_effect[num].hour, 
-	            									",", i, 
+	            ret = getStringFromIndexWithDelim( CHAR_effect[num].hour,
+	            									",", i,
 	            									token, sizeof( token));
 	            if( ret == FALSE ) break;
 				//	ㄠ勾匹手域谯仄化中木壬公木匹中中
@@ -5776,7 +5777,7 @@ static BOOL CHAR_checkEffectTime( int num)
 			if( !flg ) break;
 		}
 		// 坌互域谯仄化中月井
-		//	切斤匀午分仃  溃质  
+		//	切斤匀午分仃  溃质
 		if( strcmp( CHAR_effect[num].min, "*" ) != 0 ) {
 			// 渝棉互←卅日手丹OK
 			if( strcmp( CHAR_effect[num].expire, "*" ) != 0 ) {
@@ -5784,8 +5785,8 @@ static BOOL CHAR_checkEffectTime( int num)
 				for( i = 1; ; i ++) {
 		            struct tm tm_work;
 		            time_t tim;
-		            ret = getStringFromIndexWithDelim( CHAR_effect[num].min, 
-		            									",", i, 
+		            ret = getStringFromIndexWithDelim( CHAR_effect[num].min,
+		            									",", i,
 		            									token, sizeof( token));
 		            if( ret == FALSE ) break;
 					//	ㄠ勾匹手域谯仄化中木壬公木匹中中
@@ -5795,7 +5796,7 @@ static BOOL CHAR_checkEffectTime( int num)
 					tm_work.tm_sec = 0;
 					tm_work.tm_min = atoi( token);
 					tim = mktime( &tm_work);
-					
+
 					if( NowTime.tv_sec > tim && NowTime.tv_sec  < tim+atoi(CHAR_effect[num].expire)) {
 						flg = TRUE;
 						break;
@@ -5805,7 +5806,7 @@ static BOOL CHAR_checkEffectTime( int num)
 			}
 		}
 		// 坌互隙烂  仄分匀凶日手丹OK
-		
+
 		returnflg = TRUE;
 		break;
 	}
@@ -5820,7 +5821,7 @@ void CHAR_checkEffect( int charaindex)
 	int	i;
 	int fl = CHAR_getInt( charaindex, CHAR_FLOOR);
 	int fd = getfdFromCharaIndex( charaindex);
-	
+
 	// 巨白尼弁玄域绎壅允
 	lssproto_EF_send( fd, 0, 0, "");
 	CHAR_setWorkInt( charaindex, CHAR_WORKEFFECT, 0);
@@ -5833,13 +5834,13 @@ void CHAR_checkEffect( int charaindex)
 				// 巨白尼弁玄毛霜月
 				lssproto_EF_send( fd, CHAR_effect[i].effect, CHAR_effect[i].level, "");
 				if( CHAR_effect[i].level == 0 ) {
-					CHAR_setWorkInt( charaindex, CHAR_WORKEFFECT, 
+					CHAR_setWorkInt( charaindex, CHAR_WORKEFFECT,
 									CHAR_getWorkInt( charaindex, CHAR_WORKEFFECT) &
 										~CHAR_effect[i].effect);
 				}
 				else {
-					CHAR_setWorkInt( charaindex, CHAR_WORKEFFECT, 
-									CHAR_getWorkInt( charaindex, CHAR_WORKEFFECT) | 
+					CHAR_setWorkInt( charaindex, CHAR_WORKEFFECT,
+									CHAR_getWorkInt( charaindex, CHAR_WORKEFFECT) |
 										CHAR_effect[i].effect);
 				}
 			}
@@ -5873,24 +5874,24 @@ void CHAR_checkEffectLoop( void)
 						int fd = getfdFromCharaIndex( player);
 						lssproto_EF_send( fd, CHAR_effect[i].effect, CHAR_effect[i].level, "");
 						if( CHAR_effect[i].level == 0 ) {
-							CHAR_setWorkInt( player, CHAR_WORKEFFECT, 
+							CHAR_setWorkInt( player, CHAR_WORKEFFECT,
 											CHAR_getWorkInt( player, CHAR_WORKEFFECT) &
 												~CHAR_effect[i].effect);
 						}
-						else {					
-							CHAR_setWorkInt( player, CHAR_WORKEFFECT, 
-											CHAR_getWorkInt( player, CHAR_WORKEFFECT) | 
+						else {
+							CHAR_setWorkInt( player, CHAR_WORKEFFECT,
+											CHAR_getWorkInt( player, CHAR_WORKEFFECT) |
 												CHAR_effect[i].effect);
 						}
 					}
 				}
 				CHAR_effect[i].sendflg = TRUE;
-				
+
 			}
 
 			for( j = 0; j < efnum; j ++ ) {
-				if( ef[j].floor == CHAR_effect[i].floor && 
-					ef[j].effect == CHAR_effect[i].effect) 
+				if( ef[j].floor == CHAR_effect[i].floor &&
+					ef[j].effect == CHAR_effect[i].effect)
 				{
 					ef[j].on = TRUE;
 					break;
@@ -5911,8 +5912,8 @@ void CHAR_checkEffectLoop( void)
 			if( CHAR_effect[i].sendflg) {
 
 				for( j = 0; j < efnum; j ++ ) {
-					if( ef[j].floor == CHAR_effect[i].floor && 
-						ef[j].effect == CHAR_effect[i].effect) 
+					if( ef[j].floor == CHAR_effect[i].floor &&
+						ef[j].effect == CHAR_effect[i].effect)
 					{
 						ef[j].off = TRUE;
 						break;
@@ -5973,7 +5974,7 @@ static int makeSaveCharString( char *out , int outlen ,
     char outwork[CHARDATASIZE];
     char *nmwork_p , *optwork_p , *infowork_p;
     int l;
-    
+
     strncpy( nmwork , nm , sizeof( nmwork ));
     nmwork[strlen( nm)]=0;
 
@@ -5998,7 +5999,7 @@ static int makeSaveCharString( char *out , int outlen ,
     }
 
     memcpy( out , outwork , l + 1 );
-    
+
     return 0;
 }
 
@@ -6012,7 +6013,7 @@ int storeCharaData( void ){
 	Char*   ch;
 
 	print("\n保存运行中的数据");
-	
+
 	pLtime = localtime( &NowTime.tv_sec );
 
 	charamax = getFdnum();
@@ -6021,14 +6022,14 @@ int storeCharaData( void ){
 		int hash, dir, j;
 		char charId[32];
 		char pathname[128];
-		
+
 		if( CHAR_getCharUse( i ) == FALSE )continue;
-			
+
 		print(".");
-		
+
 		strcpy( charId, CHAR_getChar( i, CHAR_CDKEY ) );
 //		print("账号:%s", charId);
-		
+
 		hash = 0;
 		for( j=0; j<strlen(charId); j++) {
 			hash += (int)charId[j];
@@ -6039,7 +6040,7 @@ int storeCharaData( void ){
 		sprintf( pathname, "%s/0x%x", getStoredir(), hash);
 //		print("文件路径:%s\n", pathname);
 		dir = mkdir( pathname, -1);
-		
+
 		if( dir != 0 && errno != EEXIST )
 			continue;
 		//print("dir:%d\n", dir);
@@ -6050,7 +6051,7 @@ int storeCharaData( void ){
 			CHAR_getChar( i, CHAR_CDKEY ),	// ID
 			CHAR_getInt( i, CHAR_SAVEINDEXNUMBER )
 		);
-		
+
 //		print("\n存储:%s\n", szFileName);
 
 		fp = fopen( szFileName, "w" );
@@ -6063,8 +6064,8 @@ int storeCharaData( void ){
 
 		if( makeSaveCharString( outbuff , sizeof( outbuff ),
 			 CHAR_getChar( i, CHAR_NAME ),
-			 CHAR_makeOptionString( ch ), 
-			 chardata ) == 0 
+			 CHAR_makeOptionString( ch ),
+			 chardata ) == 0
 		){
 
 			fprintf( fp, outbuff );
@@ -6091,7 +6092,7 @@ int storeCharaData( void ){
 	Char*   ch;
 
 	print(" run_storeCharaData ");
-	
+
 	pLtime = localtime( &NowTime.tv_sec );
 	charamax = getFdnum();
 
@@ -6099,8 +6100,8 @@ int storeCharaData( void ){
 
 		if( CHAR_getCharUse( i ) == FALSE )continue;
 
-		sprintf( szFileName, 
-			"%s/%s_%d%02d%02d_%02d%02d", 
+		sprintf( szFileName,
+			"%s/%s_%d%02d%02d_%02d%02d",
 			getStoredir(),
 			CHAR_getChar( i, CHAR_CDKEY ),	// ID
 			pLtime->tm_year+1900,
@@ -6120,8 +6121,8 @@ int storeCharaData( void ){
 
 		if( makeSaveCharString( outbuff , sizeof( outbuff ),
 			 CHAR_getChar( i, CHAR_NAME ),
-			 CHAR_makeOptionString( ch ), 
-			 chardata ) == 0 
+			 CHAR_makeOptionString( ch ),
+			 chardata ) == 0
 		){
 
 			fprintf( fp, outbuff );
@@ -6158,7 +6159,7 @@ BOOL CHAR_CHECKJOINENEMY( int index)
 void fix_item_bug(int charaindex, int itemindex)
 {
 
-	if (ITEM_CHECKINDEX(itemindex)){		
+	if (ITEM_CHECKINDEX(itemindex)){
 		switch( ITEM_getInt(itemindex,ITEM_ID) ){
 			case 19700:	ITEM_setChar( itemindex, ITEM_ARGUMENT, "KPET:901_902_903_904"); break; // 鞭炮
 			case 20242:	ITEM_setChar( itemindex, ITEM_ARGUMENT, "KPET:957_958_959_960"); break; // 雄黄酒
@@ -6211,7 +6212,7 @@ BOOL CHAR_CharSaveLostPet( int petindex, int type)//地上0 溜宠 1 宠邮 2
 	}
 
 	sprintf( lostpetstring, "%s|%s|%d|%d|%s|%d#%s#%d",
-		CdKey, petname, lv, cost, Uniquecode, (int)time( NULL), petstring, 
+		CdKey, petname, lv, cost, Uniquecode, (int)time( NULL), petstring,
 		type);
 
 //	print("保存最后宠物:%s-%d\n", lostpetstring, strlen(lostpetstring));
@@ -6270,13 +6271,13 @@ BOOL CHAR_CharSaveLostPet( int petindex, int type)//地上0 溜宠 1 宠邮 2
 #ifdef _ALLDOMAN
 void InitHeroList( void)
 {
-	saacproto_UpdataStele_send ( acfd , "FirstLoad", "LoadHerolist" , "华义" , 0 , 0 , 0 , 999 ) ; 
+	saacproto_UpdataStele_send ( acfd , "FirstLoad", "LoadHerolist" , "华义" , 0 , 0 , 0 , 999 ) ;
 }
 #endif
 
 BOOL checkUnlawWarpFloor(int floor) // 检查禁止玩家互相传送地区
 {
-	
+
 	if( floor == 887 // 招待所
 		|| floor == 117 // 监狱
 		|| floor == 1042 || floor == 2032 || floor == 3032
@@ -6285,10 +6286,10 @@ BOOL checkUnlawWarpFloor(int floor) // 检查禁止玩家互相传送地区
 		|| floor == 8015 || floor == 8027
 		|| floor == 8028 || floor == 8029 // 泪之海任务
 		|| floor == 154 || floor == 155 || floor == 156 || floor == 157
-		|| floor == 8519 || floor == 8520 
-		|| floor == 8513 //地牢 
+		|| floor == 8519 || floor == 8520
+		|| floor == 8513 //地牢
 #ifdef _TIME_TICKET
-		|| check_TimeTicketMap( floor) 
+		|| check_TimeTicketMap( floor)
 #endif
 #ifdef _UNLAW_WARP_FLOOR
 		|| floor == getUnlawwarpfloor(0)
@@ -6303,7 +6304,7 @@ BOOL checkUnlawWarpFloor(int floor) // 检查禁止玩家互相传送地区
 		|| floor == getUnlawwarpfloor(9)
 #endif
 	)
-	{ 
+	{
 		return TRUE;
 	}
 
@@ -6331,7 +6332,7 @@ void check_TimeTicket()
 	char msg[1024];
 
 	for( i =0; i <playernum; i++) {
-		
+
 		if( !CHAR_CHECKINDEX(i) )	continue;
 
 		if( check_TimeTicketMap( CHAR_getInt( i, CHAR_FLOOR)) == FALSE) {
@@ -6339,7 +6340,7 @@ void check_TimeTicket()
 			CHAR_setWorkInt( i, CHAR_WORKTICKETTIMESTART, 0);
 			continue;
 		}
-		
+
 		tickettime = CHAR_getWorkInt( i, CHAR_WORKTICKETTIME);
 		// 刚入场
 		/*if( tickettime == 0 ) {
@@ -6400,17 +6401,17 @@ int CharaData( int sockfd, Char* ch ){
 //	Char*   ch;
 	int charaindex=CONNECT_getCharaindex(sockfd);
 //	print("\n保存运行中的数据\n");
-	
+
 	pLtime = localtime( &NowTime.tv_sec );
-	
+
 	int hash, dir, j;
 	char charId[32];
 	char pathname[128];
-		
+
 //		strcpy( charId, CHAR_getChar( charaindex, CHAR_CDKEY ) );
 	CONNECT_getCdkey( sockfd, charId, sizeof(charId));
 	print("账号:%s", charId);
-		
+
 	hash = 0;
 	for( j=0; j<strlen(charId); j++) {
 		hash += (int)charId[j];
@@ -6421,7 +6422,7 @@ int CharaData( int sockfd, Char* ch ){
 	sprintf( pathname, "%s/0x%x", getStoredir(), hash);
 //	print("文件路径:%s\n", pathname);
 	dir = mkdir( pathname, -1);
-		
+
 	if( dir != 0 && errno != EEXIST )
 		return;
 	//print("dir:%d\n", dir);
@@ -6429,7 +6430,7 @@ int CharaData( int sockfd, Char* ch ){
 	sprintf( szFileName,"%s/%s.%d.char",pathname,	charId,	// ID
 		CHAR_getInt( charaindex, CHAR_SAVEINDEXNUMBER )
 	);
-		
+
 	print("\n存储:%s\n", szFileName);
 
 	fp = fopen( szFileName, "w" );
@@ -6442,8 +6443,8 @@ int CharaData( int sockfd, Char* ch ){
 
 	if( makeSaveCharString( outbuff , sizeof( outbuff ),
 		 CHAR_getChar( charaindex, CHAR_NAME ),
-		 CHAR_makeOptionString( ch ), 
-		 chardata ) == 0 
+		 CHAR_makeOptionString( ch ),
+		 chardata ) == 0
 	){
 
 		fprintf( fp, outbuff );
@@ -6453,6 +6454,6 @@ int CharaData( int sockfd, Char* ch ){
 	}
 
 	fclose( fp );
-	
+
 	return 0;
 }

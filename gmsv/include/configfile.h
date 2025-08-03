@@ -11,7 +11,7 @@
 #endif /*  __CONFIGFILE_C__  */
 
 // Arminius 7.12 login announce
-extern char announcetext[8192];
+EXTERN char announcetext[8192];
 void AnnounceToPlayer(int charaindex);
 // Robin 0720
 void AnnounceToPlayerWN(int fd);
@@ -23,11 +23,11 @@ void LoadAnnounce(void);
 		int ID;
 		char DATA[1024*64];	//1M
 	}PTALK;
-	extern PTALK pettalktext[PETTALK_MAXID];
+	EXTERN PTALK pettalktext[PETTALK_MAXID];
 	void LoadPetTalk(void);
 #else
-	
-extern char pettalktext[4096];
+
+EXTERN char pettalktext[4096];
 void LoadPetTalk(void);
 #endif
 
@@ -41,7 +41,7 @@ typedef struct	REGAMBLEBANKITEMS	{
 	int type;
 }GAMBLEBANK_ITEMS;
 
-extern GAMBLEBANK_ITEMS GB_ITEMS[GAMBLEBANK_ITEMSMAX];
+EXTERN GAMBLEBANK_ITEMS GB_ITEMS[GAMBLEBANK_ITEMSMAX];
 
 void Load_GambleBankItems( void);
 #endif
@@ -58,7 +58,7 @@ typedef struct	REPETSKILL_CODES	{
 	char Code[256];
 }PETSKILL_CODES;
 
-extern PETSKILL_CODES Code_skill[PETSKILL_CODE];
+EXTERN PETSKILL_CODES Code_skill[PETSKILL_CODE];
 void Load_PetSkillCodes( void);
 #endif
 
@@ -69,7 +69,7 @@ struct GMINFO
 	char cdkey[24];
 	int  level;
 };
-extern struct GMINFO gminfo[GMMAXNUM];
+EXTERN struct GMINFO gminfo[GMMAXNUM];
 #endif
 
 BOOL readconfigfile( char* filename );
@@ -207,10 +207,11 @@ BOOL LoadGMSet(char *filename);
 char* getitemquitparty( void );
 #endif
 
-#ifdef _NEW_PLAYER_CF	
+#ifdef _NEW_PLAYER_CF
 int getNewplayertrans( void );
 int getNewplayerlv( void );
 int getNewplayergivepet( unsigned int index );
+int getNewplayergiveitem( unsigned int index );
 void setNewplayergivepet( unsigned int index ,unsigned int interval);
 int getNewplayerpetlv( void );
 int getNewplayergivegold( void );
@@ -218,6 +219,10 @@ int getRidePetLevel( void );
 #ifdef _VIP_SERVER
 int getNewplayergivevip( void );
 #endif
+#endif
+
+#ifdef _UNLAW_WARP_FLOOR
+int getUnlawwarpfloor( unsigned int index );
 #endif
 
 #ifdef _USER_EXP_CF

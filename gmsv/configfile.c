@@ -16,7 +16,7 @@
 // Arminius 7.12 login announce
 #include "char.h"
 #include "char_data.h"
-// CoolFish: add 
+// CoolFish: add
 #include "lssproto_serv.h"
 
 #ifdef _ANGEL_SUMMON
@@ -40,7 +40,7 @@ typedef struct tagConfig
                                  * Ê§ÊĞËü¼şĞşÈÓ¡õÌï¾®ÈÕÎ­ÒüÔÂ
                                  * ±Ø¡õØ©ÈÓ¡õÌïÎçØÆ»¯¼°  ó¡
                                  */
-                                 
+
     // Arminius 7.24 manor pk
   char gsid[32];	// game server chinese id
   unsigned short allowmanorpk;	// is this server allow manor pk
@@ -90,7 +90,7 @@ typedef struct tagConfig
                                * ·òºë·¸Å«ÒÁÛÍĞşØø
                                */
   char    logconfname[32];    /*
-                               * ·òºëÉ¬ÀÃ°×ÑëÄÌ»ï  
+                               * ·òºëÉ¬ÀÃ°×ÑëÄÌ»ï
                                */
   char	chatmagicpasswd[32];	/* ÃñÅÒÓÀĞş  Ü·ÓÉµ©·¥¡õÓñ */
 #ifdef _STORECHAR
@@ -114,21 +114,21 @@ typedef struct tagConfig
                                           * ÖÏ¶ªÓÀ±¾¡õ³âËáÁùÔÂ¾®
                                           */
   unsigned int    protocolreadfrequency;  /*
-                                           * Ãó·òĞşÎì»ïÃ«ÖÏÁ¢Øø    
+                                           * Ãó·òĞşÎì»ïÃ«ÖÏÁ¢Øø
                                            * ±å  ¸ê¾®
                                            */
   unsigned int    allowerrornum;          /*
                                            * ¾Ş·Â¡õÃ«ÖÏòÛÒıÆ¥¸¤ÔÊ¾®
                                            */
   unsigned int    loghour;          		/*
-                                           * ·òºëÃ«âçĞåÔÊÔÂÁİ¶Ô  £¢Áİ  
+                                           * ·òºëÃ«âçĞåÔÊÔÂÁİ¶Ô  £¢Áİ
                                            */
   unsigned int    battledebugmsg;    		/*
                                            * ÌïĞş»ï  ¼°·¸ÌïÓÀºë¶ªÓÀ±¾¡õ³âÃ«ÇëÔÊ¾®£Û¨ßØ¦ÈÕÇë½ñØ¦ÖĞ
                                            */
-  //ttom add this because the second had this                                         
-  unsigned int    encodekey;              
-  unsigned int    acwbsize;             
+  //ttom add this because the second had this
+  unsigned int    encodekey;
+  unsigned int    acwbsize;
   unsigned int    acwritesize;
   unsigned int    ErrUserDownFlg;
   //ttom end
@@ -139,7 +139,7 @@ typedef struct tagConfig
     char itemquitparty[32];
 #endif
 
-#ifdef _DEL_DROP_GOLD	
+#ifdef _DEL_DROP_GOLD
 	unsigned int	Golddeletetime;
 #endif
 #ifdef _NEW_PLAYER_CF
@@ -258,7 +258,7 @@ int point;
 Config config;
 
 /*
- *  Îì¼ş°×Å«ºë°×ÑëÄÌ»ïÃ«  ¸êÁİ±åÒøµ¤ÑáÕ°  
+ *  Îì¼ş°×Å«ºë°×ÑëÄÌ»ïÃ«  ¸êÁİ±åÒøµ¤ÑáÕ°
  *  xxxx=yyyy ĞÄĞ×ÖĞØ¦¼°Ã«  ¸ê
  */
 
@@ -292,7 +292,7 @@ ReadConf readconf[]=
      NULL,0},
 
     // Arminius 7.24 manor pk
-    { "gameservid", config.gsid, sizeof(config.gsid), NULL, 0}, 
+    { "gameservid", config.gsid, sizeof(config.gsid), NULL, 0},
     { "allowmanorpk", NULL, 0, (void*)&config.allowmanorpk, SHORT},
 
     { "port",			NULL ,0 , (void*)&config.port           ,SHORT},
@@ -394,7 +394,7 @@ ReadConf readconf[]=
     { "encodekey" ,NULL,0,(void*)&config.encodekey,INT},
     { "acwritesize" ,NULL,0,(void*)&config.acwritesize,INT},
     { "acwbsize" ,NULL,0,(void*)&config.acwbsize,INT},
-    { "erruser_down" ,NULL,0,(void*)&config.ErrUserDownFlg,INT},    
+    { "erruser_down" ,NULL,0,(void*)&config.ErrUserDownFlg,INT},
 
 #ifdef _ITEM_QUITPARTY
     { "itemquitparty",	config.itemquitparty, sizeof(config.itemquitparty) ,NULL , 0},
@@ -406,27 +406,27 @@ ReadConf readconf[]=
 
 #ifdef _NEW_PLAYER_CF
 	{ "TRANS" ,NULL,0,(void*)&config.newplayertrans,	INT},
-	{ "LV" ,NULL,0,(void*)&config.newplayerlv,	INT},	
+	{ "LV" ,NULL,0,(void*)&config.newplayerlv,	INT},
 	{ "PET1" ,NULL,0,(void*)&config.newplayergivepet[1],	INT},
-	{ "PET2" ,NULL,0,(void*)&config.newplayergivepet[2],	INT},	
-	{ "PET3" ,NULL,0,(void*)&config.newplayergivepet[3],	INT},	
-	{ "PET4" ,NULL,0,(void*)&config.newplayergivepet[4],	INT},	
+	{ "PET2" ,NULL,0,(void*)&config.newplayergivepet[2],	INT},
+	{ "PET3" ,NULL,0,(void*)&config.newplayergivepet[3],	INT},
+	{ "PET4" ,NULL,0,(void*)&config.newplayergivepet[4],	INT},
 	{ "ITEM1" ,NULL,0,(void*)&config.newplayergiveitem[0],	INT},
-	{ "ITEM2" ,NULL,0,(void*)&config.newplayergiveitem[1],	INT},	
-	{ "ITEM3" ,NULL,0,(void*)&config.newplayergiveitem[2],	INT},	
-	{ "ITEM4" ,NULL,0,(void*)&config.newplayergiveitem[3],	INT},	
+	{ "ITEM2" ,NULL,0,(void*)&config.newplayergiveitem[1],	INT},
+	{ "ITEM3" ,NULL,0,(void*)&config.newplayergiveitem[2],	INT},
+	{ "ITEM4" ,NULL,0,(void*)&config.newplayergiveitem[3],	INT},
 	{ "ITEM5" ,NULL,0,(void*)&config.newplayergiveitem[4],	INT},
-	{ "ITEM6" ,NULL,0,(void*)&config.newplayergiveitem[5],	INT},	
-	{ "ITEM7" ,NULL,0,(void*)&config.newplayergiveitem[6],	INT},	
-	{ "ITEM8" ,NULL,0,(void*)&config.newplayergiveitem[7],	INT},	
+	{ "ITEM6" ,NULL,0,(void*)&config.newplayergiveitem[5],	INT},
+	{ "ITEM7" ,NULL,0,(void*)&config.newplayergiveitem[6],	INT},
+	{ "ITEM8" ,NULL,0,(void*)&config.newplayergiveitem[7],	INT},
 	{ "ITEM9" ,NULL,0,(void*)&config.newplayergiveitem[8],	INT},
-	{ "ITEM10" ,NULL,0,(void*)&config.newplayergiveitem[9],	INT},	
-	{ "ITEM11" ,NULL,0,(void*)&config.newplayergiveitem[10],	INT},	
-	{ "ITEM12" ,NULL,0,(void*)&config.newplayergiveitem[11],	INT},	
-	{ "ITEM13" ,NULL,0,(void*)&config.newplayergiveitem[12],	INT},	
-	{ "ITEM14" ,NULL,0,(void*)&config.newplayergiveitem[13],	INT},	
+	{ "ITEM10" ,NULL,0,(void*)&config.newplayergiveitem[9],	INT},
+	{ "ITEM11" ,NULL,0,(void*)&config.newplayergiveitem[10],	INT},
+	{ "ITEM12" ,NULL,0,(void*)&config.newplayergiveitem[11],	INT},
+	{ "ITEM13" ,NULL,0,(void*)&config.newplayergiveitem[12],	INT},
+	{ "ITEM14" ,NULL,0,(void*)&config.newplayergiveitem[13],	INT},
 	{ "ITEM15" ,NULL,0,(void*)&config.newplayergiveitem[14],	INT},
-	{ "PETLV" ,NULL,0,(void*)&config.newplayerpetlv,	INT},	
+	{ "PETLV" ,NULL,0,(void*)&config.newplayerpetlv,	INT},
 	{ "GOLD" ,NULL,0,(void*)&config.newplayergivegold,	INT},
 	{ "RIDEPETLEVEL" ,NULL,0,(void*)&config.ridepetlevel,	INT},
 #ifdef _VIP_SERVER
@@ -440,32 +440,32 @@ ReadConf readconf[]=
 
 #ifdef _UNLAW_WARP_FLOOR
 	{ "FLOOR1" ,NULL,0,(void*)&config.unlawwarpfloor[0],	INT},
-	{ "FLOOR2" ,NULL,0,(void*)&config.unlawwarpfloor[1],	INT},	
-	{ "FLOOR3" ,NULL,0,(void*)&config.unlawwarpfloor[2],	INT},	
-	{ "FLOOR4" ,NULL,0,(void*)&config.unlawwarpfloor[3],	INT},	
+	{ "FLOOR2" ,NULL,0,(void*)&config.unlawwarpfloor[1],	INT},
+	{ "FLOOR3" ,NULL,0,(void*)&config.unlawwarpfloor[2],	INT},
+	{ "FLOOR4" ,NULL,0,(void*)&config.unlawwarpfloor[3],	INT},
 	{ "FLOOR5" ,NULL,0,(void*)&config.unlawwarpfloor[4],	INT},
 	{ "FLOOR6" ,NULL,0,(void*)&config.unlawwarpfloor[5],	INT},
-	{ "FLOOR7" ,NULL,0,(void*)&config.unlawwarpfloor[6],	INT},	
-	{ "FLOOR8" ,NULL,0,(void*)&config.unlawwarpfloor[7],	INT},	
-	{ "FLOOR6" ,NULL,0,(void*)&config.unlawwarpfloor[8],	INT},	
+	{ "FLOOR7" ,NULL,0,(void*)&config.unlawwarpfloor[6],	INT},
+	{ "FLOOR8" ,NULL,0,(void*)&config.unlawwarpfloor[7],	INT},
+	{ "FLOOR6" ,NULL,0,(void*)&config.unlawwarpfloor[8],	INT},
 	{ "FLOOR10" ,NULL,0,(void*)&config.unlawwarpfloor[9],	INT},
 #endif
 
 #ifdef _WATCH_FLOOR
 	{ "WATCHFLOOR" ,NULL,0,(void*)&config.watchfloor[0],	INT},
 	{ "WATCHFLOOR1" ,NULL,0,(void*)&config.watchfloor[1],	INT},
-	{ "WATCHFLOOR2" ,NULL,0,(void*)&config.watchfloor[2],	INT},	
-	{ "WATCHFLOOR3" ,NULL,0,(void*)&config.watchfloor[3],	INT},	
-	{ "WATCHFLOOR4" ,NULL,0,(void*)&config.watchfloor[4],	INT},	
+	{ "WATCHFLOOR2" ,NULL,0,(void*)&config.watchfloor[2],	INT},
+	{ "WATCHFLOOR3" ,NULL,0,(void*)&config.watchfloor[3],	INT},
+	{ "WATCHFLOOR4" ,NULL,0,(void*)&config.watchfloor[4],	INT},
 	{ "WATCHFLOOR5" ,NULL,0,(void*)&config.watchfloor[5],	INT},
 #endif
 
 #ifdef _BATTLE_FLOOR
 	{ "BATTLEFLOOR" ,NULL,0,(void*)&config.battlefloor[0],	INT},
 	{ "BATTLEFLOOR1" ,NULL,0,(void*)&config.battlefloor[1],	INT},
-	{ "BATTLEFLOOR2" ,NULL,0,(void*)&config.battlefloor[2],	INT},	
-	{ "BATTLEFLOOR3" ,NULL,0,(void*)&config.battlefloor[3],	INT},	
-	{ "BATTLEFLOOR4" ,NULL,0,(void*)&config.battlefloor[4],	INT},	
+	{ "BATTLEFLOOR2" ,NULL,0,(void*)&config.battlefloor[2],	INT},
+	{ "BATTLEFLOOR3" ,NULL,0,(void*)&config.battlefloor[3],	INT},
+	{ "BATTLEFLOOR4" ,NULL,0,(void*)&config.battlefloor[4],	INT},
 	{ "BATTLEFLOOR5" ,NULL,0,(void*)&config.battlefloor[5],	INT},
 #endif
 
@@ -478,20 +478,20 @@ ReadConf readconf[]=
 #endif
 #ifdef _TRANS_LEVEL_CF
 	{ "CHARTRANS" ,NULL,0,(void*)&config.chartrans,	INT},
-	{ "PETTRANS" ,NULL,0,(void*)&config.pettrans,	INT},	
-	{ "LEVEL" ,NULL,0,(void*)&config.yblevel,	INT},	
-	{ "MAXLEVEL" ,NULL,0,(void*)&config.maxlevel,	INT},	
+	{ "PETTRANS" ,NULL,0,(void*)&config.pettrans,	INT},
+	{ "LEVEL" ,NULL,0,(void*)&config.yblevel,	INT},
+	{ "MAXLEVEL" ,NULL,0,(void*)&config.maxlevel,	INT},
 #endif
 #ifdef _POINT
 	{ "POINT" ,NULL,0,(void*)&config.point,	INT},
-	{ "TRANS0" ,NULL,0,(void*)&config.transpoint[0],	INT},	
-	{ "TRANS1" ,NULL,0,(void*)&config.transpoint[1],	INT},	
-	{ "TRANS2" ,NULL,0,(void*)&config.transpoint[2],	INT},	
-	{ "TRANS3" ,NULL,0,(void*)&config.transpoint[3],	INT},	
-	{ "TRANS4" ,NULL,0,(void*)&config.transpoint[4],	INT},	
-	{ "TRANS5" ,NULL,0,(void*)&config.transpoint[5],	INT},	
-	{ "TRANS6" ,NULL,0,(void*)&config.transpoint[6],	INT},	
-	{ "TRANS7" ,NULL,0,(void*)&config.transpoint[7],	INT},	
+	{ "TRANS0" ,NULL,0,(void*)&config.transpoint[0],	INT},
+	{ "TRANS1" ,NULL,0,(void*)&config.transpoint[1],	INT},
+	{ "TRANS2" ,NULL,0,(void*)&config.transpoint[2],	INT},
+	{ "TRANS3" ,NULL,0,(void*)&config.transpoint[3],	INT},
+	{ "TRANS4" ,NULL,0,(void*)&config.transpoint[4],	INT},
+	{ "TRANS5" ,NULL,0,(void*)&config.transpoint[5],	INT},
+	{ "TRANS6" ,NULL,0,(void*)&config.transpoint[6],	INT},
+	{ "TRANS7" ,NULL,0,(void*)&config.transpoint[7],	INT},
 #endif
 
 #ifdef _PET_UP
@@ -502,20 +502,20 @@ ReadConf readconf[]=
 	{ "ANNOUNCETIME" ,NULL,0,(void*)&config.loopannouncetime,	INT},
 #endif
 #ifdef _SKILLUPPOINT_CF
-	{ "SKILLUPPOINT" ,NULL,0,(void*)&config.skup,	INT},	
+	{ "SKILLUPPOINT" ,NULL,0,(void*)&config.skup,	INT},
 #endif
 #ifdef _RIDELEVEL
-	{ "RIDELEVEL" ,NULL,0,(void*)&config.ridelevel,	INT},	
+	{ "RIDELEVEL" ,NULL,0,(void*)&config.ridelevel,	INT},
 #endif
 
 #ifdef _REVLEVEL
-	{ "REVLEVEL" ,NULL,0,(void*)&config.revlevel,	INT},	
+	{ "REVLEVEL" ,NULL,0,(void*)&config.revlevel,	INT},
 #endif
 #ifdef _NEW_PLAYER_RIDE
-	{ "NPRIDE" ,NULL,0,(void*)&config.npride,	INT},	
+	{ "NPRIDE" ,NULL,0,(void*)&config.npride,	INT},
 #endif
 #ifdef _FIX_CHARLOOPS
-	{ "CHARLOOPS" ,NULL,0,(void*)&config.charloops,	INT},	
+	{ "CHARLOOPS" ,NULL,0,(void*)&config.charloops,	INT},
 #endif
 #ifdef _PLAYER_ANNOUNCE
 	{ "PANNOUNCE" ,NULL,0,(void*)&config.pannounce,	INT},
@@ -528,7 +528,7 @@ ReadConf readconf[]=
 	{ "sendbuffer" ,NULL,0,(void*)&config.sendbuffer,	INT},
 	{ "recvlowatbuffer" ,NULL,0,(void*)&config.recvlowatbuffer,	INT},
 	{ "runlevel" ,NULL,0,(void*)&config.runlevel,	INT},
-	
+
 #ifdef _SHOW_VIP_CF
 	{ "SHOWVIP" ,NULL,0,(void*)&config.showvip,	INT},
 #endif
@@ -582,7 +582,7 @@ char announcetext[8192];
 void AnnounceToPlayer(int charaindex)
 {
   char *ptr,*qtr;
-  
+
   ptr=announcetext;
   while ((qtr=strstr(ptr,"\n"))!=NULL) {
     qtr[0]='\0';
@@ -592,7 +592,7 @@ void AnnounceToPlayer(int charaindex)
     ptr=qtr+1;
   }
   CHAR_talkToCli(charaindex, -1, ptr, CHAR_COLORYELLOW);
-  
+
 }
 
 // Robin 0720
@@ -631,7 +631,7 @@ void LoadPetTalk(void)
 	char buf1[256], buf2[256], buf3[256];
 	int talkNO=-1, mark=-1, i;
 	int len = sizeof( talkmem);
-	
+
 	memset(talkmem, 0, sizeof(talkmem));
 	sprintf(fn, "%s/pettalk/pettalk.menu", getNpcdir());
 
@@ -646,7 +646,7 @@ void LoadPetTalk(void)
 		while( fgets( line, sizeof( line), fp)) {
 			if( strlen( talkmem) != 0 ) {
 				if( talkmem[strlen( talkmem) -1] != '|' ) {
-					strcatsafe( talkmem, len, "|");		
+					strcatsafe( talkmem, len, "|");
 				}
 			}
 			chompex( line);
@@ -717,17 +717,17 @@ void LoadPetTalk(void)
   char fn[256];
   char	line[ 4096];
   int len = sizeof( pettalktext);
-  
+
   memset(pettalktext, 0, sizeof(pettalktext));
   sprintf(fn, "%s/pettalk/pettalk.mem", getNpcdir());
-  
+
   fp = fopen( fn, "r");
     if( fp != NULL ) {
 		print("\n\n ¶ÁÈ¡ pettalk.mem");
 		while( fgets( line, sizeof( line), fp)) {
 			if( strlen( pettalktext) != 0 ) {
 				if( pettalktext[strlen( pettalktext) -1] != '|' ) {
-					strcatsafe( pettalktext, len, "|");		
+					strcatsafe( pettalktext, len, "|");
 				}
 			}
 			chompex( line);
@@ -797,7 +797,7 @@ void Load_PetSkillCodes( void)
 			Code_skill[i].TempNo = num;
 			Code_skill[i].PetId = ID;
 			strcpy( Code_skill[i].Code, type);
-			//print("\n %s|%d|%d|%s|", Code_skill[i].name, Code_skill[i].TempNo, 
+			//print("\n %s|%d|%d|%s|", Code_skill[i].name, Code_skill[i].TempNo,
 			//	Code_skill[i].PetId, Code_skill[i].Code);
 			i++;
 			if( i >= PETSKILL_CODE ) break;
@@ -988,7 +988,7 @@ char* getGameserverID( void )
 {
     if (config.gsid[strlen(config.gsid)-1]=='\n')
       config.gsid[strlen(config.gsid)-1]='\0';
-      
+
     return config.gsid;
 }
 
@@ -1519,7 +1519,7 @@ unsigned int getWalksendinterval( void )
 /*------------------------------------------------------------
  * walksendintervalÃ«±¾ÓÀĞşÔÊÔÂ£Û
  * Â¦ĞÑ
- *  unsigned int 	interval	ÁİÃŞ  Á¢Øø    
+ *  unsigned int 	interval	ÁİÃŞ  Á¢Øø
  * ß¯Ô»°À
  *  void
  ------------------------------------------------------------*/
@@ -1859,9 +1859,9 @@ void substitutePointerFromType( void* to , CTYPE type ,double value)
 /*------------------------------------------------------------
  * É¬ÀÃ°×ÑëÄÌ»ïÃ«  ¸ê
  * Â¦ĞÑ
- *      filename            °×ÑëÄÌ»ï  
+ *      filename            °×ÑëÄÌ»ï
  * ß¯Ô»°À
- *      TRUE(1)     ÔÀ  
+ *      TRUE(1)     ÔÀ
  *      FALSE(0)    ÁÃ      -> °×ÑëÄÌ»ï¼°×ó¡õÃó¼ş±åÁÃ  ØÆĞ×
  ------------------------------------------------------------*/
 BOOL readconfigfile( char* filename )
@@ -1970,7 +1970,7 @@ BOOL readconfigfile( char* filename )
     lastConfig();
     return TRUE;
 }
-//ttom add this becaus the second had this function 
+//ttom add this becaus the second had this function
 /*------------------------------------------------------------
  * ¾Ş¼şÎì¡õÓñÆ½¡õÃ«É¬ÀÃÔÊÔÂ
  * Â¦ĞÑ
@@ -2003,7 +2003,7 @@ unsigned int getErrUserDownFlg( void )
 {
     return config.ErrUserDownFlg;
 }
-    
+
 
 #ifdef _DEL_DROP_GOLD
 unsigned int getGolddeletetime( void )
