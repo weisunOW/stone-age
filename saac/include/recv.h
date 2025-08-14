@@ -12,11 +12,11 @@ char fm_pk_list[FMPKLIST_MAXNUM][255];
 #endif
 
 #ifdef _ALLDOMAN // Syu ADD ≈≈––∞ÒNPC
-void LOAD_herolist(); 
+void LOAD_herolist();
 void SAVE_herolist(int);
 void Send_A_herolist(int);
 
-void Send_S_herolist( char *ocdkey , char *oname , char *ncdkey , char *nname , 
+void Send_S_herolist( char *ocdkey , char *oname , char *ncdkey , char *nname ,
 					 char *title , int level , int trns , int floor );
 #define MAX_HERO_COLUMN 7
 #define MAX_HERO_LIST 100
@@ -33,6 +33,8 @@ int UNlockM_isBe( char *id);
 int UNlockM_addPlayer( char *id);
 int UNlockM_UnlockPlayer( void);
 int UNlockM_Init( void);
+
+void saacproto_LockLogin_recv( int fd, char* id, char* ip, int flag );
 
 #endif
 

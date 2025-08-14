@@ -6,6 +6,7 @@
 
 #include "main.h"
 #include "sasql.h"
+#include "util.h"
 
 #include <mysql/mysql.h>
 
@@ -162,7 +163,7 @@ int sasql_query(char *nm, char *pas)
 		        mysql_free_result(mysql_result);
 				return 2;
 			}
-		} 
+		}
 		mysql_free_result(mysql_result);
 		printf("user=not_register ÓÃ»§%sÎ´×¢²á£¡\n", nm);
 		return 3;

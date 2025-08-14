@@ -14,7 +14,7 @@ export SHELL=/bin/sh
 #
 #
 
-INCFLAGS=-I. -I./include
+INCFLAGS=-I. -I./include -I/opt/homebrew/opt/mysql/include
 
 CFLAGS=-O3 -w $(INCFLAGS)
 #Pentium 4 (Intel)
@@ -25,18 +25,23 @@ CFLAGS=-O3 -w $(INCFLAGS)
 #CFLAGS="-O2 -march=athlon64 -ftracer -fprefetch-loop-arrays -pipe" $(INCFLAGS)
 
 #加入mysql资料库功能
-MYSQL= -lz -L/usr/lib64/mysql -lmysqlclient
+MYSQL= -lz -L/opt/homebrew/opt/mysql/lib -lmysqlclient
 
 TOP=../..
-PROG = ./saacjt.exe
+ifeq ($(OS),Windows_NT)
+PROG=./saacjt.exe
+else
+PROG=./saacjt
+endif
+
 SHELL = /bin/sh
 PERL=/usr/bin/perl
 
 RPCGEN=${TOP}/bin/lsgen.perl
 
 RPCHTML = ${TOP}/doc/saacproto.html
-#RPCSRC = saacproto_serv.c saacproto_util.csaacproto_sup.c 
-RPCSRC = saacproto_serv.c saacproto_util.c 
+#RPCSRC = saacproto_serv.c saacproto_util.csaacproto_sup.c
+RPCSRC = saacproto_serv.c saacproto_util.c
 RPCINCLUDE = saacproto_serv.h saacproto_util.h mac.h
 RPCNOUSE = saacproto_cli.c saacproto_cli.h
 
@@ -58,8 +63,8 @@ chmod:
 depend: $(RPCSRC) $(ANIMDATAFILE)
 	$(MV) makefile makefile.bak
 	$(SED) -ne '1,/^# DO NOT DELETE THIS LINE/p' makefile.bak>makefile
-	$(CC) $(INCFLAGS) -M $(SRC) >> makefile 
-	
+	$(CC) $(INCFLAGS) -M $(SRC) >> makefile
+
 clean:
 	$(RM) $(PROG)
 	$(RM) $(OBJ)
@@ -111,26 +116,27 @@ char.o: char.c \
   ./include/acfamily.h
 db.o: db.c ./include/db.h ./include/main.h \
   ./include/version.h \
-  ./include/util.h ./include/version.h 
+  ./include/util.h ./include/version.h
 mail.o: mail.c ./include/main.h \
   ./include/version.h \
   ./include/mail.h ./include/util.h ./include/saacproto_serv.h \
-  ./include/saacproto_util.h 
+  ./include/saacproto_util.h
 acfamily.o: acfamily.c ./include/version.h ./include/main.h \
   ./include/version.h \
   ./include/acfamily.h ./include/util.h ./include/saacproto_serv.h \
-  ./include/saacproto_util.h 
+  ./include/saacproto_util.h
 lock.o: lock.c \
   ./include/lock.h \
   ./include/version.h ./include/main.h \
   ./include/char.h
 sasql.o: sasql.c ./include/version.h ./include/main.h \
-  ./include/version.h 
+  ./include/version.h
 saacproto_serv.o: saacproto_serv.c ./include/version.h \
   ./include/saacproto_serv.h ./include/version.h \
   ./include/saacproto_util.h \
-  ./include/main.h 
+  ./include/main.h
 saacproto_util.o: saacproto_util.c ./include/version.h \
   ./include/main.h \
   ./include/version.h \
   ./include/saacproto_util.h
+getopt.o: getopt.c ./include/getopt.h

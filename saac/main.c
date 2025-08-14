@@ -9,7 +9,7 @@
 // CoolFish: Family 2001/5/9
 #include "acfamily.h"
 #include "version.h"
-#ifdef _SEND_EFFECT				  // WON ADD ����ѩ���������Ч 
+#ifdef _SEND_EFFECT				  // WON ADD ����ѩ����������?
 #include "recv.h"
 #endif
 
@@ -19,8 +19,8 @@
 #include "sasql.h"
 #endif
 
-#include <stdio.h> 
-#include <time.h> 
+#include <stdio.h>
+#include <time.h>
 
 #include <signal.h>
 #include <sys/types.h>
@@ -29,7 +29,6 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <stdio.h>
-#include <malloc.h>
 #include <strings.h>
 #include <string.h>
 #include <unistd.h>
@@ -45,6 +44,12 @@
 #include "lock.h"
 #define BACKLOGNUM 5
 
+#ifdef __APPLE__
+  #include "include/getopt.h"
+#else
+  #include <getopt.h>
+#endif
+
 int worksockfd;
 
 struct membuf
@@ -58,8 +63,8 @@ struct membuf
 
 struct connection
 {
-    int use;    
-    int fd;       
+    int use;
+    int fd;
     int mbtop_ri;
     int mbtop_wi;
     struct sockaddr_in remoteaddr;
@@ -75,9 +80,9 @@ int cpuuse;
 
 int mainsockfd;             /* accept ��  ��¦�ѱ���ľ�� */
 struct sockaddr_in localaddr;       /* bind ����ʧ������ */
-    
 
-struct connection *con;        /* �����������     */
+
+struct connection *con;        /* �����������?     */
 
 static int mb_finder=0;              /* mb������ë���������׻���
                                ������������  ��ʢ�� */
@@ -110,7 +115,7 @@ void set_nodelay( int sock );
 #define TCPSTRUCT_ESOCK -2        /* socket ��   */
 #define TCPSTRUCT_EBIND -3        /* bind ��   */
 #define TCPSTRUCT_ELISTEN -4      /* listen ��   */
-#define TCPSTRUCT_EBUG -6         /* ���ƥؤ�� */
+#define TCPSTRUCT_EBUG -6         /* ���ƥؤ��? */
 #define TCPSTRUCT_EINVCIND -7     /* con�߼�index���ƾ����з� */
 #define TCPSTRUCT_EREADFIN -8     /* read ���·�������ئ�ʻ� closed by remote */
 #define TCPSTRUCT_EHOST -9        /* gethostbyname ��   */
@@ -121,7 +126,7 @@ void set_nodelay( int sock );
 #define TCPSTRUCT_ECLOSEAGAIN -14 /* close ��2�Խ�ľ�� */
 
 
-int port;               /* �ء�ة�ӡ�����������ƻ����º̡��� */
+int port;               /* �ء�ة�ӡ�����������ƻ����º̡���? */
 int Total_Charlist;
 int Expired_mail;
 int Del_Family_or_Member;
@@ -161,7 +166,7 @@ void sigusr1(int a)
   char key[4096],buf[4096];
 
   signal(SIGUSR1, sigusr1);
-  
+
   f = fopen("./unlock.arg", "r");
 
   if (f) {
@@ -186,8 +191,8 @@ void sigusr1(int a)
       sprintf(key, "echo \"%s\" > ./sigusr1.result", buf);
       system(key);
     break;
-#ifdef _SEND_EFFECT		   // WON ADD ����ѩ���������Ч
-	case 'E':	
+#ifdef _SEND_EFFECT		   // WON ADD ����ѩ����������?
+	case 'E':
 		log("\nAC �� GS ������ѩ��Ч!!\n");
 	    SendEffect(&key[1]);
 	break;
@@ -233,9 +238,9 @@ int login_game_server( int ti , char *svname , char *svpas ,
 #endif
         log( "������������ȷ %s\n" , svname );
     } else {
-        log( "������������� %s\n" , svname );
+        log( "�������������? %s\n" , svname );
         snprintf( result , resultlen , "ʧ��" );
-        snprintf( retdata , retdatalen , "�������" );
+        snprintf( retdata , retdatalen , "�������?" );
         return 0;
     }
 #ifdef _VIP
@@ -254,7 +259,7 @@ int login_game_server( int ti , char *svname , char *svpas ,
                 snprintf( result, resultlen, "failed" );
                 snprintf( retdata , retdatalen, "duplicate login" );
                 return 0;
-            } 
+            }
         }
     }
     snprintf( gs[ti].name , sizeof(gs[ti].name), "%s" , svname );
@@ -291,7 +296,7 @@ static int readConfig( char *path )
         char command[128];
         char param[128];
         chop(buf);
-        
+
         easyGetTokenFromString( buf , 1 , command , sizeof( command ));
         easyGetTokenFromString( buf , 2 , param , sizeof( param ));
 
@@ -312,11 +317,11 @@ static int readConfig( char *path )
         		snprintf( svpass , sizeof( svpass ) , param);
             log( "����:%s\n",param );
         } else if( strcmp( command , "dbdir" ) == 0 ){
-            snprintf( dbdir , sizeof( dbdir) , param );    
-            log( "����Ŀ¼:%s\n",dbdir );        
+            snprintf( dbdir , sizeof( dbdir) , param );
+            log( "����Ŀ¼:%s\n",dbdir );
         } else if( strcmp( command, "rotate_interval" ) == 0 ){
             log_rotate_interval = atoi( param );
-            log( "��־ѭ�����:%d\n",log_rotate_interval ); 
+            log( "��־ѭ�����?:%d\n",log_rotate_interval );
         } else if( strcmp( command, "maildir" ) == 0 ){
             snprintf( maildir, sizeof( maildir ), param );
             log( "�ʼ�Ŀ¼:%s\n",maildir );
@@ -337,13 +342,13 @@ static int readConfig( char *path )
         	log( "��������������:%d��\n",Total_Charlist );
         } else if( strcmp( command , "Expired_mail" ) == 0 ){
         	Expired_mail = atoi( param );
-        	log( "���¹����ʼ����:%d��\n",Expired_mail );
+        	log( "���¹����ʼ����?:%d��\n",Expired_mail );
         } else if( strcmp( command , "Del_Family_or_Member" ) == 0 ){
         	Del_Family_or_Member = atoi( param );
         	log( "ɾ�������Ա���:%d��\n",Del_Family_or_Member );
         } else if( strcmp( command , "Write_Family" ) == 0 ){
         	Write_Family = atoi( param );
-        	log( "���¼�����Ϣ���:%d��\n",Write_Family );
+        	log( "���¼�����Ϣ���?:%d��\n",Write_Family );
 				} else if( strcmp( command , "SameIpMun" ) == 0 ){
         	sameipmun = atoi( param );
         	if(sameipmun>0){
@@ -413,14 +418,14 @@ double time_diff(struct timeval subtrahend,  struct timeval subtractor);
 int main( int argc , char **argv )
 {
 		parseOpts( argc, argv );
-		
+
     // Nuke +1 1012: Loop counter
     int counter1 = 0;
-    
+
     int counter2 = 0;
-    
+
     int counter3 = 0;
-    
+
     int counter4 = 0;
 
     signal(SIGUSR1, sigusr1);
@@ -430,15 +435,15 @@ int main( int argc , char **argv )
     Lock_Init();	// Arminius 7.17 memory lock
 
 		UNlockM_Init();
-    
+
     if(readConfig( "acserv.cf" )<0){
-        log( "�޷��ڵ�ǰĿ¼���ȡ acserv.cf .\n" );
+        log( "�޷��ڵ�ǰĿ¼����? acserv.cf .\n" );
         exit(1);
     }
 
 #ifdef _SASQL
     sasql_init();
-#endif	
+#endif
     log( "��ȡ����Ŀ¼\n" );
     dbRead( dbdir );
 #ifdef	_FAMILY
@@ -461,13 +466,13 @@ int main( int argc , char **argv )
     log( "׼�� ˯�ߵ���Ŀ¼\n" );
 #endif
 
-    /* �����Ȼ��¶�����ë  �ĳ�� */
+    /* �����Ȼ��¶�����ë  �ĳ��? */
     if( readMail(maildir) < 0 ){
         log( "���ܳ�ʼ���ʼ�\n" );
         exit(1);
 		}
 
-    /* TCPSTRUCT ë����� */
+    /* TCPSTRUCT ë�����? */
     {
         int tcpr;
         if( ( tcpr = tcpstruct_init( NULL , port , 0 ,
@@ -480,7 +485,7 @@ int main( int argc , char **argv )
 
     {
         struct sigaction s,os;
-        
+
         bzero( &s, sizeof(s));
         s.sa_handler = sighandle;
         s.sa_flags = SA_NOMASK;
@@ -510,12 +515,12 @@ int main( int argc , char **argv )
 #endif
 
 #ifdef _VIP
-		log( "\n����˰汾: <%s ��Ա��>\n" , SERVER_VERSION );
+		log( "\n����˰�?: <%s ��Ա��>\n" , SERVER_VERSION );
 #else
-		log( "\n����˰汾: <%s ��ͨ��>\n" , SERVER_VERSION );
+		log( "\n����˰�?: <%s ��ͨ��>\n" , SERVER_VERSION );
 #endif
 		log( "\n����˱������ʱ��:%s %s by ��zoro������\n" , __DATE__ , __TIME__ );
-		
+
     log( "\n��ʼ����...\n" );
 
     signal(SIGUSR1,sigusr1);	// Arminius 7.20 memory lock
@@ -528,7 +533,7 @@ int main( int argc , char **argv )
 		}
     int newti,i;
     static time_t main_loop_time;
-		
+
 		sys_time = time(NULL);
 
 		if( main_loop_time != sys_time){
@@ -625,10 +630,10 @@ int main( int argc , char **argv )
         }
 
         /* �����С�������ةʧ����ëƩ���£�
-           ����ةʧ���������շ��ë���ƻ������С�ëڽ�ƻ���������
-           ƥ�ء�ة�ӡ������  �ζ��巴ɧ������           */
+           ����ةʧ���������շ��ë���ƻ������С�ëڽ�ƻ���������?
+           ƥ�ء�ة�ӡ������?  �ζ��巴ɧ������           */
     }
-    return 0;       
+    return 0;
 }
 double
 time_diff(struct timeval subtrahend,
@@ -644,17 +649,17 @@ time_diff(struct timeval subtrahend,
   ��뼰���  ������������ë  �£�
   ��ئԪ���弰�ּ������ͻ����������̻ﻥ��ئԪ��ئ�·��������£�
 
-  �𼰿�  ����ٯ��覻�������ئ�»���    ƥ�̼��������ë  ���ƻ���
+  �𼰿�  ����ٯ��覻�������ئ�»���    ƥ�̼���������?  ���ƻ���
     ��ᨷ֣�
-  
+
  */
 int get_rotate_count(void )
 {
     int a;
     unsigned int t = (unsigned int ) time(NULL);
-        
+
     a = ( t / log_rotate_interval ) * log_rotate_interval;
-    
+
     return a;
 }
 
@@ -696,12 +701,12 @@ int tcpstruct_init( char *addr , int p , int timeout_ms , int mem_use , int db )
     /* socket */
     mainsockfd = socket( AF_INET , SOCK_STREAM ,  0 );
     if( mainsockfd < 0 ) return TCPSTRUCT_ESOCK;
-    
+
     /* bind */
     bzero( &localaddr ,sizeof( localaddr ));
     localaddr.sin_family = AF_INET;
     localaddr.sin_port = htons( p );
-    
+
     if( addr ){
         localaddr.sin_addr.s_addr = inet_addr( addr );
     } else {
@@ -737,19 +742,19 @@ int tcpstruct_accept( int *tis , int ticount )
   int sret = 0;
   int accepted = 0;
   struct timeval t;
-  fd_set rfds, wfds , efds;  
+  fd_set rfds, wfds , efds;
   FD_ZERO( & rfds );
   FD_ZERO( & wfds );
-  FD_ZERO( & efds );    
-  
+  FD_ZERO( & efds );
+
   for(i=0;i<MAXCONNECTION;i++){
    if( con[i].use &&
       con[i].fd >= 0 && con[i].closed_by_remote ==0 ){
       FD_SET( con[i].fd , & rfds );
       FD_SET( con[i].fd , & wfds );
       FD_SET( con[i].fd , & efds );
-    
-          
+
+
 	    t = select_timeout;
 	    sret = select( con[i].fd+1, & rfds , (fd_set*)NULL, (fd_set*)NULL , &t);
 			if( sret > 0 ) {
@@ -773,8 +778,8 @@ int tcpstruct_accept( int *tis , int ticount )
 					}
 				}
 			}
-	
-	    t = select_timeout;    
+
+	    t = select_timeout;
 	    sret = select( con[i].fd+1, (fd_set*)NULL, &wfds, (fd_set*)NULL , &t);
 			if( sret > 0 ) {
 				if( ( con[i].fd >= 0 ) && FD_ISSET( con[i].fd , &wfds )){
@@ -855,13 +860,13 @@ int tcpstruct_close( int ti )
     unregMemBuf( con[ti].mbtop_ri );
     unregMemBuf( con[ti].mbtop_wi );
     con[ti].mbtop_ri = -1;
-    con[ti].mbtop_wi = -1;    
+    con[ti].mbtop_wi = -1;
     return OK;
 }
 
 /*
-    �ĳ���ּ����ֵ�ئ�ʻ����ƾ��� remoteclose �������� -1 ë������
-  
+    �ĳ���ּ����ֵ�ئ�ʻ����ƾ���? remoteclose �������� -1 ë������
+
  */
 int tcpstruct_read( int ti , char *buf , int len )
 {
@@ -880,7 +885,7 @@ int tcpstruct_read( int ti , char *buf , int len )
   int kend : 1ئ�յ�  �� \n ëڽ��
   int kend_r : 1ئ�յ�  �� \r ��ڽ��(ؤľ��)
 
-    �ĳ���ּ����ֵ�ئ�ʻ������� remote closed ��������-1ë������
+    �ĳ���ּ����ֵ�ئ�ʻ�������? remote closed ��������-1ë������
   // Nuke
 	Read 1 line
 	if kend==1 then delete \n at the tail
@@ -903,7 +908,7 @@ int tcpstruct_readline( int ti , char *buf , int len , int kend , int kend_r )
             return 0;
         }
     }
-    
+
     if( kend ){
         if( buf[l-1]=='\n' ){
             buf[l-1] = 0; minus =-1;
@@ -927,7 +932,7 @@ int tcpstruct_readline_chop( int ti , char *buf, int len )
 int tcpstruct_write( int ti , char *buf , int len )
 {
     if( ti < 0 || ti >= MAXCONNECTION || con[ti].use == 0 )
-        return TCPSTRUCT_EINVCIND;    
+        return TCPSTRUCT_EINVCIND;
     return appendWriteBuffer( ti , buf , len );
 }
 
@@ -937,7 +942,7 @@ int tcpstruct_connect( char *addr , int port )
     int s, r;
     struct sockaddr_in svaddr;
     struct hostent *he;
-    
+
     s = socket( AF_INET, SOCK_STREAM , 0 );
     if(s<0)return -2;
 
@@ -999,7 +1004,7 @@ static int appendMemBufList( int top , char *data , int len )
     int fr = getFreeMem( );
     int rest = len;
     int data_topaddr = 0;
-    
+
     if( len >= fr ){
 		FILE *fp;
 		if( (fp=fopen( "badsysinfo.txt", "a+")) != NULL ){
@@ -1082,7 +1087,7 @@ static int consumeMemBufList( int top , char *out , int len ,
             }
         }
     }
-    
+
     return total;
 }
 
@@ -1093,7 +1098,7 @@ static int getLineReadBuffer( int index , char *buf, int len )
     int ti = 0 , breakflag = 0;
 
     for(;;){
-        int i;        
+        int i;
         int l = mb[top].len;
         if( top == -1 )break;
         for( i=0 ; i < l ; i++){
@@ -1126,26 +1131,26 @@ static int getLineReadBuffer( int index , char *buf, int len )
 
   return:
     ���޷¡�
-  0������������ read �ƻ��ַ���Ӯ���
+  0������������ read �ƻ��ַ���Ӯ���?
 
 
-  mbsize ����mbuse ë¦�л�������ë�����·����
+  mbsize ����mbuse ë¦�л�������ë�����·����?
   ����������Ի���з�  �����£۹���ئ�ƾ��а����ִ���ئ�ʻ��ֵڣ�
-  
- */   
+
+ */
 static int getFreeMem( void )
 {
     return ( mbsize - mbuse ) * sizeof( mb[0].buf );
 }
 
 /*
-  
+
   membuf ������ë���Ʒ��ʣ�
 
   return : �Ĺ��������� >=0 ƥ index.
-  �Ĺ�����ئ��������  
+  �Ĺ�����ئ��������
 
-  ��������巴 mb_finder ë��������
+  ���������? mb_finder ë��������
   ��ľƥ�����ƻ���    ��reg���£�
  */
 
@@ -1169,7 +1174,7 @@ static int findregBlankMemBuf( void  )
 
 /*
   mb ëݩ  ����
-  
+
  */
 static int unregMemBuf(  int index )
 {
@@ -1195,7 +1200,7 @@ static int findregBlankCon( void )
                 fprintf( stderr , "EMBFULL\n" );
                 return TCPSTRUCT_EMBFULL;
             }
-            
+
             con[i].mbtop_wi = findregBlankMemBuf();
             if( con[i].mbtop_wi < 0 ){
                 unregMemBuf( con[i].mbtop_ri );
@@ -1269,15 +1274,15 @@ void set_nodelay( int sock )
 
 
 /*
-  ���ͻ����ء�ة�ӡ������  ˪��
+  ���ͻ����ء�ة�ӡ������?  ˪��
 
-  int flag : 1��������˪����巴������ئ��
-  
+  int flag : 1��������˪����巴������ئ��?
+
  */
 void gmsvBroadcast( int fd, char *p1, char *p2, char *p3 , int flag )
 {
     int i,c=0;
-    
+
     for(i=0;i<MAXCONNECTION;i++){
         if( ( flag == 1 ) && ( i == fd ) )continue;
         if( gs[i].use && gs[i].name[0] ){

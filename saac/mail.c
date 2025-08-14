@@ -5,7 +5,7 @@
 #include "util.h"
 #include "saacproto_serv.h"
 
-#include <malloc.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <time.h>
 #include <sys/types.h>
@@ -148,7 +148,7 @@ void receiveMail( char *id_from,
              char *message,
              int option,
              int use_msgid,
-             unsigned int msgid 
+             unsigned int msgid
              )
 {
     char id_charname[1024];
@@ -174,7 +174,7 @@ void receiveMail( char *id_from,
         char charname2[CHARNAME_MAX*2+1];
         char text2[TEXT_MAX*2+1];
         FILE *fp;
-        
+
         snprintf( childname, sizeof( childname ),"%u" ,
                   mailbuf[mbindex].message_id );
         makeDirFilename( savefile , sizeof(savefile), maildir, h, childname );
@@ -190,7 +190,7 @@ void receiveMail( char *id_from,
 #define FROM_CHAR_HEAD "FromChar: "
 #define OPTION_HEAD "Option: "
 #define TEXT_HEAD "Text: "
-        
+
         fprintf( fp, TO_ID_HEAD "%s\n", id_to );
         snprintf( charname2, sizeof( charname2), "%s", charname_to );
         fprintf( fp, TO_CHAR_HEAD "%s\n", makeEscapeString( charname_to,
@@ -234,7 +234,7 @@ void receiveMailAck( char *id, char *charname, int a , int mesgid )
     int i;
     unsigned int h;
     char id_charname[1024];
-    snprintf( id_charname, sizeof( id_charname), "%s_%s", id, charname );    
+    snprintf( id_charname, sizeof( id_charname), "%s_%s", id, charname );
     h = hashpjw( id_charname ) & 0xff ;
     for(i=0;i<mailbufsize;i++){
         if( mailbuf[i].message_id == mesgid ){
@@ -346,7 +346,7 @@ expireMail()
     unsigned int h ;
     char id_charname[1000];
     time_t now=time(NULL);
-    
+
     /* 1¼Ô¼°flush Æ¥ËªññÔÊÔÂ    ÐÑ */
 #define MAX_FLUSH_MAIL 1024
     int flush_index[MAX_FLUSH_MAIL];
@@ -364,9 +364,9 @@ expireMail()
 
     /*   ¶Ë±åËªññÔÊÔÂ */
     for(i=0;i< flush_i; i++ ){
-        
-        snprintf( id_charname, sizeof( id_charname), "%s_%s", 
-        	mailbuf[flush_index[i]].id_to, 
+
+        snprintf( id_charname, sizeof( id_charname), "%s_%s",
+        	mailbuf[flush_index[i]].id_to,
         	mailbuf[flush_index[i]].charname_to );
         h = hashpjw( id_charname ) & 0xff ;
 	{
@@ -410,7 +410,7 @@ int readMail( char *dir )
             continue;
         }
         while(1){
-            struct dirent *de;        
+            struct dirent *de;
             de = readdir( d );
             if( de == NULL )break;
             if( de->d_name[0] != '.' ){
@@ -437,7 +437,7 @@ int readMail( char *dir )
                     int opt=0;
                     toid[0] = fromid[0] = tochar[0] =
                         fromchar[0] = text[0] = 0;
-                    fgets( line, sizeof(line), fp );                    
+                    fgets( line, sizeof(line), fp );
                     chop(line);
                     if( strncmp( TO_ID_HEAD , line, strlen(TO_ID_HEAD) )==0){
                         snprintf( toid , sizeof( toid ),"%s",
@@ -451,25 +451,25 @@ int readMail( char *dir )
                         makeStringFromEscaped( tochar );
                     }
                     fgets( line, sizeof( line ),fp );
-                    chop(line);                    
+                    chop(line);
                     if( strncmp( FROM_ID_HEAD,line,strlen(FROM_ID_HEAD))==0){
                         snprintf( fromid, sizeof( fromid ),"%s",
                                   line + strlen( FROM_ID_HEAD ));
                     }
                     fgets( line,sizeof(line),fp);
-                    chop(line);                    
+                    chop(line);
                     if(strncmp(FROM_CHAR_HEAD,line,strlen(FROM_CHAR_HEAD))==0){
                         snprintf( fromchar, sizeof( fromchar ),
                                   line + strlen(FROM_CHAR_HEAD ));
                         makeStringFromEscaped( fromchar );
                     }
                     fgets( line,sizeof(line),fp);
-                    chop(line);                    
+                    chop(line);
                     if( strncmp( OPTION_HEAD,line, strlen(OPTION_HEAD))==0){
                         opt = atoi( line + strlen( OPTION_HEAD ) );
                     }
 					fgets( line, sizeof( line),fp);
-                    chop(line);                    
+                    chop(line);
                     if( strncmp(TEXT_HEAD,line,strlen(TEXT_HEAD))==0){
                         snprintf( text, sizeof( text), "%s",
                                   line + strlen( TEXT_HEAD ));
@@ -491,7 +491,7 @@ int readMail( char *dir )
                                  toid, tochar,
                                  text, opt , 1,
                                  strtoul(de->d_name,NULL,10));
-                    read_count++;                    
+                    read_count++;
                 }
                 fclose(fp);
 

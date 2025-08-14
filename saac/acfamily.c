@@ -6,7 +6,7 @@
 #include "util.h"
 #include "saacproto_serv.h"
 
-#include <malloc.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <time.h>
 #include <sys/types.h>
@@ -14,7 +14,7 @@
 #include <sys/stat.h>
 
 // 家族 Int 资料
-static char* FAMILY_INTDATA[familymaxint] = 
+static char* FAMILY_INTDATA[familymaxint] =
 {
   "fmindex",
   "fmleadergrano",
@@ -43,7 +43,7 @@ static char* FAMILY_INTDATA[familymaxint] =
 };
 
 // 家族 char 资料
-static char* FAMILY_CHARDATA[familymaxchar] = 
+static char* FAMILY_CHARDATA[familymaxchar] =
 {
   "fmname",
   "fmleadername",
@@ -54,7 +54,7 @@ static char* FAMILY_CHARDATA[familymaxchar] =
 };
 
 // 家族成员 int 资料
-static char* MEMBER_INTDATA[memberdatamaxint] = 
+static char* MEMBER_INTDATA[memberdatamaxint] =
 {
 	"charlv",
 	"charflag",
@@ -71,14 +71,14 @@ static char* MEMBER_INTDATA[memberdatamaxint] =
 };
 
 // 家族成员 char 资料
-static char* MEMBER_CHARDATA[memberdatamaxchar] = 
+static char* MEMBER_CHARDATA[memberdatamaxchar] =
 {
 	"charname",
 	"charid",
 };
 
 // 成员种类 char 资料
-static char* MEMBERKIND_INTDATA[FMMEMBER_KINDNUM] = 
+static char* MEMBERKIND_INTDATA[FMMEMBER_KINDNUM] =
 {
 	"无",
 	"一般成员",
@@ -114,7 +114,7 @@ typedef struct
    char		charname[CHARNAME_MAX];	// 成员名字
    char		charid[USERID_MAX];	// 成员帐号
    int		charlv;			// 成员等级
-   int 		charflag;		/* 
+   int 		charflag;		/*
    					   FMMEMBER_NONE   清空资料
    					   FMMEMBER_MEMBER 家族成员
    					   FMMEMBER_APPLY  申请中
@@ -255,7 +255,7 @@ void sortFamily(void)
 int fmtotalfamecompar(const void *indexa, const void *indexb)
 {
   int famea,fameb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -269,7 +269,7 @@ int fmtotalfamecompar(const void *indexa, const void *indexb)
 int fmMomentumcompar(const void *indexa, const void *indexb)
 {
   int momentumA,momentumB;
-  
+
   if(CheckFMUse(*(int*)indexa) == 0) return 1;	// empty record
   if(CheckFMUse(*(int*)indexb) == 0) return -1;
 
@@ -282,7 +282,7 @@ int fmMomentumcompar(const void *indexa, const void *indexb)
 int fmpopularcompar(const void *indexa, const void *indexb)
 {
   int fmpopulara,fmpopularb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -294,7 +294,7 @@ int fmpopularcompar(const void *indexa, const void *indexb)
 int fmadvcompar(const void *indexa, const void *indexb)
 {
   int fmadva,fmadvb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -306,7 +306,7 @@ int fmadvcompar(const void *indexa, const void *indexb)
 int fmfeedcompar(const void *indexa, const void *indexb)
 {
   int fmfeeda,fmfeedb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -318,7 +318,7 @@ int fmfeedcompar(const void *indexa, const void *indexb)
 int fmsynthesizecompar(const void *indexa, const void *indexb)
 {
   int fmsynthesizea,fmsynthesizeb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -330,7 +330,7 @@ int fmsynthesizecompar(const void *indexa, const void *indexb)
 int fmdealfoodcompar(const void *indexa, const void *indexb)
 {
   int fmdealfooda,fmdealfoodb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -342,7 +342,7 @@ int fmdealfoodcompar(const void *indexa, const void *indexb)
 int fmpkcompar(const void *indexa, const void *indexb)
 {
   int fmpka,fmpkb;
-  
+
   if ( CheckFMUse(* (int*) indexa)==0 ) return 1;	// empty record
   if ( CheckFMUse(* (int*) indexb)==0 ) return -1;
 
@@ -365,7 +365,7 @@ int ACShowTopFMList(char *data, int datasize, int kindflag)
 {
    int i = 0, j = 0;
    char t1[4096];
-   
+
    strcpy(data, "");
    if (kindflag == 1)
    {
@@ -698,7 +698,7 @@ void DelFMMaintainSort(int index)
      while ((fmpopularindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmpopularindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmpopularindex[j] = fmpopularindex[j + 1];
         fmpopularindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -707,7 +707,7 @@ void DelFMMaintainSort(int index)
      while ((fmadvindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmadvindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmadvindex[j] = fmadvindex[j + 1];
         fmadvindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -716,7 +716,7 @@ void DelFMMaintainSort(int index)
      while ((fmfeedindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmfeedindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmfeedindex[j] = fmfeedindex[j + 1];
         fmfeedindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -725,7 +725,7 @@ void DelFMMaintainSort(int index)
      while ((fmsynthesizeindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmsynthesizeindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmsynthesizeindex[j] = fmsynthesizeindex[j + 1];
         fmsynthesizeindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -734,7 +734,7 @@ void DelFMMaintainSort(int index)
      while ((fmdealfoodindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmdealfoodindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmdealfoodindex[j] = fmdealfoodindex[j + 1];
         fmdealfoodindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -743,7 +743,7 @@ void DelFMMaintainSort(int index)
      while ((fmpkindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmpkindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmpkindex[j] = fmpkindex[j + 1];
         fmpkindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -753,7 +753,7 @@ void DelFMMaintainSort(int index)
      while ((fmtotalfameindex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmtotalfameindex[i] == index)
      {
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmtotalfameindex[j] = fmtotalfameindex[j + 1];
         fmtotalfameindex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -763,7 +763,7 @@ void DelFMMaintainSort(int index)
      i = 0;j = 0;
      while ((fmMomentumIndex[i] != index) && (i < MAX_FAMILY)) i++;
      if (fmMomentumIndex[i] == index){
-        for (j = i; j < MAX_FAMILY - 1; j++) 
+        for (j = i; j < MAX_FAMILY - 1; j++)
         	fmMomentumIndex[j] = fmMomentumIndex[j + 1];
         fmMomentumIndex[MAX_FAMILY - 1] = index;	// move to last one
      }
@@ -808,7 +808,7 @@ int readFamily(char *dir)
 			continue;
 		}
 		if( readOneFamily( filename, i) != 1 ){
-			if (remove(filename) == -1)   
+			if (remove(filename) == -1)
 		 	 log("cannot open file %s %s\n", filename, strerror(errno));
 			continue;
 		}
@@ -820,7 +820,7 @@ int readFamily(char *dir)
    	fmnownum = fmnum;
 }
    closedir(d);
-   
+
 #ifdef _PERSONAL_FAME	// Arminius: 家族个人声望
    // 计算家族总合声望 = 家族综合声望 + 家族个人声望
    {
@@ -838,7 +838,7 @@ int readFamily(char *dir)
      }
    }
 #endif
-   
+
    sortFamily();	// Arminius: sort it
    return 0;
 }
@@ -866,7 +866,7 @@ int writeFamily(char *dir)
 #ifdef _NEW_MANOR_LAW
 			"|fmmomentum=%d"
 #endif
-   	    ,family[i].fmindex, family[i].fmname, family[i].fmleadername, 
+   	    ,family[i].fmindex, family[i].fmname, family[i].fmleadername,
    	    family[i].fmleaderid, family[i].fmleadergrano, family[i].petname,
    	    family[i].petattr, family[i].fmnum, family[i].fmjoinnum,
    	    family[i].fmacceptflag, family[i].fmsetupflag, family[i].fmrule,
@@ -1208,7 +1208,7 @@ int CheckFM(int *index, char *fmname, int fmindex)
       log ("CheckFM_2 *index: big small? %d\n", *index);
       return	-1;
    }else {
-      if ((family[*index].fmindex != fmindex) 
+      if ((family[*index].fmindex != fmindex)
    	 || strcmp(family[*index].fmname, fmname) != 0)
       {
          log("CheckFM_3 [*index].fmindex:%d fmindex:%d [index].fmname:%s fmname:%s\n",
@@ -1258,7 +1258,7 @@ void delovertimeFMMem(int time)
 						family[i].fmname, family[i].fmindex, i,
 						2, "", 0);
 			}
-                                                
+
 			db_familyupdate[i] = 1;
 			continue;
 		}
@@ -1274,7 +1274,7 @@ void delovertimeFMMem(int time)
 #else
             ACMemberLeaveFM(i, family[i].fmname, family[i].fmindex,
             	family[i].fmmemberindex[j].charname, 0, j);
-#endif         
+#endif
             db_familyupdate[i] = 1;
 
 			/*
@@ -1373,7 +1373,7 @@ int ACAddFM(int fd, int *workindex, char *fmname, char *fmleadername,
 	family[index].fmmemberindex[0].charflag = 1;
 #endif
 	family[index].fmmemberindex[0].onlineflag = fd;
-	strcpy(family[index].fmmemberindex[0].charid, fmleaderid);   
+	strcpy(family[index].fmmemberindex[0].charid, fmleaderid);
 	strcpy(family[index].fmmemberindex[0].charname, fmleadername);
 	family[index].fmmemberindex[0].charfdid = charfdid;
 	family[index].fmmemberindex[0].predeltime = -1;
@@ -1392,14 +1392,14 @@ int ACAddFM(int fd, int *workindex, char *fmname, char *fmleadername,
 #ifdef _NEW_MANOR_LAW
 	family[index].fmmomentum = 0;
 #endif
-	
+
 	db_familyupdate[index] = 1;
 	fmnownum++;
 	if (fmindexmaxnum <= index)	fmindexmaxnum = index + 1;
 	log("AddFM fmindexmaxnum:%d fmnownum:%d\n", fmindexmaxnum, fmnownum);
-	
+
 	AddFMMaintainSort(index);
-	
+
 	return fmindex;
 }
 
@@ -1418,12 +1418,12 @@ int ACJoinFM(int fd, int index, char *fmname, int fmindex,
 	if (family[index].fmacceptflag == 0)	return	-2;
 	if (family[index].fmnum >= MAX_MEMBERNUM || family[index].fmjoinnum >= MAX_MEMBERNUM)
    	return	-3;
-	
+
 	// 防止族长加入自己的家族  code:shan
 	if ((strcmp(family[index].fmmemberindex[0].charname, charname) == 0)
 		&& (strcmp(family[index].fmmemberindex[0].charid, charid) == 0))
 		return -1;
-	
+
 	for (i = 1; i < MAX_MEMBERNUM; i++){
 		if ((strcmp(family[index].fmmemberindex[i].charname, "") == 0)
 			&& (strcmp(family[index].fmmemberindex[i].charid, "") == 0)){
@@ -1493,7 +1493,7 @@ int ACLeaveFM(int index, char *fmname, int fmindex,
 {
 	int i = 0;
 	if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
-	
+
 	for (i = 1; i < family[index].fmmemberindexmaxnum; i++)
 	{
    	if ((strcmp(family[index].fmmemberindex[i].charname, charname) == 0)
@@ -1529,7 +1529,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 {
 	int recvdata = 0;
 	if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
-	
+
 	if (kindflag == 1 || kindflag == 2 || (kindflag >= 6 && kindflag <= 11)
 #ifdef _NEW_MANOR_LAW
 		|| kindflag == 12 || kindflag == 13
@@ -1613,7 +1613,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 			 || strcmp(family[index].fmmemberindex[charindex].charid, "") == 0)
 			 return	-1;
 		 // shan 2002/01/04
-		 log("\nshan-->fmindex:%d fmname:%s newleadername:%s newleaderid->%s\n", 
+		 log("\nshan-->fmindex:%d fmname:%s newleadername:%s newleaderid->%s\n",
 			 fmindex, fmname, family[index].fmmemberindex[charindex].charname,
 			 family[index].fmmemberindex[charindex].charid );
 		 strcpy(charname, family[index].fmmemberindex[charindex].charname);
@@ -1638,7 +1638,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 #ifdef _NEW_MANOR_LAW
 		 family[index].fmmemberindex[charindex].momentum = family[index].fmmemberindex[0].momentum;
 #endif
-		 
+
 		 strcpy(family[index].fmmemberindex[0].charname, charname);
 		 strcpy(family[index].fmmemberindex[0].charid, charid);
 		 family[index].fmmemberindex[0].charlv = charlv;
@@ -1654,7 +1654,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 		 family[index].fmleadergrano = recvdata;
 		 strcpy(family[index].petname, "");
 		 strcpy(family[index].petattr, "");
-		 
+
 		 // 更新族长资料
 		 if (family[index].fmmemberindex[0].onlineflag > 0)
 		 {
@@ -1771,7 +1771,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 		 }
 		 // 记录玩家家族声望
 		 if (charindex >= 0 && charindex < MAX_MEMBERNUM)
-			 family[index].fmmemberindex[charindex].popular = 
+			 family[index].fmmemberindex[charindex].popular =
 			 family[index].fmmemberindex[charindex].popular + recvdata;
 #endif
 		 // 更新族长资料
@@ -1784,7 +1784,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 					SUCCESSFUL, index, floor, family[index].fmtotalfame,
 #ifdef _FMVER21
 					family[index].fmmemberindex[0].charflag, family[index].fmsetupflag, 1, 0,
-#else   	 
+#else
 					1, family[index].fmsetupflag, 1, 0,
 #endif
 					family[index].fmmemberindex[0].popular,	// Arminius 9.11
@@ -1799,7 +1799,7 @@ int ACFixFMData(int index, char *fmname, int fmindex, int kindflag, int charinde
 					SUCCESSFUL, index, floor, family[index].fmpopular,
 #ifdef _FMVER21
 					family[index].fmmemberindex[0].charflag, family[index].fmsetupflag, 1, 0,
-#else   	 
+#else
 					1, family[index].fmsetupflag, 1, 0,
 #endif
 					family[index].fmmemberindex[0].charfdid);
@@ -1817,7 +1817,7 @@ int ACFixFMPK(int winindex, char* winfmname, int winfmindex, int loseindex,
    int award = 0;
    if (CheckFM(&winindex, winfmname, winfmindex) < 0)	return -1;
    if (CheckFM(&loseindex, losefmname, losefmindex) < 0)	return -1;
-   
+
    award = (family[loseindex].fmpopular / 10);
    if (family[loseindex].fmpopular - award < 0)
    	award = family[loseindex].fmpopular;
@@ -1864,7 +1864,7 @@ int ACFixFMPK(int winindex, char* winfmname, int winfmindex, int loseindex,
    	   		SUCCESSFUL, winindex, floor, family[winindex].fmtotalfame,
 	#ifdef _FMVER21
 					family[winindex].fmmemberindex[0].charflag, family[winindex].fmsetupflag, 1, 0,
-	#else   	 
+	#else
    	   		1, family[winindex].fmsetupflag, 1, 0,
 	#endif
 					family[winindex].fmmemberindex[0].popular,	// Arminius 9.11
@@ -1879,7 +1879,7 @@ int ACFixFMPK(int winindex, char* winfmname, int winfmindex, int loseindex,
    	   		SUCCESSFUL, winindex, floor, family[winindex].fmpopular,
 	#ifdef _FMVER21
 					family[winindex].fmmemberindex[0].charflag, family[winindex].fmsetupflag, 1, 0,
-	#else   	 
+	#else
    	   		1, family[winindex].fmsetupflag, 1, 0,
 	#endif
    	   		family[winindex].fmmemberindex[0].charfdid);
@@ -1910,7 +1910,7 @@ int ACFixFMPK(int winindex, char* winfmname, int winfmindex, int loseindex,
    	   		SUCCESSFUL, loseindex, floor, family[loseindex].fmtotalfame,
 	#ifdef _FMVER21
 					family[loseindex].fmmemberindex[0].charflag, family[loseindex].fmsetupflag, 1, 0,
-	#else   	 
+	#else
    	   		1, family[loseindex].fmsetupflag, 1, 0,
 	#endif
 					family[loseindex].fmmemberindex[0].popular,	// Arminius 9.11
@@ -1925,7 +1925,7 @@ int ACFixFMPK(int winindex, char* winfmname, int winfmindex, int loseindex,
    	   		SUCCESSFUL, loseindex, floor, family[loseindex].fmpopular,
 	#ifdef _FMVER21
 					family[loseindex].fmmemberindex[0].charflag, family[loseindex].fmsetupflag, 1, 0,
-	#else   	 
+	#else
    	   		1, family[loseindex].fmsetupflag, 1, 0,
 	#endif
    	   		family[loseindex].fmmemberindex[0].charfdid);
@@ -1959,9 +1959,9 @@ int ACDelFM(int index, char *fmname, int fmindex)
 {
 	int i;
 	if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
-	
+
 	log("\nACDelFM index:%d fmname:%s fmindex:%d\n", index, fmname, fmindex);
-	
+
 	if (family[index].fmpointindex >= 0)
 	{
    	delfmpointindex(family[index].fmindex);
@@ -2028,16 +2028,16 @@ int ACDelFM(int index, char *fmname, int fmindex)
 	family[index].fmmemberindexmaxnum = 0;
 	fmnownum--;
 	if (fmindexmaxnum == index)	fmindexmaxnum--;
-	
+
 	// 传送家族已删除之讯息至各 GMSV 以清除对战排程
 	for (i = 0; i < MAXCONNECTION; i++)
 	{
    	if (gs[i].use && gs[i].name[0])
 			saacproto_ACFMClearPK_send(i, SUCCESSFUL, fmname, fmindex, index);
 	}
-	
+
 	DelFMMaintainSort(index);
-	
+
 	db_familyupdate[i] = 1;
 	return 0;
 }
@@ -2047,7 +2047,7 @@ int ACShowFMList(char *data)
 {
    int i = 0;
    strcpy(data, "");
-   
+
    for (i = 0; i <= fmindexmaxnum; i++)
    {
       char msg[256];
@@ -2074,7 +2074,7 @@ int ACShowFMMemberList(int index, int *fmacceptflag, int *fmjoinnum, char *data)
    int i = 0;
    if ((index > MAX_FAMILY) || (index < 0))	return	-1;
    if (CheckFMUse(index) == 0)	return -1;
-   
+
    strcpy(data, "");
    *fmjoinnum = family[index].fmjoinnum;
    for (i = 0; i < family[index].fmmemberindexmaxnum; i++)
@@ -2101,9 +2101,9 @@ int ACShowFMMemberList(int index, int *fmacceptflag, int *fmjoinnum, char *data)
             (family[index].fmmemberindex[i].popular / 100),
             family[index].fmmemberindex[i].charflag);
             strcat(data, msg);
-#endif            
+#endif
      }
-   } // for 
+   } // for
    *fmacceptflag = family[index].fmacceptflag;
    return	family[index].fmnum;
 }
@@ -2112,7 +2112,7 @@ int ACShowFMMemberList(int index, int *fmacceptflag, int *fmjoinnum, char *data)
 int ACFMDetail(int index, char *fmname, int fmindex, char *data)
 {
    if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
-   
+
    strcpy(data, "");
    sprintf(data, "%d|%d|%s|%s|%d|%s|%s|%d|%d|%s|%d", index, family[index].fmindex,
    	family[index].fmname, family[index].fmleadername,
@@ -2129,17 +2129,17 @@ int ACMemberJoinFM(int index, char *fmname, int fmindex,
 #else
 int ACMemberJoinFM(int index, char *fmname, int fmindex,
 	char *charname, int charindex, int result)
-#endif	
+#endif
 {
 	time_t t1;
 	int	floor;
 	if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
 	floor = ACgetFMFloor(fmindex);
-	
+
 #ifdef _FIX_LEADER_ERR			// WON ADD 修正族长问题
-	if (charindex == 0 )	return -1;	
+	if (charindex == 0 )	return -1;
 #endif
-	
+
 #ifdef _FMVER21
 	if (result < 0)	return	-1;
 	if (meindex < 0 || meindex > MAX_MEMBERNUM)	return	-1;
@@ -2216,7 +2216,7 @@ int ACMemberJoinFM(int index, char *fmname, int fmindex,
 #ifdef _NEW_MANOR_LAW
 				{
 					int i;
-					
+
 					family[index].fmmomentum = 0;
 					for(i=0;i<MAX_MEMBERNUM;i++){
 						if((family[index].fmmemberindex[i].charflag != FMMEMBER_NONE) &&
@@ -2234,7 +2234,7 @@ int ACMemberJoinFM(int index, char *fmname, int fmindex,
 					SUCCESSFUL, index, floor, family[index].fmtotalfame,
 	#ifdef _FMVER21
 					family[index].fmmemberindex[charindex].charflag, family[index].fmsetupflag, 1, charindex,
-	#else   	 
+	#else
 					2, family[index].fmsetupflag, 1, charindex,
 	#endif
 					family[index].fmmemberindex[charindex].popular,	// Arminius 9.11
@@ -2249,7 +2249,7 @@ int ACMemberJoinFM(int index, char *fmname, int fmindex,
 					SUCCESSFUL, index, floor, family[index].fmpopular,
 	#ifdef _FMVER21
 					family[index].fmmemberindex[charindex].charflag, family[index].fmsetupflag, 1, charindex,
-	#else   	 
+	#else
 					2, family[index].fmsetupflag, 1, charindex,
 	#endif
 					family[index].fmmemberindex[charindex].charfdid);
@@ -2264,7 +2264,7 @@ int ACMemberJoinFM(int index, char *fmname, int fmindex,
 					SUCCESSFUL, index, floor, family[index].fmtotalfame,
 	#ifdef _FMVER21
 					family[index].fmmemberindex[0].charflag, family[index].fmsetupflag, 1, 0,
-	#else   	 
+	#else
 					1, family[index].fmsetupflag, 1, 0,
 	#endif
 					family[index].fmmemberindex[0].popular,	// Arminius 9.11
@@ -2279,7 +2279,7 @@ int ACMemberJoinFM(int index, char *fmname, int fmindex,
 					SUCCESSFUL, index, floor, family[index].fmpopular,
 	#ifdef _FMVER21
 					family[index].fmmemberindex[0].charflag, family[index].fmsetupflag, 1, 0,
-	#else   	 
+	#else
 					1, family[index].fmsetupflag, 1, 0,
 	#endif
 					family[index].fmmemberindex[0].charfdid);
@@ -2303,18 +2303,18 @@ int ACMemberLeaveFM(int index, char *fmname, int fmindex,
 #else
 int ACMemberLeaveFM(int index, char *fmname, int fmindex,
 	char *charname, int flag, int charindex)
-#endif	
+#endif
 {
 	time_t t1;
 	if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
 #ifdef _FMVER21
 	if (meindex < 0 || meindex > MAX_MEMBERNUM)	return	-1;
 #endif
-	
+
 #ifdef _FIX_LEADER_ERR			// WON ADD 修正族长问题
-	if (charindex == 0 )	return -1;	
+	if (charindex == 0 )	return -1;
 #endif
-	
+
 	if (strcmp(family[index].fmmemberindex[charindex].charname, charname) == 0)
 	{
 		if (family[index].fmmemberindex[charindex].charflag <= 0)	return	-1;
@@ -2326,7 +2326,7 @@ int ACMemberLeaveFM(int index, char *fmname, int fmindex,
 				family[index].fmmemberindex[charindex].onlineflag,
 				FAILED, index, family[index].fmpointindex,
 				0, -1, family[index].fmsetupflag, 1,
-				charindex, 
+				charindex,
 				family[index].fmmemberindex[charindex].popular,	// Arminius 9.11
 				family[index].fmmemberindex[charindex].charfdid
 	#ifdef _NEW_MANOR_LAW
@@ -2364,7 +2364,7 @@ int ACMemberLeaveFM(int index, char *fmname, int fmindex,
 		if (family[index].fmmemberindex[charindex].charflag != FMMEMBER_APPLY)
 #else
 		if(family[index].fmmemberindex[charindex].charflag != 2)
-#endif 
+#endif
 			family[index].fmjoinnum = family[index].fmjoinnum - 1;
 		family[index].fmnum = family[index].fmnum - 1;
 		family[index].fmmemberindex[charindex].charflag = FMMEMBER_NONE;
@@ -2389,7 +2389,7 @@ int ACMemberLeaveFM(int index, char *fmname, int fmindex,
 				if (family[index].fmmemberindex[i].charflag != FMMEMBER_APPLY)
 #else
 				if (family[index].fmmemberindex[i].charflag == 1)
-#endif           
+#endif
        		fmnum1 = fmnum1 + 1;
 				if (family[index].fmmemberindex[i].charflag > 0)
 	    		fmnum2 = fmnum2 + 1;
@@ -2434,11 +2434,11 @@ int ACFMAssignOcp(int index, char *fmname, int fmindex,
    if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
    floor = ACgetFMFloor(fmindex);
    if (result < 0)	return	-1;
- 
+
 #ifdef _FIX_LEADER_ERR			// WON ADD 修正族长问题
-   if (charindex == 0 )	return -1;	
-#endif  
- 
+   if (charindex == 0 )	return -1;
+#endif
+
    log("AsssignOcp index:%d fmindex:%d fmname:%s charname:%s charindex:%d result:%d\n",
    	index, fmindex, fmname, charname, charindex, result);
    for (i = 0; i < MAX_MEMBERNUM; i++)
@@ -2505,20 +2505,20 @@ int ACFMAssignOcp(int index, char *fmname, int fmindex,
 // 家族成员 login
 #ifdef _PERSONAL_FAME   // Arminius: 家族个人声望
 int ACFMCharLogin(int fd, int index, char *fmname, int fmindex,
-	char *charname, char *charid, int charlv, int *floor, int *fmpopular, 
+	char *charname, char *charid, int charlv, int *floor, int *fmpopular,
 	int *joinflag, int *fmsetupflag, int *charindex, int charfdid,
 	int *charfame, int eventflag)
 #else
 int ACFMCharLogin(int fd, int index, char *fmname, int fmindex,
-	char *charname, char *charid, int charlv, int *floor, int *fmpopular, 
+	char *charname, char *charid, int charlv, int *floor, int *fmpopular,
 	int *joinflag, int *fmsetupflag, int *charindex, int charfdid)
 #endif
 {
 	int i = 0;
 	time_t t1;
-   
+
 	if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
-   
+
 	if (family[index].fmpointindex != -1)
 		*floor = ACgetFMFloor(fmindex);
 #ifdef _PERSONAL_FAME	// Arminius: 家族个人声望
@@ -2527,7 +2527,7 @@ int ACFMCharLogin(int fd, int index, char *fmname, int fmindex,
 	*fmpopular = family[index].fmpopular;
 #endif
 	*fmsetupflag = family[index].fmsetupflag;
-   
+
 	for (i = 0; i < family[index].fmmemberindexmaxnum; i++){
 		if ((strcmp(family[index].fmmemberindex[i].charname, charname) == 0)
 				&& (strcmp(family[index].fmmemberindex[i].charid, charid) == 0)){
@@ -2551,7 +2551,7 @@ int ACFMCharLogin(int fd, int index, char *fmname, int fmindex,
 			else *joinflag = 0;
 #endif
 			db_familyupdate[index] = 1;
-   
+
 			return index;
 		}
 	}
@@ -2565,7 +2565,7 @@ int ACFMCharLogout(int index, char *fmname, int fmindex, char *charname,
    int i = 0;
    time_t t1;
    if (CheckFM(&index, fmname, fmindex) < 0)	return -1;
-   
+
    for (i = 0; i < family[index].fmmemberindexmaxnum; i++)
    {
    	if ((strcmp(family[index].fmmemberindex[i].charname, charname) == 0)
@@ -2584,7 +2584,7 @@ int ACFMCharLogout(int index, char *fmname, int fmindex, char *charname,
 }
 
 // 取得家族庄园图层
-int ACgetFMFloor(fmindex)
+int ACgetFMFloor( int fmindex )
 {
    int i = 0;
    for (i = 0; i < MAX_FMPOINT; i++)
@@ -2739,7 +2739,7 @@ int ACSetFMPoint(int index, char *fmname, int fmindex, int fmpointindex,
 				family[index].fmmemberindex[i].charflag, family[index].fmsetupflag, 1, i,
 				family[index].fmmemberindex[i].charfdid);
 #endif
-#else   	 
+#else
 			{
 				int joinflag = 0;
 				if (i == 0)	joinflag = 1;
@@ -2762,7 +2762,7 @@ int ACSetFMPoint(int index, char *fmname, int fmindex, int fmpointindex,
 					saacproto_ACFMPointList_send(i, SUCCESSFUL, data);
 		}
 	}
-	
+
   db_fmpointupdate = 1;
   return	0;
 }
@@ -2805,7 +2805,7 @@ int ACFixFMPoint(int winindex, char *winfmname, int winfmindex, int loseindex,
 					family[winindex].fmmemberindex[i].charflag, family[winindex].fmsetupflag, 1, i,
 					family[winindex].fmmemberindex[i].charfdid);
 	#endif
-#else 	 
+#else
 			{
 				int joinflag = 0;
 				if (i == 0)	joinflag = 1;
@@ -2838,7 +2838,7 @@ int ACFixFMPoint(int winindex, char *winfmname, int winfmindex, int loseindex,
 					family[loseindex].fmmemberindex[i].charflag, family[loseindex].fmsetupflag, 1, i,
 					family[loseindex].fmmemberindex[i].charfdid);
 	#endif
-#else   	 
+#else
 				{
 					int joinflag = 0;
 					if (i == 0)	joinflag = 1;
@@ -3074,7 +3074,7 @@ void setFamilyFileDataToArg(int index, char *data)
 	 return;
       }
    }
-   
+
 }
 
 // GM修改家族资料
@@ -3226,7 +3226,7 @@ int ACGMFixFMData(int index, char *fmname, char *charid, char *cmd,
                default:
                   break;
             }
-            db_familyupdate[index] = 1; 
+            db_familyupdate[index] = 1;
             sortFamily();
 #ifdef _PERSONAL_FAME	// Arminius: 家族个人声望
 						saacproto_ACFMCharLogin_send(
@@ -3307,7 +3307,7 @@ int ACGMFixFMData(int index, char *fmname, char *charid, char *cmd,
 				 default:
 					 break;
 				 }
-				 db_familyupdate[index] = 1; 
+				 db_familyupdate[index] = 1;
 #ifdef _PERSONAL_FAME	// Arminius: 家族个人声望
 				 saacproto_ACFMCharLogin_send(
 					 family[index].fmmemberindex[charindex].onlineflag,
@@ -3345,7 +3345,7 @@ int ACGMFixFMData(int index, char *fmname, char *charid, char *cmd,
 				 default:
 					 break;
 				 }
-				 db_familyupdate[index] = 1; 
+				 db_familyupdate[index] = 1;
 				 sortFamily();
 #ifdef _PERSONAL_FAME	// Arminius: 家族个人声望
 				 saacproto_ACFMCharLogin_send(
@@ -3387,7 +3387,7 @@ int ChangeFMLeader(int index, char *fmname, int fmindex)
    	   if (tmpindex == 0)	tmpindex = i;
    	   else
    	   {
-   	   	if (family[index].fmmemberindex[i].popular > 
+   	   	if (family[index].fmmemberindex[i].popular >
    	   		family[index].fmmemberindex[tmpindex].popular)
    	   			tmpindex = i;
    	   }
@@ -3396,7 +3396,7 @@ int ChangeFMLeader(int index, char *fmname, int fmindex)
    log("ChangeFMLeader_1 tmpindex:%d\n", tmpindex);
    if (tmpindex == 0)	return -1;   // shan return 0 -> -1
    sprintf(buf, "%d", family[index].fmleadergrano);
-   if (ACFixFMData(index, fmname, fmindex, 11, tmpindex, buf, 
+   if (ACFixFMData(index, fmname, fmindex, 11, tmpindex, buf,
 	   family[index].fmmemberindex[tmpindex].charname) < 0)
    		return	-1;
    log("ChangeFMLeader_2 tmpindex:%d\n", tmpindex);
@@ -3459,9 +3459,9 @@ void FMPK_BackUpList()
 {
 	int i;
 	char *filename="data/family/fm_pk_list.txt";
-	FILE *fp;	
+	FILE *fp;
 	if( !(fp=fopen(filename, "w"))  )return;
-	for( i=0; i<FMPKLIST_MAXNUM; i++){	
+	for( i=0; i<FMPKLIST_MAXNUM; i++){
 		fprintf(fp, "%s\n", FMPK_List[i].Data);
 		printf("\n%s",FMPK_List[i].Data);
 	}

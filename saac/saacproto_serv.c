@@ -10,6 +10,7 @@
 #include "version.h"
 #include "saacproto_serv.h"
 #include "main.h"
+#include "recv.h"
 
 // Nuke : This 'fd' is not a socket, it's the index of structure connect
 int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
@@ -80,7 +81,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		int mesgid;
 #ifdef _NewSave
 		int charindex;
-#endif		
+#endif
 		id = saacproto_wrapStringAddr( saacproto_stringwrapper[1] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[2] ));
 		charname = saacproto_wrapStringAddr( saacproto_stringwrapper[2] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[3] ));
 		opt = saacproto_wrapStringAddr( saacproto_stringwrapper[3] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[4] ));
@@ -227,12 +228,12 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		int floor;
 		cdkey = saacproto_wrapStringAddr( saacproto_stringwrapper[1] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[2] ));
 		name = saacproto_wrapStringAddr( saacproto_stringwrapper[2] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[3] ));
-		title = saacproto_wrapStringAddr( saacproto_stringwrapper[3] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[4] ));		
+		title = saacproto_wrapStringAddr( saacproto_stringwrapper[3] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[4] ));
 		level = saacproto_demkstr_int( saacproto.token_list[5] );
 		trns = saacproto_demkstr_int( saacproto.token_list[6] );
 		time = saacproto_demkstr_int( saacproto.token_list[7] );
 		floor = saacproto_demkstr_int( saacproto.token_list[8] );
-		saacproto_UpdataStele_recv ( fd , cdkey , name , title , level , trns , time , floor) ; 
+		saacproto_UpdataStele_recv ( fd , cdkey , name , title , level , trns , time , floor) ;
 		return 0;
 	}
 #endif
@@ -374,7 +375,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 			fmleadergrano, charfdid);
 #endif
 		return	0;
-	}	
+	}
 	// 加入家族
 	if ( strcmp( funcname, "ACJoinFM") == 0){
 #ifdef _PERSONAL_FAME	// Arminius: 家族个人声望
@@ -400,7 +401,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 			charid, charlv, index, charfdid);
 #endif
 		return	0;
-	}	
+	}
 	// 退出家族
 	if ( strcmp( funcname, "ACLeaveFM") == 0){
 		int 	fmindex, charfdid, index;
@@ -493,7 +494,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		char	*fmname, *charname, *charid;
 #ifdef _FMVER21
 		int eventflag;
-#endif		
+#endif
 		fmname = saacproto_wrapStringAddr(saacproto_stringwrapper[1], saacproto.workbufsize, saacproto_demkstr_string(saacproto.token_list[2]));
 		fmindex = saacproto_demkstr_int(saacproto.token_list[3]);
 		charname = saacproto_wrapStringAddr(saacproto_stringwrapper[3], saacproto.workbufsize, saacproto_demkstr_string(saacproto.token_list[4]));
@@ -509,7 +510,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		saacproto_ACFMCharLogin_recv(fd, fmname, fmindex, charname,charid, charlv, charfdid);
 #endif
 		return	0;
-	}	
+	}
 	// 玩家logout
 	if ( strcmp( funcname, "ACFMCharLogout") == 0){
 		int 	fmindex, charfdid, charlv, index;
@@ -556,7 +557,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		char	*fmname, *charname;
 #ifdef _FMVER21
 		int meindex;
-#endif		
+#endif
 		fmname = saacproto_wrapStringAddr(saacproto_stringwrapper[1], saacproto.workbufsize, saacproto_demkstr_string(saacproto.token_list[2]));
 		fmindex = saacproto_demkstr_int(saacproto.token_list[3]);
 		charname = saacproto_wrapStringAddr(saacproto_stringwrapper[3], saacproto.workbufsize, saacproto_demkstr_string(saacproto.token_list[4]));
@@ -699,7 +700,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 
 	if (strcmp( funcname,"ACreLoadFmData") ==0){
 		int type, data;
-		type = saacproto_demkstr_int(saacproto.token_list[2]);	
+		type = saacproto_demkstr_int(saacproto.token_list[2]);
 		data = saacproto_demkstr_int(saacproto.token_list[3]);
 		saacproto_ACreLoadFmData_recv( fd, type, data);
 		return 0;
@@ -709,7 +710,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 	if (strcmp( funcname,"ACLoadFmPk") ==0)
 	{
 		int fmpks_pos;
-		fmpks_pos = saacproto_demkstr_int(saacproto.token_list[2]);	
+		fmpks_pos = saacproto_demkstr_int(saacproto.token_list[2]);
 		saacproto_ACLoadFmPk_recv(fd, fmpks_pos);
 		return 0;
 	}
@@ -717,7 +718,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 	if (strcmp( funcname,"ACSendFmPk") ==0){
 		int fmpks_pos, userindex, flg;
 		char *data;
-		fmpks_pos = saacproto_demkstr_int(saacproto.token_list[2]);	
+		fmpks_pos = saacproto_demkstr_int(saacproto.token_list[2]);
 		userindex = saacproto_demkstr_int(saacproto.token_list[3]);
 		flg = saacproto_demkstr_int(saacproto.token_list[4]);
 		data = saacproto_wrapStringAddr( saacproto_stringwrapper[4] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[5] ));
@@ -728,7 +729,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 	if (strcmp( funcname,"ACSendFmPk") ==0){
 		int fmpks_pos;
 		char *data;
-		fmpks_pos = saacproto_demkstr_int(saacproto.token_list[2]);	
+		fmpks_pos = saacproto_demkstr_int(saacproto.token_list[2]);
 		data = saacproto_wrapStringAddr( saacproto_stringwrapper[2] , saacproto.workbufsize , saacproto_demkstr_string( saacproto.token_list[3] ));
 		saacproto_ACSendFmPk_recv(fd, fmpks_pos, data);
 		return 0;
@@ -748,7 +749,7 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		saacproto_ACCharLogin_recv( fd, clifd, id, pas, ip );
 		return 0;
 	}
-	
+
 	if( strcmp( funcname , "LockLogin" ) == 0 ){
 		int flag;
 		char *id , *ip;
@@ -758,10 +759,10 @@ int saacproto_ServerDispatchMessage( int fd , char *encoded, char *debugfun)
 		saacproto_LockLogin_recv( fd, id, ip, flag );
 		return 0;
 	}
-	
+
 	sprintf( debugfun, "%s", funcname);
 
-	return -1;	
+	return -1;
 }
 
 void saacproto_ACServerLogin_send( int fd,char* result,char* data )
@@ -817,10 +818,10 @@ void saacproto_ACCharLoad_send( int fd,char* result,char* data,int id )
 224 :      </dl>
 225 :      <br>
 226 :      <br>
-227 : 
-228 : 
-229 : 
-230 : 
+227 :
+228 :
+229 :
+230 :
 */
 
 void saacproto_ACCharSave_send( int fd,char* result,char* data,int id )
@@ -843,11 +844,11 @@ void saacproto_ACCharSave_send( int fd,char* result,char* data,int id )
 263 :        <dd>"failed"及凛反    毛憎允谛棉及苇化坌月  侬  匹丐月［
 264 :        <dt> int id
 265 :        <dd> 娄醒及id及公及引引及戊疋□
-266 : 			   
+266 :
 267 :      </dl>
 268 :      <br>
 269 :      <br>
-270 : 
+270 :
 */
 
 void saacproto_ACCharDelete_send( int fd,char* result,char* data,int id )
@@ -872,7 +873,7 @@ void saacproto_ACCharDelete_send( int fd,char* result,char* data,int id )
 300 :      </dl>
 301 :      <br>
 302 :      <br>
-303 : 
+303 :
 */
 
 void saacproto_ACLock_send( int fd,char* result,char* data,int id )
@@ -891,10 +892,10 @@ void saacproto_ACLock_send( int fd,char* result,char* data,int id )
 322 : 	 <dl>
 323 : 	   <dt>string mem_id
 324 : 	   <dd>譬屯月覆擂及交□扒□及gamersDream member id
-325 : 	 </dl>	 
+325 : 	 </dl>
 326 : 	 <BR><BR>
-327 : 
-328 : 
+327 :
+328 :
 */
 
 void saacproto_ACUCheck_send( int fd,char* mem_id )
@@ -908,7 +909,7 @@ void saacproto_ACUCheck_send( int fd,char* mem_id )
 345 : 	 晓及戊穴件玉及瑛绊［撩  仄化手荚汊尕第  卅及匹  骰仄化方中冗
 346 : 	 <dl>
 347 : 	   <dt>string result
-348 : 	   <dD>successful 井failed	   
+348 : 	   <dD>successful 井failed
 349 : 	   <dt>string table
 350 : 	   <dD>
 351 : 	   <dt>int msgid
@@ -916,7 +917,7 @@ void saacproto_ACUCheck_send( int fd,char* mem_id )
 353 : 	   <dt>int msgid2
 354 : 	   <dD>
 355 : 	 </dL>
-356 : 
+356 :
 */
 
 void saacproto_DBUpdateEntryString_send( int fd,char* result,char* table,char* key,int msgid,int msgid2 )
@@ -942,9 +943,9 @@ void saacproto_DBUpdateEntryString_send( int fd,char* result,char* table,char* k
 378 : 	   <dt>int msgid
 379 : 	   <dd>
 380 : 	   <dt>int msgid2
-381 : 	   <dd>		   
+381 : 	   <dd>
 382 : 	 </dl>
-383 : 	 
+383 :
 */
 
 void saacproto_DBDeleteEntryString_send( int fd,char* result,char* table,char* key,int msgid,int msgid2 )
@@ -966,15 +967,15 @@ void saacproto_DBDeleteEntryString_send( int fd,char* result,char* table,char* k
 401 : 	   <dt>string value
 402 : 	   <dd>袄
 403 : 	   <dt>string table
-404 : 	   <dd>		   
+404 : 	   <dd>
 405 : 	   <dt>string key
 406 : 	   <dd>
 407 : 	   <dt>int msgid
 408 : 	   <dd>
 409 : 	   <dt>int msgid2
-410 : 	   <dd>		   
+410 : 	   <dd>
 411 : 	 </dl>
-412 : 
+412 :
 */
 
 void saacproto_DBGetEntryString_send( int fd,char* result,char* value,char* table,char* key,int msgid,int msgid2 )
@@ -997,12 +998,12 @@ void saacproto_DBGetEntryString_send( int fd,char* result,char* value,char* tabl
 440 : 	   <dt>string table
 441 : 	   <dd>  □皮伙  毛公及引引井尹允
 442 : 	   <dt>string key
-443 : 	   <dd>平□毛公及引引井尹允		   
+443 : 	   <dd>平□毛公及引引井尹允
 444 : 	   <dt>int msgid, int msgid2
 445 : 	   <dd>msgid 毛公及引引忒允［
 446 : 	 </dl>
 447 : 	 <BR><BR>
-448 : 
+448 :
 */
 #ifdef _ALLDOMAN // Syu ADD 排行榜NPC
 void saacproto_UpdataStele_send( int fd , char *data )
@@ -1012,7 +1013,7 @@ void saacproto_UpdataStele_send( int fd , char *data )
 	saacproto_Send( fd , saacproto.work );
 }
 
-void saacproto_S_UpdataStele_send( int fd , char *ocdkey , char *oname , char *ncdkey , 
+void saacproto_S_UpdataStele_send( int fd , char *ocdkey , char *oname , char *ncdkey ,
 					  char *nname , char *title , int level , int trns , int floor ) {
 	saacproto_CreateHeader( saacproto.work , "S_UpdataStele" );
 	saacproto_strcatsafe( saacproto.work , saacproto_mkstr_string( ocdkey ) ,saacproto.workbufsize );
@@ -1055,8 +1056,8 @@ void saacproto_DBUpdateEntryInt_send( int fd,char* result,char* table,char* key,
 477 : 	   <dd>msgid 毛公及引引忒允
 478 : 	 </dl>
 479 : 	 <BR><BR>
-480 : 
-481 : 	 
+480 :
+481 :
 */
 
 void saacproto_DBGetEntryRank_send( int fd,char* result,int rank,int count,char* table,char* key,int msgid,int msgid2 )
@@ -1085,7 +1086,7 @@ void saacproto_DBGetEntryRank_send( int fd,char* result,int rank,int count,char*
 504 : 	   <dd>msgid 毛公及引引忒允
 505 : 	 </dl>
 506 : 	 <BR><BR>
-507 : 
+507 :
 */
 
 void saacproto_DBDeleteEntryInt_send( int fd,char* result,char* table,char* key,int msgid,int msgid2 )
@@ -1113,9 +1114,9 @@ void saacproto_DBDeleteEntryInt_send( int fd,char* result,char* table,char* key,
 531 : 	   <dt>int msgid, int msgid2
 532 : 	   <dd>msgid 毛公及引引忒允
 533 : 	 </dl>
-534 : 
-535 : 
-536 : 
+534 :
+535 :
+536 :
 */
 
 void saacproto_DBGetEntryInt_send( int fd,char* result,int value,char* table,char* key,int msgid,int msgid2 )
@@ -1143,12 +1144,12 @@ void saacproto_DBGetEntryInt_send( int fd,char* result,int value,char* table,cha
 562 : 		   "1,RINGO,123465,data1|2,HOGE,4567,data2|2,FUCK,4567,data3"<BR>
 563 : 		   仇及  分午｝2匏反2谛中月仇午卞卅月［
 564 : 	   <dt>string table
-565 : 	   <dd>  □皮伙  
+565 : 	   <dd>  □皮伙
 566 : 	   <dt>int msgid, int msgid2
 567 : 	   <dd>
 568 : 	 </dl>
-569 : 
-570 : 
+569 :
+570 :
 */
 
 void saacproto_DBGetEntryByRank_send( int fd,char* result,char* list,char* table,int msgid,int msgid2 )
@@ -1168,15 +1169,15 @@ void saacproto_DBGetEntryByRank_send( int fd,char* result,char* list,char* table
 586 : 	   <dt>string result
 587 : 	   <dd>SUCCESSFUL/FAILED
 588 : 	   <dt>string list
-589 : 	   <dd>请  伉旦玄［1巨件玄伉丐凶曰 "INDEX,RANK,KEY,SCORE,INFO" 及4蜊及树  
+589 : 	   <dd>请  伉旦玄［1巨件玄伉丐凶曰 "INDEX,RANK,KEY,SCORE,INFO" 及4蜊及树
 590 : 		   及赚匹丐曰｝公木互蜊醒坌 "|" 匹勾卅互月［蜊醒互0及桦宁反
 591 : 		   坞  侬  ［
 592 : 	   <dt>int num
 593 : 	   <dd>中仁勾午曰分允井［1卅日1蜊［2卅日2蜊［
 594 : 	   <dt>int msgid ,msgid2
-595 : 	   <dd>丢永本□斥ID.	   
+595 : 	   <dd>丢永本□斥ID.
 596 : 	 </dL>
-597 : 
+597 :
 */
 
 void saacproto_DBGetEntryByCount_send( int fd,char* result,char* list,char* table,int count_start,int msgid,int msgid2 )
@@ -1203,7 +1204,7 @@ void saacproto_DBGetEntryByCount_send( int fd,char* result,char* list,char* tabl
 620 : 	   <dt>int flag
 621 : 	   <dd>1卞允月午｝愤坌卞卞反  霜今木卅中［
 622 : 	 </dl>
-623 : 
+623 :
 */
 
 void saacproto_Broadcast_send( int fd,char* id,char* charname,char* message )
@@ -1227,13 +1228,13 @@ void saacproto_Broadcast_send( int fd,char* id,char* charname,char* message )
 651 : 	   <dt>string charname_to
 652 : 	   <dd>to character name
 653 : 	   <dt>string message
-654 : 	   <dd>丢永本□斥及    
+654 : 	   <dd>丢永本□斥及
 655 : 	   <dt>int option
 656 : 	   <dd>左皿扑亦件(晓及楮醒毛辅寰)
 657 : 	   <dt>int mesgid
 658 : 	   <dd>丢永本□斥ID 失市它件玄扔□田□及栋  迕
 659 : 	 </dl>
-660 : 
+660 :
 */
 
 void saacproto_Message_send( int fd,char* id_from,char* charname_from,char* id_to,char* charname_to,char* message,int option,int mesgid )
@@ -1347,7 +1348,7 @@ void saacproto_ACShowMemberList_send(int fd, char *result, int index, int num,
 	saacproto_strcatsafe(saacproto.work , saacproto_mkstr_string(data) ,saacproto.workbufsize );
 	saacproto_Send( fd , saacproto.work );
 }
-// 列出家族详细资料	
+// 列出家族详细资料
 void saacproto_ACFMDetail_send(int fd, char *result, char *data,
 	int charfdid)
 {
@@ -1467,7 +1468,7 @@ void saacproto_ACFMAnnounce_send(int fd, char *result, char *fmname,
 	saacproto_strcatsafe(saacproto.work , saacproto_mkstr_string(data) ,saacproto.workbufsize );
 	saacproto_strcatsafe(saacproto.work , saacproto_mkstr_int(color) ,saacproto.workbufsize );
 	saacproto_Send( fd , saacproto.work );
-}                
+}
 // 列出家族排行榜
 void saacproto_ACShowTopFMList_send(int fd, char *result, int kindflag,
 	int num, char *data)
@@ -1532,7 +1533,7 @@ void saacproto_ACFMClearPK_send(int fd, char *result, char *fmname, int fmindex,
 	saacproto_strcatsafe(saacproto.work , saacproto_mkstr_int(fmindex) ,saacproto.workbufsize );
 	saacproto_strcatsafe(saacproto.work , saacproto_mkstr_int(index) ,saacproto.workbufsize );
 	saacproto_Send( fd , saacproto.work );
-}        
+}
 // 通知其他星球的踢馆人
 void saacproto_ACManorPKAck_send(int fd, char *data)
 {
