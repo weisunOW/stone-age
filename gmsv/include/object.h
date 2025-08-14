@@ -39,7 +39,7 @@ BOOL CHECKOBJECTUSE( int index );
 BOOL initObjectArray( int num );
 BOOL endObjectArray( void );
 
-INLINE int _initObjectOne( char *file, int line, Object* ob );
+extern INLINE int _initObjectOne( char *file, int line, Object* ob );
 #define initObjectOne( ob ) _initObjectOne( __FILE__, __LINE__, ob)
 
 void endObjectOne( int index );

@@ -39,7 +39,7 @@ typedef enum
 	ITEM_WARES,			//»õÎï
 #endif
     ITEM_CATEGORYNUM,
-    
+
 }ITEM_CATEGORY;
 
 typedef enum
@@ -146,7 +146,7 @@ typedef enum
     ITEM_INGVALUE2,
     ITEM_INGVALUE3,
     ITEM_INGVALUE4,
-    
+
 	ITEM_PUTTIME,					/*  Ê§ÄÌ  Ø©»¥  ¾®Ä¾Ð×ÁÝÃÞ */
     ITEM_LEAKLEVEL,                 /*    âô»¥ÉýÄ¾·ÖØêÈÉÄ¾Ð×¾®  */
 	ITEM_MERGEFLG,					/*  ÄþÔÀ½ñÄ¾Ð×Ê§ÄÌ  Ø©¾®Éýµ¤¾® */
@@ -200,7 +200,7 @@ typedef enum
     ITEM_USEFUNC,                   /* Â¦ÐÑ·´£ý
                                      * int charaindex Æ½ÅÒ·ÂÄÌ¼þ·¸ÓÀÛÍµ©
                                      * int charitemindex ·ßÛÐ¼°
-                                     *              Ê§ÄÌ  Ø©    ¼°ÖÏ    
+                                     *              Ê§ÄÌ  Ø©    ¼°ÖÏ
                                      *              Ã«ÒøÔÈÐ×¾®
                                      */
     ITEM_ATTACHFUNC,                /* Â¦ÐÑ·´£ý
@@ -229,7 +229,7 @@ typedef enum
                                      */
 #ifdef _Item_ReLifeAct
 	ITEM_DIERELIFEFUNC,					/*ANDY_ADD
-										¸´»îµÀ¾ß	
+										¸´»îµÀ¾ß
 									 */
 #endif
 
@@ -271,7 +271,7 @@ typedef struct tagITEM_table
 
 typedef struct tagITEM_index
 {
-    BOOL         use; 
+    BOOL         use;
     int         index;
 }ITEM_index;
 
@@ -283,7 +283,7 @@ typedef struct tagITEM_exists
 
 #define		ITEM_CHECKINDEX(index)		\
 	_ITEM_CHECKINDEX( __FILE__, __LINE__, index)
-INLINE BOOL _ITEM_CHECKINDEX( char *file, int line, int index);
+EXTERN INLINE BOOL _ITEM_CHECKINDEX( char *file, int line, int index);
 
 
 BOOL ITEM_initExistItemsArray( int num );
@@ -298,11 +298,11 @@ int _ITEM_initExistItemsOne( char *file, int line, ITEM_Item* itm );
 void _ITEM_endExistItemsOne( int index , char *file, int line);
 
 #define ITEM_getInt( Index, element) _ITEM_getInt( __FILE__, __LINE__, Index, element )
-INLINE int _ITEM_getInt( char *file, int line, int index ,ITEM_DATAINT element);
+EXTERN INLINE int _ITEM_getInt( char *file, int line, int index ,ITEM_DATAINT element);
 
 
 #define ITEM_setInt( Index, element, data) _ITEM_setInt( __FILE__, __LINE__, Index, element, data)
-INLINE int _ITEM_setInt( char *file, int line, int index ,ITEM_DATAINT element, int data);
+EXTERN INLINE int _ITEM_setInt( char *file, int line, int index ,ITEM_DATAINT element, int data);
 
 
 INLINE char* ITEM_getChar( int index ,ITEM_DATACHAR element );
@@ -353,7 +353,7 @@ char* ITEM_getEffectString( int itemindex );
 int ITEM_getcostFromITEMtabl( int itemid );
 
 #define ITEM_getNameFromNumber( id) _ITEM_getNameFromNumber( __FILE__, __LINE__, id)
-INLINE char* _ITEM_getNameFromNumber( char *file, int line, int itemid );
+EXTERN INLINE char* _ITEM_getNameFromNumber( char *file, int line, int itemid );
 
 
 int ITEM_getlevelFromITEMtabl( int itemid );

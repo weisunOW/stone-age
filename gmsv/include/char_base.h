@@ -1081,9 +1081,9 @@ INLINE int _CHAR_setInt( char *file, int line, int index ,CHAR_DATAINT element, 
 #define CHAR_getWorkInt( index , element) _CHAR_getWorkInt( __FILE__, __LINE__, index , element)
 INLINE int _CHAR_getWorkInt( char *file, int line, int index ,CHAR_WORKDATAINT element);
 #define CHAR_setWorkInt( index, element, data) _CHAR_setWorkInt( __FILE__, __LINE__, index , element, data)
-INLINE int _CHAR_setWorkInt( char *file, int line, int index ,CHAR_WORKDATAINT element, int data);
+EXTERN INLINE int _CHAR_setWorkInt( char *file, int line, int index ,CHAR_WORKDATAINT element, int data);
 #else
-INLINE int CHAR_setWorkInt( int index ,CHAR_WORKDATAINT element, int data);
+EXTERN INLINE int CHAR_setWorkInt( int index ,CHAR_WORKDATAINT element, int data);
 #endif
 #define		CHAR_getChar( index, elem) _CHAR_getChar( __FILE__, __LINE__, index, elem)
 INLINE char* _CHAR_getChar( char *file, int line, int index ,CHAR_DATACHAR element );
@@ -1096,7 +1096,7 @@ INLINE BOOL _CHAR_setFlg( char *file, int line, int index , CHAR_DATACHAR elemen
 #define		CHAR_getWorkChar( index, elem) _CHAR_getWorkChar( __FILE__, __LINE__, index, elem)
 INLINE char * _CHAR_getWorkChar( char *file, int line, int index, CHAR_WORKDATACHAR element );
 #define		CHAR_setWorkChar( index, elem, n) _CHAR_setWorkChar( __FILE__, __LINE__, index, elem, n)
-INLINE BOOL _CHAR_setWorkChar( char *file, int line, int index, CHAR_WORKDATACHAR element, char * new);
+EXTERN INLINE BOOL _CHAR_setWorkChar( char *file, int line, int index, CHAR_WORKDATACHAR element, char * new);
 
 #define		CHAR_getItemIndex( index, iindex) _CHAR_getItemIndex( __FILE__, __LINE__, index, iindex)
 INLINE int _CHAR_getItemIndex( char *file, int line, int charaindex, int ti);
@@ -1105,7 +1105,7 @@ INLINE int _CHAR_setItemIndex( char *file, int line, int index ,int iindex,int i
 #define		CHAR_getPoolItemIndex( index, iindex) _CHAR_getPoolItemIndex( __FILE__, __LINE__, index, iindex)
 INLINE int _CHAR_getPoolItemIndex( char *file, int line, int index, int iindex);
 #define		CHAR_setPoolItemIndex( index, iindex,id) _CHAR_setPoolItemIndex( __FILE__, __LINE__, index, iindex, id)
-INLINE int _CHAR_setPoolItemIndex( char *file, int line, int index ,int iindex,int id );
+EXTERN INLINE int _CHAR_setPoolItemIndex( char *file, int line, int index ,int iindex,int id );
 INLINE BOOL CHAR_setAddressbookEntry( int index , int aindex , ADDRESSBOOK_entry *a );
 INLINE ADDRESSBOOK_entry* CHAR_getAddressbookEntry( int index , int aindex);
 INLINE Char* CHAR_getCharPointer( int index );

@@ -75,7 +75,7 @@ int existsNewLineCharacter( char* line );
 int hashpjw ( char* s );
 int charInclude( char* src, char* include );
 char* nindex( char* string, int c , int number );
-int rgetFileName( char* dirname , STRING64* string, int size); 
+int rgetFileName( char* dirname , STRING64* string, int size);
 #define RAND(x,y)   ((x-1)+1+ \
                      (int)( (double)(y-(x-1))*rand()/(RAND_MAX+1.0)) )
 /*#define RAND(x,y)   (x+(int)( (double)(y)*rand() / (RAND_MAX+1.0)) )*/
@@ -84,7 +84,6 @@ BOOL checkStringsUnique( char** strings, int num ,int verbose);
 
 char*   makeEscapeString( char* src , char* dest, int sizeofdest);
 char*   makeStringFromEscaped( char* src );
-INLINE double time_diff(struct timeval subtrahend,struct timeval subtractor);
 BOOL PointInRect( RECT* rect, POINT* p );
 BOOL CoordinateInRect( RECT* rect, int x, int y);
 int clipRect( RECT *rect1, RECT *rect2, RECT *ret );
@@ -98,8 +97,8 @@ BOOL checkRedundancy( int *src, int srclen);
 void shuffle_ints( int num, int *a, int t );
 unsigned short CheckCRC( unsigned char *p , int size );
 // Shan Add
-INLINE double time_diff(struct timeval subtrahend,struct timeval subtractor);
- 
+extern INLINE double time_diff(struct timeval subtrahend,struct timeval subtractor);
+
 
 /*  Ѩ�ͷ�ئԻ  */
 #define ABS(x)      ((x)>=0 ? (x) : -(x))
