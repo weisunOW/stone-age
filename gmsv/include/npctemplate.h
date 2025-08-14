@@ -100,7 +100,7 @@ EXTERN NPC_Template*   NPC_template;
 EXTERN int             NPC_templatenum;
 EXTERN int             NPC_template_readindex;
 
-INLINE int NPC_CHECKTEMPLATEINDEX(int index);
+EXTERN INLINE int NPC_CHECKTEMPLATEINDEX(int index);
 
 BOOL NPC_copyFunctionSetToChar( int id, Char* ch );
 

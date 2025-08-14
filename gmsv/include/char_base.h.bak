@@ -1064,46 +1064,46 @@ typedef struct tagChar
 
 
 #define		CHAR_CHECKINDEX( index)	_CHAR_CHECKINDEX( __FILE__, __LINE__, index)
-INLINE BOOL _CHAR_CHECKINDEX( char *file, int line, int index);
+EXTERN INLINE BOOL _CHAR_CHECKINDEX( char *file, int line, int index);
 #define		CHAR_CHECKITEMINDEX( charaindex, iindex) _CHAR_CHECKITEMINDEX( __FILE__, __LINE__, charaindex, iindex)
-INLINE BOOL _CHAR_CHECKITEMINDEX( char *file, int line, int charaindex, int iindex );
+EXTERN INLINE BOOL _CHAR_CHECKITEMINDEX( char *file, int line, int charaindex, int iindex );
 #define		CHAR_CHECKPETINDEX( petindex) _CHAR_CHECKPETINDEX( __FILE__, __LINE__, petindex )
-INLINE BOOL _CHAR_CHECKPETINDEX( char *file, int line, int petindex );
+EXTERN INLINE BOOL _CHAR_CHECKPETINDEX( char *file, int line, int petindex );
 #define		CHAR_CHECKPOOLPETINDEX( petindex) _CHAR_CHECKPOOLPETINDEX( __FILE__, __LINE__, petindex )
 INLINE BOOL _CHAR_CHECKPOOLPETINDEX( char *file, int line, int petindex );
 #define		CHAR_CHECKPETSKILLINDEX( havepetskillindex) _CHAR_CHECKPETSKILLINDEX( __FILE__, __LINE__, havepetskillindex)
-INLINE BOOL _CHAR_CHECKPETSKILLINDEX( char *file, int line, int havepetskillindex );
+EXTERN INLINE BOOL _CHAR_CHECKPETSKILLINDEX( char *file, int line, int havepetskillindex );
 
 INLINE int CHAR_getInt( int index , CHAR_DATAINT element);
 #define CHAR_setInt( index , element, data) _CHAR_setInt( __FILE__, __LINE__, index , element, data)
-INLINE int _CHAR_setInt( char *file, int line, int index ,CHAR_DATAINT element, int data);
+EXTERN INLINE int _CHAR_setInt( char *file, int line, int index ,CHAR_DATAINT element, int data);
 #ifdef _FIX_SETWORKINT
 #define CHAR_getWorkInt( index , element) _CHAR_getWorkInt( __FILE__, __LINE__, index , element)
-INLINE int _CHAR_getWorkInt( char *file, int line, int index ,CHAR_WORKDATAINT element);
+EXTERN INLINE int _CHAR_getWorkInt( char *file, int line, int index ,CHAR_WORKDATAINT element);
 #define CHAR_setWorkInt( index, element, data) _CHAR_setWorkInt( __FILE__, __LINE__, index , element, data)
 EXTERN INLINE int _CHAR_setWorkInt( char *file, int line, int index ,CHAR_WORKDATAINT element, int data);
 #else
 INLINE int CHAR_setWorkInt( int index ,CHAR_WORKDATAINT element, int data);
 #endif
 #define		CHAR_getChar( index, elem) _CHAR_getChar( __FILE__, __LINE__, index, elem)
-INLINE char* _CHAR_getChar( char *file, int line, int index ,CHAR_DATACHAR element );
+EXTERN INLINE char* _CHAR_getChar( char *file, int line, int index ,CHAR_DATACHAR element );
 #define		CHAR_setChar( index, elem, n) _CHAR_setChar( __FILE__, __LINE__, index, elem, n)
-INLINE BOOL _CHAR_setChar( char *file, int line, int index ,CHAR_DATACHAR element, char* new );
+EXTERN INLINE BOOL _CHAR_setChar( char *file, int line, int index ,CHAR_DATACHAR element, char* new );
 #define		CHAR_getFlg( index, elem) _CHAR_getFlg( __FILE__, __LINE__, index, elem)
-INLINE BOOL _CHAR_getFlg( char *file, int line, int index ,CHAR_DATAFLG element );
+EXTERN INLINE BOOL _CHAR_getFlg( char *file, int line, int index ,CHAR_DATAFLG element );
 #define		CHAR_setFlg( index, elem, n) _CHAR_setFlg( __FILE__, __LINE__, index, elem, n)
-INLINE BOOL _CHAR_setFlg( char *file, int line, int index , CHAR_DATACHAR element, int newdata );
+EXTERN INLINE BOOL _CHAR_setFlg( char *file, int line, int index , CHAR_DATACHAR element, int newdata );
 #define		CHAR_getWorkChar( index, elem) _CHAR_getWorkChar( __FILE__, __LINE__, index, elem)
-INLINE char * _CHAR_getWorkChar( char *file, int line, int index, CHAR_WORKDATACHAR element );
+EXTERN INLINE char * _CHAR_getWorkChar( char *file, int line, int index, CHAR_WORKDATACHAR element );
 #define		CHAR_setWorkChar( index, elem, n) _CHAR_setWorkChar( __FILE__, __LINE__, index, elem, n)
 INLINE BOOL _CHAR_setWorkChar( char *file, int line, int index, CHAR_WORKDATACHAR element, char * new);
 
 #define		CHAR_getItemIndex( index, iindex) _CHAR_getItemIndex( __FILE__, __LINE__, index, iindex)
-INLINE int _CHAR_getItemIndex( char *file, int line, int charaindex, int ti);
+EXTERN INLINE int _CHAR_getItemIndex( char *file, int line, int charaindex, int ti);
 #define		CHAR_setItemIndex( index, iindex,id) _CHAR_setItemIndex( __FILE__, __LINE__, index, iindex, id)
-INLINE int _CHAR_setItemIndex( char *file, int line, int index ,int iindex,int id );
+EXTERN INLINE int _CHAR_setItemIndex( char *file, int line, int index ,int iindex,int id );
 #define		CHAR_getPoolItemIndex( index, iindex) _CHAR_getPoolItemIndex( __FILE__, __LINE__, index, iindex)
-INLINE int _CHAR_getPoolItemIndex( char *file, int line, int index, int iindex);
+EXTERN INLINE int _CHAR_getPoolItemIndex( char *file, int line, int index, int iindex);
 #define		CHAR_setPoolItemIndex( index, iindex,id) _CHAR_setPoolItemIndex( __FILE__, __LINE__, index, iindex, id)
 EXTERN INLINE int _CHAR_setPoolItemIndex( char *file, int line, int index ,int iindex,int id );
 INLINE BOOL CHAR_setAddressbookEntry( int index , int aindex , ADDRESSBOOK_entry *a );
@@ -1129,7 +1129,7 @@ int CHAR_getEmptyCharPoolItemIndexNum( int charaindex);
 INLINE int _CHAR_getIntPSkill( char *file, int line, int index, int skillti, SKILL_DATAINT ti);
 
 #define		CHAR_setIntPSkill( index, skillti, ti, data) _CHAR_setIntPSkill( __FILE__, __LINE__, index, skillti, ti, data)
-INLINE void _CHAR_setIntPSkill( char *file, int line, int index, int skillti, SKILL_DATAINT ti, int data);
+EXTERN INLINE void _CHAR_setIntPSkill( char *file, int line, int index, int skillti, SKILL_DATAINT ti, int data);
 
 
 extern Char *CHAR_chara;
@@ -1152,9 +1152,9 @@ char *CHAR_makePetStringFromPetIndex( int petindex);
 #define CHAR_getPetSkillElement( petindex) _CHAR_getPetSkillElement( __FILE__, __LINE__, petindex)
 int _CHAR_getPetSkillElement( char *file, int line, int petindex );
 #define	CHAR_setPetSkill( petindex, havepetskillindex, n) _CHAR_setPetSkill( __FILE__, __LINE__, petindex, havepetskillindex, n)
-INLINE int _CHAR_setPetSkill( char *file, int line, int petindex,int havepetskillindex, int new );
+EXTERN INLINE int _CHAR_setPetSkill( char *file, int line, int petindex,int havepetskillindex, int new );
 #define		CHAR_getPetSkill( petindex, havepetskillindex) _CHAR_getPetSkill( __FILE__, __LINE__, petindex, havepetskillindex)
-INLINE int _CHAR_getPetSkill( char *file, int line, int petindex,int havepetskillindex );
+EXTERN INLINE int _CHAR_getPetSkill( char *file, int line, int petindex,int havepetskillindex );
 #define SETFLG(a,b,c,d,e,f,g,h) (((a)<<0)+((b)<<1)+((c)<<2)+((d)<<3)+((e)<<4)+((f)<<5)+((g)<<6)+((h)<<7))
 
 INLINE int CHAR_AddMaxExp( int charaindex, int addexp);
@@ -1317,12 +1317,12 @@ BOOL CHAR_getCharOnArrayPercentage( int mode, int *max, int *min, int *cnt);
 #define	CHAR_AddPileItem( index, itemindex) _CHAR_AddPileItem( __FILE__, __LINE__, index, itemindex)
 INLINE int _CHAR_AddPileItem( char *file, int line, int charaindex, int itemindex);
 
-INLINE int _CHAR_DelItem( char *file, int line, int charaindex, int ti, int num, int flg);
+EXTERN INLINE int _CHAR_DelItem( char *file, int line, int charaindex, int ti, int num, int flg);
 
 #define	CHAR_AddGold( index, ti) _CHAR_AddGold( __FILE__, __LINE__, index, ti)
-INLINE int _CHAR_AddGold( char *file, int line, int charaindex, int gold);
+EXTERN INLINE int _CHAR_AddGold( char *file, int line, int charaindex, int gold);
 #define	CHAR_DelGold( index, ti) _CHAR_DelGold( __FILE__, __LINE__, index, ti)
-INLINE int _CHAR_DelGold( char *file, int line, int charaindex, int gold);
+EXTERN INLINE int _CHAR_DelGold( char *file, int line, int charaindex, int gold);
 int CHAR_getMaxHaveGold( int charaindex);
 
 #ifdef _NPC_SEPARATEDATA

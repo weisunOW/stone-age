@@ -473,10 +473,10 @@ int BATTLE_DeleteBattle( int battleindex);
 int BATTLE_NewEntry( int charaindex, int battleindex, int side);
 
 #define BATTLE_Exit( charaindex, battleindex) _BATTLE_Exit( __FILE__, __LINE__, charaindex, battleindex)
-INLINE int _BATTLE_Exit( char *file, int line, int charaindex ,int battleindex);
+EXTERN INLINE int _BATTLE_Exit( char *file, int line, int charaindex ,int battleindex);
 
 #define BATTLE_ExitAll( battleindex) _BATTLE_ExitAll( __FILE__, __LINE__, battleindex)
-INLINE void _BATTLE_ExitAll( char *file, int line, int battleindex);
+EXTERN INLINE void _BATTLE_ExitAll( char *file, int line, int battleindex);
 
 int BATTLE_CreateVsPlayer( int charaindex0,	int charaindex1);
 

@@ -309,7 +309,7 @@ INLINE char* ITEM_getChar( int index ,ITEM_DATACHAR element );
 INLINE BOOL ITEM_setChar( int index ,ITEM_DATACHAR element , char* new);
 
 INLINE int ITEM_getWorkInt( int index ,ITEM_WORKDATAINT element);
-INLINE int ITEM_setWorkInt( int index ,ITEM_WORKDATAINT element, int data);
+EXTERN INLINE int ITEM_setWorkInt( int index ,ITEM_WORKDATAINT element, int data);
 INLINE int ITEM_getITEM_itemnum( void );
 INLINE int ITEM_getITEM_UseItemnum( void );
 INLINE BOOL ITEM_getITEM_use( int index );

@@ -59,10 +59,10 @@ typedef struct tagPetskill
 
 typedef int (*PETSKILL_CALLFUNC)( int, int, int, char * );
 
-INLINE BOOL PETSKILL_CHECKINDEX( int index );
-INLINE int PETSKILL_getInt( int index, PETSKILL_DATAINT element);
+EXTERN INLINE BOOL PETSKILL_CHECKINDEX( int index );
+EXTERN INLINE int PETSKILL_getInt( int index, PETSKILL_DATAINT element);
 INLINE int PETSKILL_setInt( int index, PETSKILL_DATAINT element, int data);
-INLINE char* PETSKILL_getChar( int index, PETSKILL_DATACHAR element);
+EXTERN INLINE char* PETSKILL_getChar( int index, PETSKILL_DATACHAR element);
 INLINE BOOL PETSKILL_setChar( int index ,PETSKILL_DATACHAR element, char* new );
 int PETSKILL_getPetskillNum( void);
 
@@ -370,7 +370,7 @@ int PETSKILL_Weaken(
 );
 #endif
 
-#ifdef _SKILL_DEEPPOISON  //vincent宠技:剧毒 
+#ifdef _SKILL_DEEPPOISON  //vincent宠技:剧毒
 int PETSKILL_Deeppoison(
 	int charaindex,
 	int toindex,
@@ -493,7 +493,7 @@ int PETSKILL_Hector( int charaindex, int toNo, int array, char *data );
 int PETSKILL_Firekill( int charaindex, int toNo, int array, char *data );
 #endif
 
-#ifdef _PETSKILL_DAMAGETOHP   //暗月狂狼(嗜血技的变体) 
+#ifdef _PETSKILL_DAMAGETOHP   //暗月狂狼(嗜血技的变体)
 int PETSKILL_DamageToHp2( int charaindex, int toNo, int array, char *data );
 #endif
 

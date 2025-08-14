@@ -45,25 +45,25 @@ extern INLINE int _initObjectOne( char *file, int line, Object* ob );
 void endObjectOne( int index );
 int initObjectFromObjectMember(OBJTYPE type, int index, int x, int y , int floor );
 
-INLINE int OBJECT_getType( int index );
-INLINE int OBJECT_setType( int index, int newvalue );
-INLINE int OBJECT_getFloor( int index );
-INLINE int OBJECT_setFloor( int index, int newvalue );
-INLINE int OBJECT_getX( int index );
-INLINE int OBJECT_setX( int index, int newvalue );
-INLINE int OBJECT_getY( int index );
-INLINE int OBJECT_setY( int index, int newvalue );
+extern INLINE int OBJECT_getType( int index );
+extern INLINE int OBJECT_setType( int index, int newvalue );
+extern INLINE int OBJECT_getFloor( int index );
+extern INLINE int OBJECT_setFloor( int index, int newvalue );
+extern INLINE int OBJECT_getX( int index );
+extern INLINE int OBJECT_setX( int index, int newvalue );
+extern INLINE int OBJECT_getY( int index );
+extern INLINE int OBJECT_setY( int index, int newvalue );
 
 #ifdef _DEL_DROP_GOLD
-INLINE int OBJECT_getTime( int index );
-INLINE int OBJECT_setTime( int index, int newvalue );
+extern INLINE int OBJECT_getTime( int index );
+extern INLINE int OBJECT_setTime( int index, int newvalue );
 #endif
 
-INLINE int OBJECT_getIndex( int index );
-INLINE int OBJECT_setIndex( int index, int newvalue );
-INLINE int OBJECT_getNum( void );
+extern INLINE int OBJECT_getIndex( int index );
+extern INLINE int OBJECT_setIndex( int index, int newvalue );
+extern INLINE int OBJECT_getNum( void );
 
-INLINE int OBJECT_getchartype( int index );
+extern INLINE int OBJECT_getchartype( int index );
 INLINE void OBJECT_setchartype( int index, int flg);
 
 int searchObjectFromCharaIndex( int index );

@@ -42,7 +42,7 @@ typedef enum
 		NPC_CREATEACTION,
 #endif
     NPC_CREATEINTNUM,
-    
+
 }NPC_CREATEINT;
 
 typedef enum
@@ -76,7 +76,7 @@ EXTERN NPC_Create*     NPC_create;
 EXTERN int             NPC_createnum;
 EXTERN int             NPC_create_readindex;
 
-INLINE int NPC_CHECKCREATEINDEX(int index);
+EXTERN INLINE int NPC_CHECKCREATEINDEX(int index);
 
 BOOL NPC_isBoundarySet( int createindex );
 BOOL NPC_createGetRECT( int createindex,RECT*   r );
@@ -89,5 +89,5 @@ void NPC_createIncreaseEnemynum( int index );
 void NPC_createDecreaseEnemynum( int index );
 BOOL NPC_createCheckMaxEnemynum( int index );
 
-#endif 
+#endif
 /*__READNPCCREATE_H__*/
