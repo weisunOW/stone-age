@@ -305,17 +305,17 @@ EXTERN INLINE int _ITEM_getInt( char *file, int line, int index ,ITEM_DATAINT el
 EXTERN INLINE int _ITEM_setInt( char *file, int line, int index ,ITEM_DATAINT element, int data);
 
 
-INLINE char* ITEM_getChar( int index ,ITEM_DATACHAR element );
-INLINE BOOL ITEM_setChar( int index ,ITEM_DATACHAR element , char* new);
+EXTERN INLINE char* ITEM_getChar( int index ,ITEM_DATACHAR element );
+EXTERN INLINE BOOL ITEM_setChar( int index ,ITEM_DATACHAR element , char* new);
 
-INLINE int ITEM_getWorkInt( int index ,ITEM_WORKDATAINT element);
+EXTERN INLINE int ITEM_getWorkInt( int index ,ITEM_WORKDATAINT element);
 EXTERN INLINE int ITEM_setWorkInt( int index ,ITEM_WORKDATAINT element, int data);
-INLINE int ITEM_getITEM_itemnum( void );
-INLINE int ITEM_getITEM_UseItemnum( void );
-INLINE BOOL ITEM_getITEM_use( int index );
+EXTERN INLINE int ITEM_getITEM_itemnum( void );
+EXTERN INLINE int ITEM_getITEM_UseItemnum( void );
+EXTERN INLINE BOOL ITEM_getITEM_use( int index );
 void ITEM_constructFunctable( int itemindex );
 void* ITEM_getFunctionPointer( int itemindex, int functype );
-INLINE ITEM_Item *ITEM_getItemPointer( int index );
+EXTERN INLINE ITEM_Item *ITEM_getItemPointer( int index );
 int ITEM_getItemMaxIdNum( void);
 
 
@@ -326,7 +326,7 @@ BOOL ITEM_makeExistItemsFromStringToArg( char* src , ITEM_Item* item, int mode )
 void ITEM_getDefaultItemSetting( ITEM_Item* itm);
 
 
-INLINE BOOL ITEM_CHECKITEMTABLE( int number );
+EXTERN INLINE BOOL ITEM_CHECKITEMTABLE( int number );
 BOOL    ITEM_readItemConfFile( char* filename );
 
 

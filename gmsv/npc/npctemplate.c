@@ -89,18 +89,18 @@ static FunctionNameSet  functionSet[]={
       "","HealerTalked","","",
       "","", "","",""},
 
-        /* 家族Healer add code by shan */  
+        /* 家族Healer add code by shan */
     { "FmHealer","FmHealerInit","","",
       "","","","",
       "","FmHealerTalked","","",
       "","", "","",""},
-    
-        /* 白虎给予者 add code by shan */  
+
+        /* 白虎给予者 add code by shan */
     { "PetMaker","PetMakerInit","","",
       "","","","",
       "","PetMakerTalked","","",
-      "","", "","",""},    
-    
+      "","", "","",""},
+
     { "StoryTeller","StoryTellerInit","","",
       "","","","",
       "","StoryTellerTalked","","",
@@ -114,7 +114,7 @@ static FunctionNameSet  functionSet[]={
     {"Dengon",
      "DengonInit", "", "", "", "", "", "", "", "",
      "", "", "", "DengonLooked", "", "","DengonWindowTalked"},
-     
+
      	/* 家族留言板 add code by shan */
     {"FmDengon",
      "FmDengonInit", "", "", "", "", "", "", "", "",
@@ -235,7 +235,7 @@ static FunctionNameSet  functionSet[]={
       "","","","AirLoop",
       "","AirTalked","","",
       "","", "","",""},
-	
+
     { "Charm","CharmInit","","",
       "","","","",
       "","CharmTalked","","",
@@ -275,7 +275,7 @@ static FunctionNameSet  functionSet[]={
       "","","","",
       "","FamilymanTalked","","",
       "","FamilymanLooked", "","","FamilymanWindowTalked"},
-             
+
 	/* CoolFish: Family Warp Man 2001/6/6 */
     { "FMWarpMan","FMWarpManInit","","",
       "","","","FMWarpManLoop",
@@ -329,7 +329,7 @@ static FunctionNameSet  functionSet[]={
       "GambleBankTalked","","","","","","",
       "GambleBankWindowTalked"
     }
-#endif 
+#endif
 
 #ifdef _GAMBLE_ROULETTE	//Gamble_Roulette
 	,{
@@ -364,7 +364,7 @@ static FunctionNameSet  functionSet[]={
       "","VipShopTalked","","",
       "","", "","","VipShopWindowTalked"
 	}
-	
+
     ,{ "VipPoint","VipPointInit","","",
       "","","","VipPointLoop",
       "","VipPointTalked","","",
@@ -536,7 +536,7 @@ typedef enum
  *  valid       TRUE
  *  invalid     FALSE
  ------------------------------------------------------------*/
-INLINE int NPC_CHECKTEMPLATEINDEX(int index)
+EXTERN INLINE int NPC_CHECKTEMPLATEINDEX(int index)
 {
     if(  NPC_templatenum <= index || index < 0 )return FALSE;
     return TRUE;

@@ -12,7 +12,7 @@
 
 #undef EXTERN
 #ifdef __NET_C__
-#define EXTERN 
+#define EXTERN
 #else
 #define EXTERN extern
 #endif
@@ -20,7 +20,7 @@
 
 
 /*
- * 夫弘奶件仄化中卅中｝ 夫弘奶件仄化中月｝ 夫弘奶件   平乓仿综曰  
+ * 夫弘奶件仄化中卅中｝ 夫弘奶件仄化中月｝ 夫弘奶件   平乓仿综曰
  * 夫弘失它玄  ( 本□皮   ) , 夫弘失它玄  ( 失件夫永弁   )
  *  N 反 NOT ｝ W 反 WHILE , UL 反 UNLOCK 及仪
  */
@@ -90,7 +90,7 @@ BOOL netloop_faster( void );
 int lsrpcClientWriteFunc( int fd , char* buf , int size );
 char* GetOneLine( int fd );
 BOOL initConnectOne( int sockfd, struct sockaddr_in* sin ,int len );
-    
+
 
 
 /* CA , CD */
@@ -132,8 +132,8 @@ int getfdFromFdid( int fdid );
 int getfdFromCdkeyWithLogin( char* cd );
 
 
-/* 仄日屯 */        
-INLINE int CONNECT_checkfd( int fd );
+/* 仄日屯 */
+EXTERN INLINE int CONNECT_checkfd( int fd );
 BOOL CONNECT_isCLI( int fd );
 BOOL CONNECT_isAC( int fd );
 BOOL CONNECT_isUnderLogin( int fd );
@@ -274,4 +274,4 @@ void CONNECT_setUse( int fd , int a);
 BOOL MSBUF_CHECKbuflen( int size, float defp);
 
 void SetTcpBuf( int sockfd);
-#endif 
+#endif

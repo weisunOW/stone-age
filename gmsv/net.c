@@ -1436,7 +1436,7 @@ void chardatasavecheck( void )
  *  valid   TRUE(1)
  *  invalid FALSE(0)
  ------------------------------------------------------------*/
-ANYTHREAD INLINE int CONNECT_checkfd( int fd )
+EXTERN INLINE int CONNECT_checkfd( int fd )
 {
     if( 0 > fd ||  fd >= ConnectLen ){
         return FALSE;

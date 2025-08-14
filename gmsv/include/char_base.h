@@ -1074,7 +1074,7 @@ INLINE BOOL _CHAR_CHECKPOOLPETINDEX( char *file, int line, int petindex );
 #define		CHAR_CHECKPETSKILLINDEX( havepetskillindex) _CHAR_CHECKPETSKILLINDEX( __FILE__, __LINE__, havepetskillindex)
 EXTERN INLINE BOOL _CHAR_CHECKPETSKILLINDEX( char *file, int line, int havepetskillindex );
 
-INLINE int CHAR_getInt( int index , CHAR_DATAINT element);
+EXTERN INLINE int CHAR_getInt( int index , CHAR_DATAINT element);
 #define CHAR_setInt( index , element, data) _CHAR_setInt( __FILE__, __LINE__, index , element, data)
 EXTERN INLINE int _CHAR_setInt( char *file, int line, int index ,CHAR_DATAINT element, int data);
 #ifdef _FIX_SETWORKINT
@@ -1106,21 +1106,21 @@ EXTERN INLINE int _CHAR_setItemIndex( char *file, int line, int index ,int iinde
 EXTERN INLINE int _CHAR_getPoolItemIndex( char *file, int line, int index, int iindex);
 #define		CHAR_setPoolItemIndex( index, iindex,id) _CHAR_setPoolItemIndex( __FILE__, __LINE__, index, iindex, id)
 EXTERN INLINE int _CHAR_setPoolItemIndex( char *file, int line, int index ,int iindex,int id );
-INLINE BOOL CHAR_setAddressbookEntry( int index , int aindex , ADDRESSBOOK_entry *a );
-INLINE ADDRESSBOOK_entry* CHAR_getAddressbookEntry( int index , int aindex);
-INLINE Char* CHAR_getCharPointer( int index );
-INLINE int CHAR_getCharNum( void );
-INLINE int CHAR_getPlayerMaxNum( void );
-INLINE int CHAR_getPetMaxNum( void );
+EXTERN INLINE BOOL CHAR_setAddressbookEntry( int index , int aindex , ADDRESSBOOK_entry *a );
+EXTERN INLINE ADDRESSBOOK_entry* CHAR_getAddressbookEntry( int index , int aindex);
+EXTERN INLINE Char* CHAR_getCharPointer( int index );
+EXTERN INLINE int CHAR_getCharNum( void );
+EXTERN INLINE int CHAR_getPlayerMaxNum( void );
+EXTERN INLINE int CHAR_getPetMaxNum( void );
 INLINE int CHAR_getOthersMaxNum( void );
-INLINE BOOL CHAR_getCharUse( int index );
-INLINE CHAR_HaveSkill* CHAR_getCharHaveSkill( int index,int sindex );
-INLINE int  CHAR_getCharHaveTitle( int index,int tindex );
-INLINE int CHAR_setCharHaveTitle( int charaindex,int tindex, int new );
-INLINE int CHAR_getCharPet( int charaindex,int petindex );
-INLINE int CHAR_setCharPet( int charaindex,int petindex, int new );
-INLINE int CHAR_getCharPoolPet( int charaindex,int petindex );
-INLINE int CHAR_setCharPoolPet( int charaindex,int petindex, int new );
+EXTERN INLINE BOOL CHAR_getCharUse( int index );
+EXTERN INLINE CHAR_HaveSkill* CHAR_getCharHaveSkill( int index,int sindex );
+EXTERN INLINE int  CHAR_getCharHaveTitle( int index,int tindex );
+EXTERN INLINE int CHAR_setCharHaveTitle( int charaindex,int tindex, int new );
+EXTERN INLINE int CHAR_getCharPet( int charaindex,int petindex );
+EXTERN INLINE int CHAR_setCharPet( int charaindex,int petindex, int new );
+EXTERN INLINE int CHAR_getCharPoolPet( int charaindex,int petindex );
+EXTERN INLINE int CHAR_setCharPoolPet( int charaindex,int petindex, int new );
 int CHAR_getCharPetElement( int charaindex );
 int CHAR_getCharPoolPetElement( int charaindex );
 int CHAR_getCharPoolItemIndexElement( int charaindex );
@@ -1135,7 +1135,7 @@ EXTERN INLINE void _CHAR_setIntPSkill( char *file, int line, int index, int skil
 extern Char *CHAR_chara;
 
 
-INLINE int CHAR_getCharMakeSequenceNumber( int charaindex );
+EXTERN INLINE int CHAR_getCharMakeSequenceNumber( int charaindex );
 void CHAR_constructFunctable( int charaindex );
 void* CHAR_getFunctionPointer( int charaindex, int functype );
 BOOL CHAR_initCharArray( int pnum,  int petnum,int onum );
@@ -1157,9 +1157,9 @@ EXTERN INLINE int _CHAR_setPetSkill( char *file, int line, int petindex,int have
 EXTERN INLINE int _CHAR_getPetSkill( char *file, int line, int petindex,int havepetskillindex );
 #define SETFLG(a,b,c,d,e,f,g,h) (((a)<<0)+((b)<<1)+((c)<<2)+((d)<<3)+((e)<<4)+((f)<<5)+((g)<<6)+((h)<<7))
 
-INLINE int CHAR_AddMaxExp( int charaindex, int addexp);
-INLINE int CHAR_setMaxExpFromLevel( int charaindex, int level);
-INLINE int CHAR_setMaxExp( int charaindex, unsigned long int Setexp);
+EXTERN INLINE int CHAR_AddMaxExp( int charaindex, int addexp);
+EXTERN INLINE int CHAR_setMaxExpFromLevel( int charaindex, int level);
+EXTERN INLINE int CHAR_setMaxExp( int charaindex, unsigned long int Setexp);
 #ifdef _NEWOPEN_MAXEXP
 INLINE int CHAR_ChangeExp( int charaindex );
 INLINE int CHAR_HandleExp( int charaindex );

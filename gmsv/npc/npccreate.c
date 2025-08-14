@@ -14,7 +14,7 @@
 #include "handletime.h"
 #include "configfile.h"
 
-INLINE int NPC_CHECKCREATEINDEX(int index)
+EXTERN INLINE int NPC_CHECKCREATEINDEX(int index)
 {
     if(  NPC_createnum <= index || index < 0 )return FALSE;
     return TRUE;
@@ -80,7 +80,7 @@ void NPC_setDefaultNPCCreate( NPC_Create*  cr )
     cr->intdata[NPC_CREATEIGNOREINVINCIBLE]=0;
 
     cr->intdata[NPC_CREATEDATE]=0;
-    
+
     cr->intdata[NPC_CREATEFAMILY]=0;
 
     cr->chardata[NPC_CREATENAME].string[0]= '\0';
@@ -90,7 +90,7 @@ void NPC_setDefaultNPCCreate( NPC_Create*  cr )
     cr->workdata[NPC_CREATEWORKMAKESTARTUSEC]=0;
     cr->workdata[NPC_CREATEWORKNEVERMAKE]=0;
 
-    
+
     {
         int i;
         for( i=0 ; i<arraysizeof(cr->templateindex) ; i++ ){
@@ -303,7 +303,7 @@ static int NPC_readCreateFile( char* filename )
             break;
         default:
         {
- 
+
             char    firstToken[256];
             char    secondToken[256];
             int     ret;
@@ -376,7 +376,7 @@ static int NPC_readCreateFile( char* filename )
 #ifdef _ADD_ACTION
 			}else if( strcasecmp( "action", firstToken) == 0 ){
 				cr.intdata[NPC_CREATEACTION] = atoi( secondToken );
-#endif		
+#endif
 	    // Robin 0731
             }else if( strcasecmp( "family", firstToken) == 0 ){
                 cr.intdata[NPC_CREATEFAMILY] = atoi( secondToken );

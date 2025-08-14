@@ -182,14 +182,14 @@ typedef struct tagGROUP_Table
 
 
 
-INLINE BOOL ENEMY_CHECKINDEX( int index);
+EXTERN INLINE BOOL ENEMY_CHECKINDEX( int index);
 INLINE int ENEMY_setInt( int index, ENEMY_DATAINT element, int data);
-INLINE int ENEMY_getInt( int index, ENEMY_DATAINT element);
+EXTERN INLINE int ENEMY_getInt( int index, ENEMY_DATAINT element);
 
 INLINE int *ENEMY_getIntdata( int index);
 
 INLINE BOOL ENEMY_setChar( int index ,ENEMY_DATACHAR element, char* new );
-INLINE char *ENEMY_getChar( int index, ENEMY_DATACHAR element);
+EXTERN INLINE char *ENEMY_getChar( int index, ENEMY_DATACHAR element);
 int ENEMY_getEnemyNum( void);
 BOOL ENEMY_initEnemy( char* filename );
 BOOL ENEMY_reinitEnemy( void );
@@ -207,10 +207,10 @@ int ENEMY_TEST_createPetIndex( int array);
 #endif
 
 int ENEMYTEMP_getEnemyNum( void);//krynn 2001/12/13
-INLINE BOOL ENEMYTEMP_CHECKINDEX( int index);
+EXTERN INLINE BOOL ENEMYTEMP_CHECKINDEX( int index);
 INLINE int ENEMYTEMP_setInt( int index, ENEMYTEMP_DATAINT element, int data);
-INLINE int ENEMYTEMP_getInt( int index, ENEMYTEMP_DATAINT element);
-INLINE char *ENEMYTEMP_getChar( int index, ENEMYTEMP_DATACHAR element);
+EXTERN INLINE int ENEMYTEMP_getInt( int index, ENEMYTEMP_DATAINT element);
+EXTERN INLINE char *ENEMYTEMP_getChar( int index, ENEMYTEMP_DATACHAR element);
 INLINE BOOL ENEMYTEMP_getInt_setChar( int index ,ENEMYTEMP_DATACHAR element, char* new );
 INLINE char *ENEMYTEMP_getInt_getChar( int index, ENEMYTEMP_DATACHAR element);
 int ENEMYTEMP_getInt_getEnemyNum( void);

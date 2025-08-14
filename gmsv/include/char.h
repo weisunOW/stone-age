@@ -35,7 +35,7 @@ void CHAR_createNewChar( int clifd, int dataplacenum,char* charname ,
 void CHAR_login( int clifd, char* data, int saveindex );
 
 #define		CHAR_warpToSpecificPoint( cindex, fl, x, y)	_CHAR_warpToSpecificPoint( __FILE__, __LINE__, cindex, fl, x, y)
-BOOL _CHAR_warpToSpecificPoint( char *file, int line, 
+BOOL _CHAR_warpToSpecificPoint( char *file, int line,
 							int charaindex, int fl, int x, int y);
 
 
@@ -69,8 +69,8 @@ typedef enum
 /*====================Æ½ÅÒ·Â¼°à¢  ±åèúÔÊÔÂèúÐÑ====================*/
 void CHAR_ctodirmode(char moji , int* dir , int* mode);
 INLINE void CHAR_getDXDY( int dir , int* dx, int* dy );
-INLINE int CHAR_getDX( int dir );
-INLINE int CHAR_getDY( int dir );
+EXTERN INLINE int CHAR_getDX( int dir );
+EXTERN INLINE int CHAR_getDY( int dir );
 int CHAR_getSameCoordinateObjects(int* objbuf, int siz,int ff, int fx, int fy);
 void CHAR_walkcall( int index );
 void CHAR_walk_start(int index, int x, int y, char* dir, BOOL mapsendmode);
@@ -188,7 +188,7 @@ typedef enum
 	WINDOW_MESSAGETYPE_FAMILYOUT,
 	WINDOW_MESSAGETYPE_FAMILYEND,
 //=======================================
-        // shan add	
+        // shan add
         WINDOW_FMMESSAGETYPE_SELECT,
         WINDOW_FMMESSAGETYPE_DENGON,
         WINDOW_FMMESSAGETYPE_FMSDENGON,
@@ -203,7 +203,7 @@ typedef enum
 	WINDOW_MESSAGETYPE_PKSCHEDULELIST,
 	WINDOW_MESSAGETYPE_PKSCHEDULESELECTFAMILY,
 	WINDOW_MESSAGETYPE_PKSCHEDULEDETAIL,
-	
+
 	// Robin
 	WINDOW_MESSAGETYPE_LOGINMESSAGE,
 	WINDOW_MESSAGETYPE_FAMILYTAX,
@@ -256,7 +256,7 @@ typedef enum
 	CHAR_WINDOWTYPE_SELECTRENAMEITEM_PAGE4 = 13,	/*   ó¡Ã«  µÊÔÊÔÂÊ§ÄÌ  Ø©Ã«¼»  ÔÊÔÂËüÅ«¼þÓñËü */
 	CHAR_WINDOWTYPE_SELECTRENAMEITEM_RENAME = 14,	/*   ó¡Ã«    ÔÊÔÂËüÅ«¼þÓñËü */
 	CHAR_WINDOWTYPE_SELECTRENAMEITEM_RENAME_ATTENTION  = 15,	/*   ó¡Ã«    ÔÊÔÂËüÅ«¼þÓñËü */
-	
+
 	CHAR_WINDOWTYPE_DENGON = 50,			/* ÷©ÍÉ   */
 
 	CHAR_WINDOWTYPE_WINDOWMAN_START = 100,
@@ -266,12 +266,12 @@ typedef enum
 	CHAR_WINDOWTYPE_JANKEN_START = 210,
 	CHAR_WINDOWTYPE_JANKEN_MAIN = 211,
 	CHAR_WINDOWTYPE_JANKEN_END = 212,
-	
+
 	CHAR_WINDOWTYPE_TRANSMIGRATION_START = 213,
 	CHAR_WINDOWTYPE_TRANSMIGRATION_MAIN = 214,
 	CHAR_WINDOWTYPE_TRANSMIGRATION_END = 215,
 	CHAR_WINDOWTYPE_TRANSMIGRATION_NONE = 216,
-	
+
 
 	CHAR_WINDOWTYPE_WINDOWHEALER_START = 220,
 	CHAR_WINDOWTYPE_WINDOWHEALER_STARTMSG = CHAR_WINDOWTYPE_WINDOWHEALER_START,
@@ -294,7 +294,7 @@ typedef enum
 	CHAR_WINDOWTYPE_WINDOWEVENT_CLEANMSG = 237,
 	CHAR_WINDOWTYPE_WINDOWEVENT_REQTHANK = 238,
 	CHAR_WINDOWTYPE_WINDOWEVENT_ACCTHANK = 239,
-	
+
 
 	CHAR_WINDOWTYPE_WINDOWITEMSHOP_START = 240,
 	CHAR_WINDOWTYPE_WINDOWITEMSHOP_STARTMSG = CHAR_WINDOWTYPE_WINDOWITEMSHOP_START,
@@ -328,7 +328,7 @@ typedef enum
 	CHAR_WINDOWTYPE_WINDOWWARPMAN_END = 273,
 
 	CHAR_WINDOWTYPE_NPCENEMY_START = 281,
-	
+
 	CHAR_WINDOWTYPE_CHARM_START = 282,
 	CHAR_WINDOWTYPE_CHARM_END = 283,
 
@@ -345,9 +345,9 @@ typedef enum
 	CHAR_WINDOWTYPE_FAMILYMAN_JOIN = 322,
 	CHAR_WINDOWTYPE_FAMILYMAN_OUT = 323,
 	CHAR_WINDOWTYPE_FAMILYMAN_BROKEN = 324,
-	
+
 	CHAR_WINDOWTYPE_BANKMAN = 330,
-	
+
 	// CoolFish: FMPKMan 2001/7/4
 	CHAR_WINDOWTYPE_FMPKMAN_START = 340,
 	CHAR_WINDOWTYPE_FMPKMAN_VIEW = 341,
@@ -356,12 +356,12 @@ typedef enum
 	CHAR_WINDOWTYPE_FMPKCALLMAN_CALL = 346,
 	CHAR_WINDOWTYPE_FMPKCALLMAN_COME = 347,
 	CHAR_WINDOWTYPE_FMPKCALLMAN_LEAVE = 348,
-	
+
 	// Arminius 7.13 scheduleman
 	CHAR_WINDOWTYPE_SCHEDULEMAN_START = 350,
 	CHAR_WINDOWTYPE_SCHEDULEMAN_SELECT = 351,
 	CHAR_WINDOWTYPE_SCHEDULEMAN_DETAIL = 352,
-	
+
 	// Arminius 7.27
 	CHAR_WINDOWTYPE_MANORPK_START = 360,
 	CHAR_WINDOWTYPE_MANORPK_ASK = 361,
@@ -402,7 +402,7 @@ typedef enum
 	CHAR_WINDOWTYPE_PETRACEMASTER_PET,
 	CHAR_WINDOWTYPE_PETRACEMASTER_LEAVE,
 #endif
-	
+
 #ifdef _GAMBLE_ROULETTE
 	WINDOWTYPE_GAMBLEROULETTE_START = 415,
 	WINDOWTYPE_GAMBLEROULETTE_SELECT,
@@ -435,9 +435,9 @@ typedef enum
 	NPC_ALLDOMAN_START3,
 	NPC_ALLDOMAN_HEAL,
 	NPC_ALLDOMAN_GIVEMONEY,
-	NPC_ALLDOMAN_MAIN_WND , 
-	NPC_ALLDOMAN_SELECT_WND , 
-	NPC_ALLDOMAN_LIST_WND , 
+	NPC_ALLDOMAN_MAIN_WND ,
+	NPC_ALLDOMAN_SELECT_WND ,
+	NPC_ALLDOMAN_LIST_WND ,
 #endif
 
 #ifdef _PETSKILL_CANNEDFOOD
@@ -508,7 +508,7 @@ BOOL CHAR_send_DpDBUpdate_AddressBook( int charaindex, int mode );
 
 
 void CHAR_sendPMEToArroundCharacter( int charaindex, int petindex, int flg, int no );
-void CHAR_sendPMEToArroundCharacterFLXY( int petindex, 
+void CHAR_sendPMEToArroundCharacterFLXY( int petindex,
 								int fl, int x, int y, int dir, int flg, int no );
 
 void CHAR_sendSEoArroundCharacter( int fl, int x, int y, int senumber, int sw );
@@ -542,11 +542,11 @@ typedef struct tagCHAR_effectsetting
 	int		level;								//	ÉÒÇë¼°ÒÁÃ¬»ï£Û  òØ¼°ÐÛ½ñ£Û
 	int		sendflg;							//	  Ô÷¾Þ°×ÄáÛÍÐþÃ«ËªÔÈÐ×¾®Éýµ¤¾®£Û
 	char	month[CHAR_EFFECT_SETTINGBUFFER];	//	  µæÔÊÔÂ»û
-	char	day[CHAR_EFFECT_SETTINGBUFFER];		//	  µæÔÊÔÂ  
+	char	day[CHAR_EFFECT_SETTINGBUFFER];		//	  µæÔÊÔÂ
 	char	hour[CHAR_EFFECT_SETTINGBUFFER];	//	  µæÔÊÔÂÁÝÃÞ
 	char	min[CHAR_EFFECT_SETTINGBUFFER];		//	  µæÔÊÔÂÛÐ
-	char	expire[CHAR_EFFECT_SETTINGBUFFER];	//	  µæØÆ»¯ÖÐÔÂÓ®½ñ£Û(    
-	
+	char	expire[CHAR_EFFECT_SETTINGBUFFER];	//	  µæØÆ»¯ÖÐÔÂÓ®½ñ£Û(
+
 }CHAR_effectsetting;
 
 CHAR_effectsetting*    CHAR_effect;
