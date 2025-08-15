@@ -66,25 +66,25 @@ int main( int argc , char** argv, char** env )
 #endif
 
     mainloop();
-    
+
     return 0;
 }
 
 void mainloop( void )
-{	
-    print("初始化NPC...");
+{
+    print("Initialize NPC...");
     NPC_generateLoop( 1 );
-    print("完成\n");
-    print("初始化signal1...");
+    print("Complete\n");
+    print("Initialize signal1...");
     signal(SIGUSR1,sigusr1);
-    print("完成\n");
-    print("初始化signal2...");
+    print("Complete\n");
+    print("Initialize signal2...");
     signal(SIGUSR2,sigusr2);
-    print("完成\n");
+    print("Complete\n");
 #ifdef _MAP_WARPPOINT
-	print("初始化地图传送点...");
+	print("Initialize map warp point...");
 	MAPPOINT_InitMapWarpPoint();
-	print("完成\n");
+	print("Complete\n");
 	if( !MAPPOINT_loadMapWarpPoint() ){
 		return;
 	}
@@ -144,7 +144,7 @@ Assess_SysEfficacy_sub( 0, 3);
 #endif
     BATTLE_Loop();
 Assess_SysEfficacy_sub( 1, 3);
-		
+
 Assess_SysEfficacy_sub( 0, 4);
 #ifdef _GMSV_DEBUG
    DebugMainFunction="CHAR_Loop";
@@ -228,7 +228,7 @@ static void ShutdownProc( void)
 		SERVSTATE_setDsptime(0);
 		SERVSTATE_setLimittime(0);
 	}
-	
+
 }
 
 void family_proc()
@@ -254,7 +254,7 @@ void family_proc()
 void warplog_proc()
 {
 	static  unsigned long checktime = 0;
-	
+
 	if( (unsigned long)NowTime.tv_sec > checktime ){
 		warplog_to_file();
 		checktime = (unsigned long)NowTime.tv_sec + 300;
